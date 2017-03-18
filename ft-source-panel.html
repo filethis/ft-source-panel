@@ -1,0 +1,105 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`ft-source-panel`
+A panel that displays a list of FileThis sources.
+
+@demo demo/index.html 
+-->
+
+<dom-module id="ft-source-panel">
+    <template>
+
+        <!-- Grid of cells -->
+        <div class="horizontal layout wrap"
+             style="width:600px;
+                background-color:white;
+                padding-left:16px; padding-right:16px;">
+
+            <!-- Cells -->
+            <template is="dom-repeat" items="[[items]]">
+
+                <!-- Cell -->
+                <div class="layout vertical center"
+                     style="height:141px; padding:8px;">
+
+                    <!-- Logo Box -->
+                    <div class="layout vertical center"
+                         on-click="onSourceItemClicked"
+                         style="width:150px; height:65px;
+                            border:1px solid #DEDEDE;
+                            justify-content:center;
+                            cursor:pointer;">
+
+                        <!-- Logo -->
+                        <img
+                                style="width:auto; max-width:100%;"
+                                src="[[item.logoUrl]]">
+                        </img>
+
+                    </div>
+
+                    <!-- "Connect" -->
+                    <div on-click="onSourceItemClicked"
+                         style="font-family:Arial; font-size:15px;
+                            color:#7D7D7D;
+                            width:150px;
+                            background-color:#FAFAFA;
+                            text-align:center;
+                            padding-top:4px; padding-bottom:6px;
+                            border-left:1px solid #DEDEDE; border-right:1px solid #DEDEDE; border-bottom:1px solid #DEDEDE;
+                            cursor:pointer;">
+                        Connect
+                    </div>
+
+                    <!-- Name -->
+                    <div on-click="onSourceItemClicked"
+                         style="font-family:Arial;
+                            color:#343434;
+                            width:150px;
+                            padding-top:8px;
+                            text-align:center;
+                            text-overflow:ellipsis; white-space: nowrap; overflow: hidden;
+                            cursor:pointer;">
+                        [[item.name]]
+                    </div>
+
+                </div>
+
+            </template>
+
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'ft-source-panel',
+
+            properties: {
+                items: {
+                    type: Array,
+                    notify: true,
+                    value: []
+                }
+            },
+
+            onConnect: function(event, source)
+            {
+                this.fire('connectToSource', source);
+            }
+
+//            onSourceItemClicked: function(event, detail)
+//            {
+//                var source = event.model.item;
+//
+//                var connectDialog = this.$.connectDialog;
+//                connectDialog.source = source;
+//
+//                var dialog = connectDialog.$.dialog;
+//                dialog.open();
+//            }
+        });
+    </script>
+</dom-module>

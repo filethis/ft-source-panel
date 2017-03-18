@@ -1,0 +1,70 @@
+<!-- FileThis demo element -->
+
+<!-- Imports -->
+<link rel="import" href="../../polymer/polymer.html">
+
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+
+<link rel="import" href="../ft-source-panel.html">
+
+
+<!--
+
+This element defines a number of form examples
+
+@demo demo/index.html
+ -->
+<dom-module id="demo-fixture">
+
+    <style include="iron-flex iron-flex-alignment"></style>
+
+    <template>
+
+        <ft-source-panel id="panel"></ft-source-panel>
+
+    </template>
+
+    <script>
+
+        Polymer
+        ({
+            is: 'demo-fixture',
+
+            properties:
+            {
+                sources:
+                {
+                    type: Array,
+                    notify: true,
+                    value: []
+                }
+            },
+
+            ready: function()
+            {
+                var path = "sources.json";
+
+                var xmlHttpRequest = new XMLHttpRequest();
+                xmlHttpRequest.overrideMimeType("application/json");
+                xmlHttpRequest.open('GET', path, true);
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState == 4 &&
+                        xmlHttpRequest.status == "200")
+                    {
+                        panel.items = JSON.parse(xmlHttpRequest.responseText);
+                    }
+                };
+                xmlHttpRequest.send();
+            }
+
+        });
+
+    </script>
+
+</dom-module>
+
