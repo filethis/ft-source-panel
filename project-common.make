@@ -6,13 +6,7 @@ github-init:  ## Initialize GitHub project
 	git init; \
 	git add .; \
 	git commit -m "First commit"; \
-	git remote add origin kkkk; \
-	git push -u origin master
-
-.PHONY: github-init
-github-init:  ## Initialize GitHub project
-	@check GitHub repo exists first; \
-	git remote add origin kkkk; \
+	git remote add origin https://github.com/${GITHUB_USER}/${NAME}.git; \
 	git push -u origin master
 
 
@@ -62,15 +56,6 @@ tag-release:  ## Tag the git project for the next release.
 .PHONY: git-push-tags
 git-push-tags:
 	@git push --tags
-
-
-# Setup -----------------------------------------------------------------------------------
-
-.PHONY: install-tools
-install-tools:  ## Install command-line tools used by these Makefile targets
-	npm install gh-pages -g; \
-	npm install showdown -g; \
-	brew install pandoc;
 
 
 # Help -----------------------------------------------------------------------------------
