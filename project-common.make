@@ -12,7 +12,7 @@ github-init:  ## Initialize GitHub project
 	git init; \
 	git add .; \
 	git commit -m "First commit"; \
-	git remote add origin $repo_url; \
+	git remote add origin $$repo_url; \
 	git push -u origin master
 
 .PHONY: bower-install
