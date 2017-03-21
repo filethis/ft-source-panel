@@ -13,15 +13,15 @@ lint:  ## Lint project files
 
 .PHONY: run-browser-sync
 run-browser-sync:  ## Run BrowserSync against local files. Element demos require a running Polymer server. See: https://www.browsersync.io/
-	@if lsof -i tcp:${PORT} > /dev/null; then \
+	@if lsof -i tcp:${LOCAL_PORT} > /dev/null; then \
 		echo Polymer server is running; \
 	else \
 		echo No Polymer server running for element demo. Use \"make serve-polymer\"; \
 		exit 1; \
 	fi; \
 	browser-sync start \
-		--proxy "http://localhost:${PORT}" \
-		--port ${PORT} \
+		--proxy "http://localhost:${LOCAL_PORT}" \
+		--port ${LOCAL_PORT} \
 		--startPath "/components/${NAME}/demo/" \
 		--files "*.html, *.css, demo/*.html, demo/*.css, demo/*.json, test/*.html";
 
@@ -30,11 +30,11 @@ run-browser-sync:  ## Run BrowserSync against local files. Element demos require
 
 .PHONY: open-url
 open-url:  ## Open URL of local element demo
-	@open http://localhost:${PORT}/components/${NAME}/demo/;
+	@open http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
 
 .PHONY: print-url
 print-url:  ## Print URL of local element demo
-	@echo http://localhost:${PORT}/components/${NAME}/demo/;
+	@echo http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
 
 .PHONY: open-url-published
 open-url-published:  ## Open URL of published element demo
@@ -46,11 +46,11 @@ print-url-published:  ## Print URL of published element demo
 
 .PHONY: open-url-doc-page
 open-url-doc-page:  ## Open URL of local documentation page
-	@open http://localhost:${PORT}/components/${NAME}/;
+	@open http://localhost:${LOCAL_PORT}/components/${NAME}/;
 
 .PHONY: print-url-doc-page
 print-url-doc-page:  ## Print URL of local documentation page
-	@echo http://localhost:${PORT}/components/${NAME}/;
+	@echo http://localhost:${LOCAL_PORT}/components/${NAME}/;
 
 .PHONY: open-url-doc-page-published
 open-url-doc-page-published:  ## Open URL of published project documentation page

@@ -1,7 +1,8 @@
 # Project configuration
 NAME=ft-source-panel
 VERSION=0.0.1
-PORT=3011
+LOCAL_PORT=3011
+GITHUB_USER=filethis
 
 # Project targets
 include project-element.make

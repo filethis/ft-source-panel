@@ -2,20 +2,22 @@
 
 .PHONY: github-init
 github-init:  ## Initialize GitHub project
-	@check GitHub repo exists first; \
+	@repo_url="https://github.com/${GITHUB_USER}/${NAME}"; \
+	if curl -s --head  --request GET $$repo_url | grep "200 OK" > /dev/null; then \
+		echo GitHub project already exists; \
+	else \
+		echo Cannot reach GitHub repo: $$repo_url Do you need to create it?; \
+		exit 1; \
+	fi; \
 	git init; \
 	git add .; \
 	git commit -m "First commit"; \
-	git remote add origin https://github.com/${GITHUB_USER}/${NAME}.git; \
+	git remote add origin $repo_url; \
 	git push -u origin master
 
 .PHONY: bower-install
 bower-install:  ## Install all Bower dependencies specified in bower.json file
 	@bower install --save
-
-.PHONY: bower-update
-bower-update:  ## Update all Bower dependencies specified in bower.json file
-	@bower update --save
 
 
 # Testing -----------------------------------------------------------------------------------
@@ -39,9 +41,9 @@ test-safari:  ## Run tests on Safari only
 
 # Running -----------------------------------------------------------------------------------
 
-.PHONY: serve-polymer
-serve-polymer:  ## Serve project locally using the Polymer server
-	@polymer serve --port ${PORT}
+.PHONY: serve
+serve:  ## Serve project locally using the Polymer server
+	@polymer serve --port ${LOCAL_PORT}
 
 
 # GitHub
