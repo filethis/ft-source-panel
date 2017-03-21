@@ -9,6 +9,14 @@ github-init:  ## Initialize GitHub project
 	git remote add origin https://github.com/${GITHUB_USER}/${NAME}.git; \
 	git push -u origin master
 
+.PHONY: bower-install
+bower-install:  ## Install all Bower dependencies specified in bower.json file
+	@bower install --save
+
+.PHONY: bower-update
+bower-update:  ## Update all Bower dependencies specified in bower.json file
+	@bower update --save
+
 
 # Testing -----------------------------------------------------------------------------------
 
