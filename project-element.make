@@ -67,7 +67,7 @@ print-url-demo-github-pages:  ## Print URL of element demo published on GitHub P
 # Publish -----------------------------------------------------------------------------------
 
 .PHONY: publish-github-pages
-publish-github-pages:  ## Publish current release of element docs and demo to GitHub Pages.
+publish-github-pages: release-github-repo  ## Publish current release of element docs and demo to GitHub Pages.
 	@set -e; \
 	rm -rf ./github-pages-tmp; \
 	mkdir -p github-pages-tmp; \
