@@ -65,11 +65,11 @@ tag-release:  # Internal target: Tag the git project with the current release nu
 
 .PHONY: git-push-tags
 git-push-tags:  # Internal target: Push tags to remote for the git project. Usually invoked as part of a release via 'release-github-repo' target.
-	@git push --tags
+	@git push --tags;
 
 .PHONY: release-github-repo
 release-github-repo: test-chrome tag-release git-push-tags  ## Release new version of project in GitHub repository. Before running, bump value of "VERSION" variable at top of project Makefile.
-	@echo Released version ${VERSION} of \"${NAME}\" project code in GitHub repository;
+	@echo Released version ${VERSION} of \"${NAME}\" project code in GitHub repository. See: https://github.com/filethis/${NAME}/releases;
 
 
 # Help -----------------------------------------------------------------------------------

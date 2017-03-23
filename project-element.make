@@ -75,7 +75,7 @@ publish-github-pages:  ## Publish current release of element docs and demo to Gi
 	gp.sh filethis ${NAME}; \
 	cd ../; \
 	rm -rf ./github-pages-tmp; \
-	@echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://filethis.github.io/${NAME}
+	echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://filethis.github.io/${NAME}
 
 .PHONY: bower-register-public
 bower-register-public:  ## Register element in public Bower registry
