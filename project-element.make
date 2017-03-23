@@ -26,56 +26,58 @@ run-browser-sync:  ## Run BrowserSync against local files. Element demos require
 		--files "*.html, *.css, demo/*.html, demo/*.css, demo/*.json, test/*.html";
 
 
-# Viewing -----------------------------------------------------------------------------------
+# Docs -----------------------------------------------------------------------------------
 
-.PHONY: open-url
-open-url:  ## Open URL of local element demo
-	@open http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
-
-.PHONY: print-url
-print-url:  ## Print URL of local element demo
-	@echo http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
-
-.PHONY: open-url-published
-open-url-published:  ## Open URL of published element demo
-	@open https://filethis.github.io/${NAME}/components/${NAME}/demo;
-
-.PHONY: print-url-published
-print-url-published:  ## Print URL of published element demo
-	@echo https://filethis.github.io/${NAME}/components/${NAME}/demo;
-
-.PHONY: open-url-doc-page
-open-url-doc-page:  ## Open URL of local documentation page
+.PHONY: open-url-docs-local
+open-url-docs-local:  ## Open URL of local element documentation
 	@open http://localhost:${LOCAL_PORT}/components/${NAME}/;
 
-.PHONY: print-url-doc-page
-print-url-doc-page:  ## Print URL of local documentation page
+.PHONY: print-url-docs-local
+print-url-docs-local:  ## Print URL of local element documentation
 	@echo http://localhost:${LOCAL_PORT}/components/${NAME}/;
 
-.PHONY: open-url-doc-page-published
-open-url-doc-page-published:  ## Open URL of published project documentation page
+.PHONY: open-url-docs-github-pages
+open-url-docs-github-pages:  ## Open URL of element documentation published on GitHub Pages
 	@open https://filethis.github.io/${NAME}/components/${NAME}/;
 
-.PHONY: print-url-doc-page-published
-print-url-doc-page-published:  ## Print URL of published project documentation page
+.PHONY: print-url-docs-github-pages
+print-url-docs-github-pages:  ## Print URL of element documentation published on GitHub Pages
 	@echo https://filethis.github.io/${NAME}/components/${NAME}/;
 
 
-# Publishing -----------------------------------------------------------------------------------
+# Demo -----------------------------------------------------------------------------------
 
-publish-doc-page:
+.PHONY: open-url-demo-local
+open-url-demo-local:  ## Open URL of local element demo
+	@open http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
+
+.PHONY: print-url-demo-local
+print-url-demo-local:  ## Print URL of local element demo
+	@echo http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
+
+.PHONY: open-url-demo-github-pages
+open-url-demo-github-pages:  ## Open URL of element demo published on GitHub Pages
+	@open https://filethis.github.io/${NAME}/components/${NAME}/demo;
+
+.PHONY: print-url-demo-github-pages
+print-url-demo-github-pages:  ## Print URL of element demo published on GitHub Pages
+	@echo https://filethis.github.io/${NAME}/components/${NAME}/demo;
+
+
+# Publish -----------------------------------------------------------------------------------
+
+.PHONY: publish-github-pages
+publish-github-pages:  ## Publish current release of element docs and demo to GitHub Pages.
 	@set -e; \
-	rm -rf ./docs-github-tmp; \
-	mkdir -p docs-github-tmp; \
-	cd ./docs-github-tmp; \
+	rm -rf ./github-pages-tmp; \
+	mkdir -p github-pages-tmp; \
+	cd ./github-pages-tmp; \
 	gp.sh filethis ${NAME}; \
 	cd ../; \
-	rm -rf ./docs-github-tmp;
+	rm -rf ./github-pages-tmp; \
+	@echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://filethis.github.io/${NAME}
 
-.PHONY: register
-register:  ## Register element in public Bower registry
+.PHONY: bower-register-public
+bower-register-public:  ## Register element in public Bower registry
 	@bower register ${NAME} git@github.com:filethis/${NAME}.git;
 
-.PHONY: publish
-publish: test-chrome tag-release git-push-tags publish-doc-page open-url-doc-page-published  ## Publish project. Bump value of "VERSION" variable at top of project Makefile.
-	@echo Published version ${VERSION} of ${NAME};

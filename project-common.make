@@ -46,26 +46,30 @@ serve:  ## Serve project locally using the Polymer server
 	@polymer serve --port ${LOCAL_PORT}
 
 
-# GitHub
+# GitHub Repository
 
-.PHONY: open-url-github-page
-open-url-github-page:  ## Open URL of project GitHub repository page
+.PHONY: open-url-github-repo
+open-url-github-repo:  ## Open URL of project GitHub repository page
 	@open https://github.com/filethis/${NAME}
 
-.PHONY: print-url-github-page
-print-url-github-page:  ## Print URL of project GitHub repository page
+.PHONY: print-url-github-repo
+print-url-github-repo:  ## Print URL of project GitHub repository page
 	@echo https://github.com/filethis/${NAME}
 
 
-# Publishing -----------------------------------------------------------------------------------
+# Release -----------------------------------------------------------------------------------
 
 .PHONY: tag-release
-tag-release:  ## Tag the git project for the next release.
+tag-release:  # Internal target: Tag the git project with the current release number. Usually invoked as part of a release via 'release-github-repo' target.
 	@git tag -a v${VERSION} -m '${VERSION}'
 
 .PHONY: git-push-tags
-git-push-tags:
+git-push-tags:  # Internal target: Push tags to remote for the git project. Usually invoked as part of a release via 'release-github-repo' target.
 	@git push --tags
+
+.PHONY: release-github-repo
+release-github-repo: test-chrome tag-release git-push-tags  ## Release new version of project in GitHub repository. Before running, bump value of "VERSION" variable at top of project Makefile.
+	@echo Released version ${VERSION} of \"${NAME}\" project code in GitHub repository;
 
 
 # Help -----------------------------------------------------------------------------------
@@ -75,4 +79,3 @@ help:  ## Print Makefile usage. See: https://marmelab.com/blog/2016/02/29/auto-d
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
-
