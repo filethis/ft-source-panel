@@ -14,7 +14,7 @@ lint:  ## Lint project files
 .PHONY: run-browser-sync
 run-browser-sync:  ## Run BrowserSync against local files. Element demos require a running Polymer server. See: https://www.browsersync.io/
 	@if lsof -i tcp:${LOCAL_PORT} > /dev/null; then \
-		echo Polymer server is running; \
+		echo Found running Polymer server; \
 	else \
 		echo No Polymer server running for element demo. Use \"make serve-polymer\"; \
 		exit 1; \

@@ -22,7 +22,7 @@ A panel that displays a list of FileThis sources.
                 padding-left:16px; padding-right:16px;">
 
             <!-- Cells -->
-            <template is="dom-repeat" items="[[items]]">
+            <template is="dom-repeat" sources="[[sources]]">
 
                 <!-- Cell -->
                 <div class="layout vertical center"
@@ -30,7 +30,7 @@ A panel that displays a list of FileThis sources.
 
                     <!-- Logo Box -->
                     <div class="layout vertical center"
-                         on-click="onSourceItemClicked"
+                         on-click="onSourceClicked"
                          style="width:150px; height:65px;
                             border:1px solid #DEDEDE;
                             justify-content:center;
@@ -39,13 +39,13 @@ A panel that displays a list of FileThis sources.
                         <!-- Logo -->
                         <img
                                 style="width:auto; max-width:100%;"
-                                src="[[item.logoUrl]]">
+                                src="[[source.logoUrl]]">
                         </img>
 
                     </div>
 
                     <!-- "Connect" -->
-                    <div on-click="onSourceItemClicked"
+                    <div on-click="onSourceClicked"
                          style="font-family:Arial; font-size:15px;
                             color:#7D7D7D;
                             width:150px;
@@ -58,7 +58,7 @@ A panel that displays a list of FileThis sources.
                     </div>
 
                     <!-- Name -->
-                    <div on-click="onSourceItemClicked"
+                    <div on-click="onSourceClicked"
                          style="font-family:Arial;
                             color:#343434;
                             width:150px;
@@ -66,7 +66,7 @@ A panel that displays a list of FileThis sources.
                             text-align:center;
                             text-overflow:ellipsis; white-space: nowrap; overflow: hidden;
                             cursor:pointer;">
-                        [[item.name]]
+                        [[source.name]]
                     </div>
 
                 </div>
@@ -83,7 +83,7 @@ A panel that displays a list of FileThis sources.
             is: 'ft-source-panel',
 
             properties: {
-                items: {
+                sources: {
                     type: Array,
                     notify: true,
                     value: []
@@ -95,9 +95,9 @@ A panel that displays a list of FileThis sources.
                 this.fire('connectToSource', source);
             }
 
-//            onSourceItemClicked: function(event, detail)
+//            onSourceClicked: function(event, detail)
 //            {
-//                var source = event.model.item;
+//                var source = event.model.source;
 //
 //                var connectDialog = this.$.connectDialog;
 //                connectDialog.source = source;
