@@ -16,13 +16,28 @@ run-browser-sync:  ## Run BrowserSync against local files. Element demos require
 	@if lsof -i tcp:${LOCAL_PORT} > /dev/null; then \
 		echo Found running Polymer server; \
 	else \
-		echo No Polymer server running for element demo. Use \"make serve-polymer\"; \
+		echo No Polymer server running for element demo. Use \"make serve\"; \
 		exit 1; \
 	fi; \
 	browser-sync start \
 		--proxy "http://localhost:${LOCAL_PORT}" \
 		--port ${LOCAL_PORT} \
 		--startPath "/components/${NAME}/demo/" \
+		--files "*.html, *.css, demo/*.html, demo/*.css, demo/*.json, test/*.html";
+
+.PHONY: run-browser-sync-test
+run-browser-sync-test:  ## Run BrowserSync for tests
+	@if lsof -i tcp:${LOCAL_PORT} > /dev/null; then \
+		echo Found running Polymer server; \
+	else \
+		echo No Polymer server running for element demo. Use \"make serve\"; \
+		exit 1; \
+	fi; \
+	browser-sync start \
+		--proxy "http://localhost:${LOCAL_PORT}" \
+		--port ${LOCAL_PORT} \
+		--startPath "/components/${NAME}/test/" \
+		--index "${NAME}_test.html" \
 		--files "*.html, *.css, demo/*.html, demo/*.css, demo/*.json, test/*.html";
 
 

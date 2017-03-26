@@ -22,8 +22,8 @@ bower-install:  ## Install all Bower dependencies specified in bower.json file
 
 # Testing -----------------------------------------------------------------------------------
 
-.PHONY: test
-test:  ## Run tests on all browsers
+.PHONY: test-all
+test-all:  ## Run tests on all browsers
 	@polymer test
 
 .PHONY: test-chrome

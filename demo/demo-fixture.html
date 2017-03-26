@@ -50,7 +50,8 @@ This element defines a number of form examples
                     if (xmlHttpRequest.readyState == 4 &&
                         xmlHttpRequest.status == "200")
                     {
-                        panel.sources = JSON.parse(xmlHttpRequest.responseText);
+                        var sources = JSON.parse(xmlHttpRequest.responseText);
+                        panel.sources = sources;
                     }
                 };
                 xmlHttpRequest.send();

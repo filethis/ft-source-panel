@@ -21,6 +21,8 @@ A panel that displays a list of FileThis sources.
                 background-color:white;
                 padding-left:16px; padding-right:16px;">
 
+            <div>fuck</div>
+
             <!-- Cells -->
             <template is="dom-repeat" sources="[[sources]]">
 
@@ -73,6 +75,7 @@ A panel that displays a list of FileThis sources.
 
             </template>
 
+            <div>this</div>
         </div>
 
     </template>
@@ -86,8 +89,14 @@ A panel that displays a list of FileThis sources.
                 sources: {
                     type: Array,
                     notify: true,
-                    value: []
+                    value: [],
+                    observer: "_onSourcesChanged"
                 }
+            },
+
+            _onSourcesChanged: function(event, source)
+            {
+                this.fire('_onSourcesChanged', source);
             },
 
             onConnect: function(event, source)
