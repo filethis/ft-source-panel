@@ -21,10 +21,8 @@ A panel that displays a list of FileThis sources.
                 background-color:white;
                 padding-left:16px; padding-right:16px;">
 
-            <div>fuck</div>
-
             <!-- Cells -->
-            <template is="dom-repeat" sources="[[sources]]">
+            <template is="dom-repeat" items="[[sources]]" as="source">
 
                 <!-- Cell -->
                 <div class="layout vertical center"
@@ -74,8 +72,6 @@ A panel that displays a list of FileThis sources.
                 </div>
 
             </template>
-
-            <div>this</div>
         </div>
 
     </template>
