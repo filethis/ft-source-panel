@@ -96,17 +96,13 @@ A panel that displays a list of FileThis sources.
             is: 'ft-source-panel',
 
             properties: {
+
+                /** The list of source resources to be displayed. */
                 sources: {
                     type: Array,
                     notify: true,
-                    value: [],
-                    observer: "_onSourcesChanged"
+                    value: []
                 }
-            },
-
-            _onSourcesChanged: function(event, source)
-            {
-                this.fire('_onSourcesChanged', source);
             },
 
             _onSourceClicked: function(event, detail)
