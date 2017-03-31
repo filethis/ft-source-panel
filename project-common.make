@@ -46,7 +46,7 @@ serve:  ## Serve project locally using the Polymer server
 	@polymer serve --port ${LOCAL_PORT}
 
 
-# GitHub Repository
+# GitHub Repository -----------------------------------------------------------------------------------
 
 .PHONY: open-url-github-repo
 open-url-github-repo:  ## Open URL of project GitHub repository page

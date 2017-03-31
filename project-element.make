@@ -41,6 +41,25 @@ run-browser-sync-test:  ## Run BrowserSync for tests
 		--files "*.html, *.css, demo/*.html, demo/*.css, demo/*.json, test/*.html";
 
 
+# Demo -----------------------------------------------------------------------------------
+
+.PHONY: open-url-local
+open-url-local:  ## Open URL of local element demo
+	@open http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
+
+.PHONY: print-url-local
+print-url-local:  ## Print URL of local element demo
+	@echo http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
+
+.PHONY: open-url-github-pages
+open-url-github-pages:  ## Open URL of element demo published on GitHub Pages
+	@open https://filethis.github.io/${NAME}/components/${NAME}/demo;
+
+.PHONY: print-url-github-pages
+print-url-github-pages:  ## Print URL of element demo published on GitHub Pages
+	@echo https://filethis.github.io/${NAME}/components/${NAME}/demo;
+
+
 # Docs -----------------------------------------------------------------------------------
 
 .PHONY: open-url-docs-local
@@ -58,25 +77,6 @@ open-url-docs-github-pages:  ## Open URL of element documentation published on G
 .PHONY: print-url-docs-github-pages
 print-url-docs-github-pages:  ## Print URL of element documentation published on GitHub Pages
 	@echo https://filethis.github.io/${NAME}/components/${NAME}/;
-
-
-# Demo -----------------------------------------------------------------------------------
-
-.PHONY: open-url-demo-local
-open-url-demo-local:  ## Open URL of local element demo
-	@open http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
-
-.PHONY: print-url-demo-local
-print-url-demo-local:  ## Print URL of local element demo
-	@echo http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
-
-.PHONY: open-url-demo-github-pages
-open-url-demo-github-pages:  ## Open URL of element demo published on GitHub Pages
-	@open https://filethis.github.io/${NAME}/components/${NAME}/demo;
-
-.PHONY: print-url-demo-github-pages
-print-url-demo-github-pages:  ## Print URL of element demo published on GitHub Pages
-	@echo https://filethis.github.io/${NAME}/components/${NAME}/demo;
 
 
 # Publish -----------------------------------------------------------------------------------

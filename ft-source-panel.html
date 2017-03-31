@@ -1,6 +1,10 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../iron-label/iron-label.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
 
 <!--
 `ft-source-panel`
@@ -30,7 +34,7 @@ A panel that displays a list of FileThis sources.
 
                     <!-- Logo Box -->
                     <div class="layout vertical center"
-                         on-click="onSourceClicked"
+                         on-click="_onSourceClicked"
                          style="width:150px; height:65px;
                             border:1px solid #DEDEDE;
                             justify-content:center;
@@ -45,7 +49,7 @@ A panel that displays a list of FileThis sources.
                     </div>
 
                     <!-- "Connect" -->
-                    <div on-click="onSourceClicked"
+                    <div on-click="_onSourceClicked"
                          style="font-family:Arial; font-size:15px;
                             color:#7D7D7D;
                             width:150px;
@@ -58,7 +62,7 @@ A panel that displays a list of FileThis sources.
                     </div>
 
                     <!-- Name -->
-                    <div on-click="onSourceClicked"
+                    <div on-click="_onSourceClicked"
                          style="font-family:Arial;
                             color:#343434;
                             width:150px;
@@ -68,11 +72,21 @@ A panel that displays a list of FileThis sources.
                             cursor:pointer;">
                         [[source.name]]
                     </div>
-
                 </div>
-
             </template>
         </div>
+
+        <!-- Connect Dialog -->
+        <paper-dialog modal id="modalCreateConnectionDialog",
+                      on-iron-overlay-opened="onOpened",
+                      style="width:630px;
+                      padding-left:40px; padding-top:12px; padding-right:40px; padding-bottom:5px;">
+
+            <ft-create-connection-dialog
+                    id="createConnectionDialog">
+            </ft-create-connection-dialog>
+
+        </paper-dialog>
 
     </template>
 
@@ -95,21 +109,14 @@ A panel that displays a list of FileThis sources.
                 this.fire('_onSourcesChanged', source);
             },
 
-            onConnect: function(event, source)
+            _onSourceClicked: function(event, detail)
             {
-                this.fire('connectToSource', source);
-            }
+                var source = event.model.source;
+                var createConnectionDialog = this.$.createConnectionDialog;
+                createConnectionDialog.source = source;
 
-//            onSourceClicked: function(event, detail)
-//            {
-//                var source = event.model.source;
-//
-//                var connectDialog = this.$.connectDialog;
-//                connectDialog.source = source;
-//
-//                var dialog = connectDialog.$.dialog;
-//                dialog.open();
-//            }
+                modalCreateConnectionDialog.open();
+            }
         });
     </script>
 </dom-module>
