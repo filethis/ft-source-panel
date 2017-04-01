@@ -1,6 +1,7 @@
 {
     "name": "ft-source-panel",
     "description": "A panel that displays a list of FileThis sources.",
+    "version": "0.0.3",
     "main": "ft-source-panel.html",
     "dependencies": {
         "polymer": "Polymer/polymer#^1.4.0",
