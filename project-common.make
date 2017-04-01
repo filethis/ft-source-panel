@@ -76,7 +76,7 @@ git-push-tags:  # Internal target: Push tags to remote for the git project. Usua
 	@git push --tags;
 
 .PHONY: release-github-repo
-release-github-repo: tag-release git-push-tags  ## Release new version of project in GitHub repository. Before running, bump value of "VERSION" variable at top of project Makefile.
+release-github-repo: tag-release-idempotent git-push-tags  ## Release new version of project in GitHub repository. Before running, bump value of "VERSION" variable at top of project Makefile.
 	@echo Released version ${VERSION} of \"${NAME}\" project code in GitHub repository. See: https://github.com/filethis/${NAME}/releases;
 
 
