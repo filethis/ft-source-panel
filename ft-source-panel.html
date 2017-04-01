@@ -78,7 +78,7 @@ A panel that displays a list of FileThis sources.
 
         <!-- Connect Dialog -->
         <paper-dialog modal id="modalCreateConnectionDialog",
-                      on-iron-overlay-opened="onOpened",
+                      on-iron-overlay-opened="_onCreateConnectionDialogOpened",
                       style="width:630px;
                       padding-left:40px; padding-top:12px; padding-right:40px; padding-bottom:5px;">
 
@@ -112,6 +112,11 @@ A panel that displays a list of FileThis sources.
                 createConnectionDialog.source = source;
 
                 modalCreateConnectionDialog.open();
+            },
+
+            _onCreateConnectionDialogOpened: function(event, detail)
+            {
+                // TODO: What is this for? Setting the keyboard focus on the first field?
             }
         });
     </script>

@@ -60,11 +60,11 @@ print-url-github-repo:  ## Print URL of project GitHub repository page
 # Release -----------------------------------------------------------------------------------
 
 .PHONY: tag-release
-tag-release:  # Internal target: Tag the git project with the current release number. Usually invoked as part of a release via 'release-github-repo' target.
+tag-release:  # Deprecated.
 	@git tag -a v${VERSION} -m '${VERSION}';
 
 .PHONY: tag-release-idempotent
-tag-release-idempotent:  # Internal target: Tag the git project with the current release number. Usually invoked as part of a release via 'release-github-repo' target.
+tag-release-idempotent:  # Deprecated.
 	@if [[ $$(git tag --list v${VERSION}) ]]; then \
 		echo Tag v${VERSION} already applied; \
 	else \
@@ -72,12 +72,38 @@ tag-release-idempotent:  # Internal target: Tag the git project with the current
 	fi;
 
 .PHONY: git-push-tags
-git-push-tags:  # Internal target: Push tags to remote for the git project. Usually invoked as part of a release via 'release-github-repo' target.
-	@git push --tags;
+git-push-tags:  # Deprecated.
+	git push --tags;
 
-.PHONY: release-github-repo
-release-github-repo: tag-release-idempotent git-push-tags  ## Release new version of project in GitHub repository. Before running, bump value of "VERSION" variable at top of project Makefile.
-	@echo Released version ${VERSION} of \"${NAME}\" project code in GitHub repository. See: https://github.com/filethis/${NAME}/releases;
+.PHONY: release-github-version
+release-github-version:  # Internal target: Tag with current version and push tags to remote for the git project. Usually invoked as part of a release via 'release' target.
+	@if [[ $$(git tag --list v${VERSION}) ]]; then \
+		echo Tag v${VERSION} already applied; \
+	else \
+		git tag -a v${VERSION} -m '${VERSION}'; \
+	fi; \
+	git push --tags;
+
+.PHONY: release-confirm
+release-confirm:
+	@read -p "Did you remember to bump the version number in this project's Makefile and bower.json files, and then to push all changes? [y/n] " CONT; \
+	if [ "$$CONT" = "y" ]; then \
+	  echo "Continuing"; \
+	else \
+		exit 1; \
+	fi
+
+.PHONY: release-unsafe
+release-unsafe: release-github-version release-github-pages release-bower
+	@echo Released version ${VERSION} of \"${NAME}\" project
+
+.PHONY: release
+release: release-confirm release-unsafe  ## Release version of project.
+	@echo;
+
+.PHONY: bower-info
+bower-info:  ## Print information about published Bower package
+	@bower info ${NAME};
 
 
 # Help -----------------------------------------------------------------------------------
