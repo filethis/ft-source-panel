@@ -116,7 +116,8 @@ A panel that displays a list of FileThis sources.
 
             _onCreateConnectionDialogOpened: function(event, detail)
             {
-                // TODO: What is this for? Setting the keyboard focus on the first field?
+                // TODO: Is this the best place to do this?
+                this.$.createConnectionDialog.initialize();
             }
         });
     </script>
