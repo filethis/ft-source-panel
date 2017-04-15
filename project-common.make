@@ -122,12 +122,21 @@ release: release-confirm release-unsafe  ## Release version of project.
 bower-info:  ## Print information about published Bower package
 	@bower info ${NAME};
 
+.PHONY: print-bower-dependency
+print-bower-dependency:  ## Print a line that can be pasted into a bower dependency file for current version of project
+	@echo \ \ \ \ \"${NAME}\": \"${GITHUB_USER}/${NAME}#^${VERSION}\",
+
+
 
 # Git -----------------------------------------------------------------------------------
 
 .PHONY: pull
-pull:  ## Pull from Git repo
+pull:  ## Pull from Git repository
 	@git pull
+
+.PHONY: push
+push:  ## Push from Git repository
+	@git push
 
 
 # Help -----------------------------------------------------------------------------------

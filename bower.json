@@ -9,7 +9,7 @@
     "paper-item": "PolymerElements/paper-item#^1.2.1",
     "paper-dialog": "PolymerElements/paper-dialog#^1.1.0",
     "iron-label": "PolymerElements/iron-label#^1.0.2",
-    "ft-create-connection-dialog": "FileThis/ft-create-connection-dialog#^0.0.4",
+    "ft-create-connection-dialog": "filethis/ft-create-connection-dialog#^0.0.5",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^1.0.7"
   },
   "devDependencies": {
