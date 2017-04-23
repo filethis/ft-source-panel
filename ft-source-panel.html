@@ -21,7 +21,9 @@ limitations under the License.
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../iron-label/iron-label.html">
 <link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../array-filter/array-filter.html">
 <link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
+<link rel="import" href="../ft-source-grid/ft-source-grid.html">
 
 
 <!-- TODO: Retrofit this to use iron-list instead of a dom-repeat template. -->
@@ -40,62 +42,10 @@ A panel that displays a list of FileThis sources.
 
     <template>
 
-        <!-- Grid of cells -->
-        <div class="horizontal layout wrap"
-             style="width:100%;
-                background-color:white;
-                padding-left:16px; padding-right:16px;">
-
-            <!-- Cells -->
-            <template is="dom-repeat" items="[[sources]]" as="source">
-
-                <!-- Cell -->
-                <div class="layout vertical center"
-                     style="height:141px; padding:8px;">
-
-                    <!-- Logo Box -->
-                    <div class="layout vertical center"
-                         on-click="_onSourceClicked"
-                         style="width:150px; height:65px;
-                            border:1px solid #DEDEDE;
-                            justify-content:center;
-                            cursor:pointer;">
-
-                        <!-- Logo -->
-                        <img
-                                style="width:auto; max-width:100%;"
-                                src="[[source.logoUrl]]">
-                        </img>
-
-                    </div>
-
-                    <!-- "Connect" -->
-                    <div on-click="_onSourceClicked"
-                         style="font-family:Arial; font-size:15px;
-                            color:#7D7D7D;
-                            width:150px;
-                            background-color:#FAFAFA;
-                            text-align:center;
-                            padding-top:4px; padding-bottom:6px;
-                            border-left:1px solid #DEDEDE; border-right:1px solid #DEDEDE; border-bottom:1px solid #DEDEDE;
-                            cursor:pointer;">
-                        Connect
-                    </div>
-
-                    <!-- Name -->
-                    <div on-click="_onSourceClicked"
-                         style="font-family:Arial;
-                            color:#343434;
-                            width:150px;
-                            padding-top:8px;
-                            text-align:center;
-                            text-overflow:ellipsis; white-space: nowrap; overflow: hidden;
-                            cursor:pointer;">
-                        [[source.name]]
-                    </div>
-                </div>
-            </template>
-        </div>
+        <ft-source-grid id="grid"
+            style="overflow:hidden; overflow-y:scroll; border:1px solid #DDD;"
+                        sources="[[_sourcesFilteredAndSorted]]">
+        </ft-source-grid>
 
         <!-- Connect Dialog -->
         <paper-dialog modal id="modalCreateConnectionDialog",
@@ -109,6 +59,13 @@ A panel that displays a list of FileThis sources.
 
         </paper-dialog>
 
+        <array-filter
+            items="{{sources}}"
+            filtered="{{_sourcesFilteredAndSorted}}"
+            filter="_filter"
+            sort="_sorter">
+        </array-filter>
+
     </template>
 
     <script>
@@ -118,12 +75,96 @@ A panel that displays a list of FileThis sources.
 
             properties: {
 
-                /** The list of source resources to be displayed. */
+                /** The list of all source resources. */
                 sources: {
                     type: Array,
                     notify: true,
                     value: []
+                },
+
+                _sourcesFilteredAndSorted: {
+                    type: Array,
+                    notify: true,
+                    value: []
+                },
+
+                /** A filter function. Takes a source as single argument. Overrides blacklist, and whitelist. */
+                filter: {
+                    type: Object,  // function
+                    notify: true,
+                    value: null
+                },
+
+                /** A blacklist of source identifiers. Precedence: Overrides whitelist. */
+                blacklist: {
+                    type: Array,
+                    notify: true,
+                    value: []
+                },
+
+                /** A whitelist of source identifiers. */
+                whitelist: {
+                    type: Array,
+                    notify: true,
+                    value: []
+                },
+
+                /** An optional sorter function. Takes two sources as arguments to compare. Your function should return 1, or -1 to denote greater-than or less-than. When null, the default, sources are sorted alphabetically by source name property. */
+                sorter: {
+                    type: Object,  // function
+                    notify: true,
+                    value: null
+                },
+
+                /** The currently-selected source, if any. */
+                selectedSource:
+                {
+                    type: Object,
+                    notify: true,
+                    value: null
                 }
+            },
+
+            _filter: function(source)
+            {
+                // Use filter function, if specified
+                if (this.filter != null)
+                    return this.filter(source);
+
+                // Use blacklist, if specified
+                if (this.blacklist.length > 0)
+                {
+                    this.blacklist.forEach(function(blackSource)
+                    {
+                        if (blackSource.name == source.name)
+                            return false;
+                    });
+                    return true;
+                }
+
+                // Use whitelist, if specified
+                if (this.whitelist.length > 0)
+                {
+                    this.whitelist.forEach(function(whiteSource)
+                    {
+                        if (whiteSource.name == source.name)
+                            return true;
+                    });
+                    return false;
+                }
+
+                // Otherwise, allow everything to pass through
+                return true;
+            },
+
+            _sorter: function(first, second)
+            {
+                // Use sorter function, if specified
+                if (this.sorter != null)
+                    return this.sorter(first, second);
+
+                // Sort alphabetically by source name property
+                return (first.name > second.name ? 1 : -1);
             },
 
             _onSourceClicked: function(event, detail)

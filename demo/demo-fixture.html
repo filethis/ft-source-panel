@@ -24,6 +24,9 @@ limitations under the License.
 <link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../iron-label/iron-label.html">
+<link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../iron-icon/iron-icon.html">
 
 <link rel="import" href="../ft-source-panel.html">
@@ -31,7 +34,7 @@ limitations under the License.
 
 <!--
 
-This element defines a number of form examples
+This element defines a source grid example that allows experimentation with configuration.
 
 @demo demo/index.html
  -->
@@ -41,7 +44,68 @@ This element defines a number of form examples
 
     <template>
 
-        <ft-source-panel id="panel"></ft-source-panel>
+        <div class="layout horizontal">
+
+            <!-- Some configuration options to play with -->
+            <div class="layout vertical" style="width:200px; height:100%;">
+
+                <!-- Title -->
+                <iron-label style="font-family:Arial;font-size:14pt">
+                    Configuration
+                </iron-label>
+
+                <div style="height:30px;"></div>
+
+                <!-- Filter Function -->
+                <div class="layout horizontal center">
+                    <input type="checkbox" checked="{{useWhitelist}}">
+                    <div style="width:3px;"></div>
+                    Use Filter Function
+                </div>
+                <div style="height:5px;"></div>
+                <textarea id="filter" rows="5" style="width:100%; resize:none;"></textarea>
+
+                <div style="height:25px;"></div>
+
+                <!-- Blacklist -->
+                <div class="layout horizontal center">
+                    <input type="checkbox" checked="{{useBlacklist}}">
+                    <div style="width:3px;"></div>
+                    Use Blacklist
+                </div>
+                <div style="height:5px;"></div>
+                <textarea id="blacklist" rows="5" style="width:100%; resize:none;"></textarea>
+
+                <div style="height:25px;"></div>
+
+                <!-- Whitelist -->
+                <div class="layout horizontal center">
+                    <input type="checkbox" checked="{{useWhitelist}}">
+                    <div style="width:3px;"></div>
+                    Use Whitelist
+                </div>
+                <div style="height:5px;"></div>
+                <textarea id="whitelist" rows="5" style="width:100%; resize:none;"></textarea>
+
+                <div style="height:25px;"></div>
+
+                <!-- Sorter Function -->
+                <div class="layout horizontal center">
+                    <input type="checkbox" checked="{{useWhitelist}}">
+                    <div style="width:3px;"></div>
+                    Use Sorter Function
+                </div>
+                <div style="height:5px;"></div>
+                <textarea id="sorter" rows="5" style="width:100%; resize:none;"></textarea>
+            </div>
+
+            <!-- The source panel -->
+            <ft-source-panel
+                    id="panel"
+                    style="width:100%; height:100%;">
+            </ft-source-panel>
+
+        </div>
 
     </template>
 
@@ -53,6 +117,18 @@ This element defines a number of form examples
 
             properties:
             {
+                useBlacklist:
+                {
+                    type: Boolean,
+                    notify: true,
+                    value: false
+                },
+                useWhitelist:
+                {
+                    type: Boolean,
+                    notify: true,
+                    value: false
+                }
             },
 
             ready: function()
