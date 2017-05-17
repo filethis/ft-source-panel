@@ -10,11 +10,12 @@
     "paper-dialog": "PolymerElements/paper-dialog#^1.1.0",
     "iron-label": "PolymerElements/iron-label#^1.0.2",
     "ft-create-connection-dialog": "filethis/ft-create-connection-dialog#^0.0.5",
-    "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.1",
-    "ft-source-grid": "filethis/ft-source-grid#^0.0.1",
+    "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.2",
+    "ft-source-grid": "filethis/ft-source-grid#^0.0.2",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^1.0.7",
     "array-filter": "43081j/array-filter#^1.0.2",
-    "paper-checkbox": "PolymerElements/paper-checkbox#^1.4.2"
+    "paper-checkbox": "PolymerElements/paper-checkbox#^1.4.2",
+    "paper-search": "^1.2.3"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

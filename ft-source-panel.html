@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../iron-label/iron-label.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../array-filter/array-filter.html">
+<link rel="import" href="../paper-search/paper-search.html">
 <link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
 <link rel="import" href="../ft-source-grid/ft-source-grid.html">
 
@@ -42,10 +43,24 @@ A panel that displays a list of FileThis sources.
 
     <template>
 
-        <ft-source-grid id="grid"
-            style="overflow:hidden; overflow-y:scroll; border:1px solid #DDD;"
-                        sources="[[_sourcesFilteredAndSorted]]">
-        </ft-source-grid>
+        <div class="layout vertical"
+             style="width:100%; height:100%">
+            
+            <!-- Search and sort bar -->
+            <paper-search-bar
+                    placeholder="Search"
+                    hide-filter-button
+                    style="width:400px;">
+
+            </paper-search-bar>
+            
+            <!-- Source Grid -->
+            <ft-source-grid id="grid"
+                style="overflow:hidden; overflow-y:scroll; border:1px solid #DDD;"
+                            sources="[[_sourcesFilteredAndSorted]]">
+            </ft-source-grid>
+        </div>
+
 
         <!-- Connect Dialog -->
         <paper-dialog modal id="modalCreateConnectionDialog",
@@ -88,28 +103,14 @@ A panel that displays a list of FileThis sources.
                     value: []
                 },
 
-                /** A filter function. Takes a source as single argument. Overrides blacklist, and whitelist. */
+                /** A filter function. Takes a source as single argument. Function should return true to include the source, or false to exclude it. When property is null, the default, all sources are let through. */
                 filter: {
                     type: Object,  // function
                     notify: true,
                     value: null
                 },
 
-                /** A blacklist of source identifiers. Precedence: Overrides whitelist. */
-                blacklist: {
-                    type: Array,
-                    notify: true,
-                    value: []
-                },
-
-                /** A whitelist of source identifiers. */
-                whitelist: {
-                    type: Array,
-                    notify: true,
-                    value: []
-                },
-
-                /** An optional sorter function. Takes two sources as arguments to compare. Your function should return 1, or -1 to denote greater-than or less-than. When null, the default, sources are sorted alphabetically by source name property. */
+                /** A sorter function. Takes two sources as arguments to compare. Function should return 1 or -1 to denote greater-than or less-than, respectively. When property is null, the default, sources are sorted alphabetically by the source name. */
                 sorter: {
                     type: Object,  // function
                     notify: true,
@@ -131,28 +132,6 @@ A panel that displays a list of FileThis sources.
                 if (this.filter != null)
                     return this.filter(source);
 
-                // Use blacklist, if specified
-                if (this.blacklist.length > 0)
-                {
-                    this.blacklist.forEach(function(blackSource)
-                    {
-                        if (blackSource.name == source.name)
-                            return false;
-                    });
-                    return true;
-                }
-
-                // Use whitelist, if specified
-                if (this.whitelist.length > 0)
-                {
-                    this.whitelist.forEach(function(whiteSource)
-                    {
-                        if (whiteSource.name == source.name)
-                            return true;
-                    });
-                    return false;
-                }
-
                 // Otherwise, allow everything to pass through
                 return true;
             },
@@ -163,7 +142,7 @@ A panel that displays a list of FileThis sources.
                 if (this.sorter != null)
                     return this.sorter(first, second);
 
-                // Sort alphabetically by source name property
+                // Sort alphabetically by the source name
                 return (first.name > second.name ? 1 : -1);
             },
 
