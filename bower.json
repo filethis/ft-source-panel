@@ -3,7 +3,7 @@
   "description": "A panel that displays a list of FileThis sources.",
   "main": "ft-source-panel.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0",
+    "polymer": "Polymer/polymer#^1.9.0",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.5.0",
     "paper-menu-button": "PolymerElements/paper-menu-button#^1.5.2",
     "paper-item": "PolymerElements/paper-item#^1.2.1",
