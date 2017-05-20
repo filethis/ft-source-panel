@@ -36,6 +36,14 @@ github-init:  ## Initialize GitHub project
 install-bower-packages:  ## Install all Bower packages specified in bower.json file
 	@bower install --save
 
+.PHONY: clean-bower-packages
+clean-bower-packages:  ## Clean all installed bower packages. Leaves "bower link" symlink directories alone.
+	@cd ./bower_components; \
+	find . -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +;
+
+.PHONY: reinstall-bower-packages
+reinstall-bower-packages: clean-bower-packages install-bower-packages  ## Clean and reinstall all bower packages. Leaves "bower link" symlink directories alone.
+
 
 # Testing -----------------------------------------------------------------------------------
 
@@ -130,13 +138,22 @@ print-bower-dependency:  ## Print a line that can be pasted into a bower depende
 
 # Git -----------------------------------------------------------------------------------
 
-.PHONY: pull
-pull:  ## Pull from Git repository
-	@git pull
 
-.PHONY: push
-push:  ## Push from Git repository
-	@git push
+.PHONY: add-git
+add-git:  ## Commit all git changes
+	git add -A
+
+.PHONY: commit-git
+commit-git:  # Commit all git changes
+	git commit
+
+.PHONY: push-git
+push-git:  ## Push from Git repository
+	git push
+
+.PHONY: pull-git
+pull-git:  ## Pull from Git repository
+	git pull
 
 
 # Help -----------------------------------------------------------------------------------
