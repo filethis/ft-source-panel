@@ -140,12 +140,24 @@ print-bower-dependency:  ## Print a line that can be pasted into a bower depende
 
 
 .PHONY: add-git
-add-git:  ## Commit all git changes
+add-git:  ## Add all git changes, interactively
+	git add -A --interactive
+
+.PHONY: add-git-dry-run
+add-git-dry-run:  ## Do a "dry run" of adding all changes so they will be printed out
+	git add -A -n;
+
+.PHONY: add-git-fast
+add-git-fast:  ## Add all git changes non-interactively
 	git add -A
 
 .PHONY: commit-git
-commit-git:  # Commit all git changes
+commit-git:  ## Commit all git changes, prompting for a checkin message
 	git commit
+
+.PHONY: commit-git-fast
+commit-git-fast:  ## Commit all git changes with a worthless message
+	git commit -m "WIP"
 
 .PHONY: push-git
 push-git:  ## Push from Git repository
