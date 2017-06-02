@@ -1,0 +1,121 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<!-- FileThis demo element -->
+
+<!-- Imports -->
+<link rel="import" href="../../polymer/polymer.html">
+
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../iron-label/iron-label.html">
+<link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+
+<link rel="import" href="../ft-source-panel.html">
+
+
+<!--
+
+This element defines a source grid example that allows experimentation with configuration.
+
+@demo demo/index.html
+ -->
+<dom-module id="demo-fixture">
+
+    <style include="iron-flex iron-flex-alignment"></style>
+
+    <style is="custom-style">
+
+        paper-checkbox {
+            width:165px;
+            margin-bottom:16px;
+        }
+
+    </style>
+
+    <template>
+
+        <div class="layout horizontal center"
+             style="width:100%">
+
+            <!-- Settings -->
+            <div class="layout vertical center" style="width:300px">
+
+                <paper-checkbox checked="{{showSearchField}}">
+                    Show Search Field
+                </paper-checkbox>
+            </div>
+
+            <!-- Panel -->
+            <div
+                    class="layout vertical center"
+                    style="border:1px solid #DDD;">
+                <ft-source-panel
+                       id="panel"
+                       style="width:746px; height:746px; border:1px solid #DDD;"
+                       show-search-field="[[showSearchField]]">
+               </ft-source-panel>
+            </div>
+
+        </div>
+
+    </template>
+
+    <script>
+
+        Polymer
+        ({
+            is: 'demo-fixture',
+
+            properties:
+            {
+                showSearchField:
+                {
+                    type: Boolean,
+                    value: true
+                }
+            },
+
+            ready: function()
+            {
+                var path = "fake-sources.json";
+
+                var xmlHttpRequest = new XMLHttpRequest();
+                xmlHttpRequest.overrideMimeType("application/json");
+                xmlHttpRequest.open('GET', path, true);
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 &&
+                        xmlHttpRequest.status === 200)
+                    {
+                        var sources = JSON.parse(xmlHttpRequest.responseText);
+                        panel.sources = sources;
+                    }
+                };
+                xmlHttpRequest.send();
+            }
+
+        });
+
+    </script>
+
+</dom-module>
+

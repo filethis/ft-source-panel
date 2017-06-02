@@ -43,42 +43,43 @@ A panel that displays a list of FileThis sources.
 
     <template>
 
-        <div class="layout vertical"
-             style="width:100%; height:100%">
+        <div class="layout vertical">
             
             <!-- Search and sort bar -->
-            <paper-search-bar
-                    placeholder="Search"
-                    hide-filter-button
-                    style="width:400px;">
+            <div
+                    class="layout horizontal center"
+                    hidden$="[[!_showHeader]]">
 
-            </paper-search-bar>
-            
+                <div class="flex"></div>
+
+                <paper-search-bar
+                        placeholder="Search"
+                        hide-filter-button
+                        hidden$="[[!showSearchField]]"
+                        style="width:300px; height:30px; border:1px solid #DDD; margin:8px;"
+                        query="{{_searchString}}">
+                </paper-search-bar>
+            </div>
+
             <!-- Source Grid -->
-            <ft-source-grid id="grid"
-                style="overflow:hidden; overflow-y:scroll; border:1px solid #DDD;"
-                            sources="[[_sourcesFilteredAndSorted]]">
+            <ft-source-grid
+                    id="grid"
+                    style="overflow:hidden; overflow-y:scroll; border-top:1px solid #DDD;"
+                    sources="[[_sourcesFilteredAndSorted]]">
             </ft-source-grid>
         </div>
 
-
         <!-- Connect Dialog -->
-        <paper-dialog modal id="modalCreateConnectionDialog",
-                      on-iron-overlay-opened="_onCreateConnectionDialogOpened",
-                      style="width:630px;
-                      padding-left:40px; padding-top:12px; padding-right:40px; padding-bottom:5px;">
-
-            <ft-create-connection-dialog
-                    id="createConnectionDialog">
-            </ft-create-connection-dialog>
-
-        </paper-dialog>
+        <ft-create-connection-dialog
+                id="createConnectionDialog">
+        </ft-create-connection-dialog>
 
         <array-filter
-            items="{{sources}}"
-            filtered="{{_sourcesFilteredAndSorted}}"
-            filter="_filter"
-            sort="_sorter">
+                id="arrayFilter"
+                items="{{sources}}"
+                filtered="{{_sourcesFilteredAndSorted}}"
+                filter="_filter"
+                sort="_sorter">
         </array-filter>
 
     </template>
@@ -87,6 +88,11 @@ A panel that displays a list of FileThis sources.
         Polymer({
 
             is: 'ft-source-panel',
+
+            listeners:
+            {
+                'connect': '_onConnectToSource'
+            },
 
             properties: {
 
@@ -97,69 +103,91 @@ A panel that displays a list of FileThis sources.
                     value: []
                 },
 
-                _sourcesFilteredAndSorted: {
-                    type: Array,
-                    notify: true,
-                    value: []
-                },
-
-                /** A filter function. Takes a source as single argument. Function should return true to include the source, or false to exclude it. When property is null, the default, all sources are let through. */
-                filter: {
-                    type: Object,  // function
-                    notify: true,
-                    value: null
-                },
-
-                /** A sorter function. Takes two sources as arguments to compare. Function should return 1 or -1 to denote greater-than or less-than, respectively. When property is null, the default, sources are sorted alphabetically by the source name. */
-                sorter: {
-                    type: Object,  // function
-                    notify: true,
-                    value: null
-                },
-
                 /** The currently-selected source, if any. */
                 selectedSource:
                 {
                     type: Object,
                     notify: true,
                     value: null
+                },
+
+                /** Show a button that lets users choose to show the search field. */
+                showSearchField:
+                {
+                    type: Boolean,
+                    value: true,
+                    observer: "_showButtonChanged"
+                },
+
+                _showHeader:
+                {
+                    type: Boolean,
+                    value: true
+                },
+
+                _searchString: {
+                    type: String,
+                    value: "",
+                    observer: "_searchPatternChanged"
+                },
+
+                _sourcesFilteredAndSorted: {
+                    type: Array,
+                    value: []
                 }
             },
 
             _filter: function(source)
             {
-                // Use filter function, if specified
-                if (this.filter != null)
-                    return this.filter(source);
+                const searchString = this._searchString.toLowerCase();
 
-                // Otherwise, allow everything to pass through
-                return true;
+                // If we have no search string, let everything through
+                if (searchString === "")
+                    return true;
+
+                // If the search string matches any part of the source name, let it through
+                const sourceName = source.name.toLowerCase();
+                const index = sourceName.indexOf(searchString);
+                const containsSearchString = (index >= 0);
+                if (containsSearchString)
+                    return true;
+
+                // No match
+                return false;
             },
 
             _sorter: function(first, second)
             {
-                // Use sorter function, if specified
-                if (this.sorter != null)
-                    return this.sorter(first, second);
-
                 // Sort alphabetically by the source name
                 return (first.name > second.name ? 1 : -1);
             },
 
-            _onSourceClicked: function(event, detail)
+            _searchPatternChanged: function()
             {
-                var source = event.model.source;
+                this.$.arrayFilter.update();
+            },
+
+            _onConnectToSource: function(event, detail)
+            {
+                var source = detail;
                 var createConnectionDialog = this.$.createConnectionDialog;
                 createConnectionDialog.source = source;
 
-                modalCreateConnectionDialog.open();
+                createConnectionDialog.open();
             },
 
-            _onCreateConnectionDialogOpened: function(event, detail)
+            _showButtonChanged: function()
             {
-                // TODO: Is this the best place to do this?
-                this.$.createConnectionDialog.initialize();
+                this._showHeader = this._canShowHeader();
+            },
+
+            _canShowHeader: function()
+            {
+                if (this.showSearchField)
+                    return true;
+                return false;
             }
+
         });
     </script>
 </dom-module>

@@ -37,10 +37,10 @@ run-browser-sync:  ## Run BrowserSync against local files. Element demos require
 		exit 1; \
 	fi; \
 	browser-sync start \
+		--config "bs-config.js" \
 		--proxy "http://localhost:${LOCAL_PORT}" \
 		--port ${LOCAL_PORT} \
-		--startPath "/components/${NAME}/demo/" \
-		--files "*.html, *.css, demo/*.html, demo/*.css, demo/*.json, test/*.html";
+		--startPath "/components/${NAME}/demo/";
 
 .PHONY: run-browser-sync-test
 run-browser-sync-test:  ## Run BrowserSync for tests
@@ -51,11 +51,11 @@ run-browser-sync-test:  ## Run BrowserSync for tests
 		exit 1; \
 	fi; \
 	browser-sync start \
+		--config "bs-config.js" \
 		--proxy "http://localhost:${LOCAL_PORT}" \
 		--port ${LOCAL_PORT} \
 		--startPath "/components/${NAME}/test/" \
-		--index "${NAME}_test.html" \
-		--files "*.html, *.css, demo/*.html, demo/*.css, demo/*.json, test/*.html";
+		--index "${NAME}_test.html";
 
 
 # Demo -----------------------------------------------------------------------------------
