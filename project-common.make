@@ -86,7 +86,8 @@ print-url-github-repo:  ## Print URL of project GitHub repository page
 
 .PHONY: print-bower-info
 print-bower-info:  ## Print information about published Bower package
-	@bower info ${NAME};
+	@echo Current: ${VERSION}; \
+	bower info ${NAME};
 
 .PHONY: find-version-everywhere
 find-version-everywhere:  # Internal: Find and print versions of this project in use by all peer projects

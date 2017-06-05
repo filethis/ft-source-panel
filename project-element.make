@@ -104,7 +104,9 @@ release-github-pages:  # Internal target: Create element docs and publish on Git
 	rm -rf ./github-pages-tmp; \
 	mkdir -p github-pages-tmp; \
 	cd ./github-pages-tmp; \
+	git gc; \
 	gp.sh filethis ${NAME}; \
+	git gc; \
 	cd ../; \
 	rm -rf ./github-pages-tmp; \
 	echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://filethis.github.io/${NAME}
