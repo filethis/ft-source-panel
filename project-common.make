@@ -96,7 +96,7 @@ find-version-everywhere:  # Internal: Find and print versions of this project in
 
 .PHONY: set-version-everywhere
 set-version-everywhere:  # Internal: Set version of this project in all peer projects
-	@find .. -name bower.json -print | xargs sed -i .bak 's/${NAME}#^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/${NAME}#^${VERSION}/g' && rm ./bower.json.bak || echo Not used;
+	@find ../.. -name bower.json -print | xargs sed -i .bak 's/${NAME}#^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/${NAME}#^${VERSION}/g' && rm ./bower.json.bak || echo Not used;
 
 .PHONY: tag-release
 tag-release:  # Deprecated.
