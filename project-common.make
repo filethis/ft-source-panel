@@ -84,6 +84,19 @@ print-url-github-repo:  ## Print URL of project GitHub repository page
 
 # Release -----------------------------------------------------------------------------------
 
+.PHONY: print-bower-info
+print-bower-info:  ## Print information about published Bower package
+	@bower info ${NAME};
+
+.PHONY: find-version-everywhere
+find-version-everywhere:  # Internal: Find and print versions of this project in use by all peer projects
+	@echo Current: ${VERSION}; \
+	find .. -name bower.json -print | xargs grep "filethis/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+" || echo Not used;
+
+.PHONY: set-version-everywhere
+set-version-everywhere:  # Internal: Set version of this project in all peer projects
+	@find .. -name bower.json -print | xargs sed -i .bak 's/${NAME}#^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/${NAME}#^${VERSION}/g' && rm ./bower.json.bak || echo Not used;
+
 .PHONY: tag-release
 tag-release:  # Deprecated.
 	@git tag -a v${VERSION} -m '${VERSION}';
@@ -125,23 +138,6 @@ release-unsafe: release-github-version release-github-pages release-bower
 .PHONY: release
 release: release-confirm release-unsafe  ## Release version of project.
 	@echo;
-
-.PHONY: print-bower-info
-print-bower-info:  ## Print information about published Bower package
-	@bower info ${NAME};
-
-.PHONY: print-bower-dependency
-print-bower-dependency:  ## Print a line that can be pasted into a bower dependency file for current version of project
-	@echo \ \ \ \ \"${NAME}\": \"${GITHUB_USER}/${NAME}#^${VERSION}\",
-
-.PHONY: find-version-everywhere
-find-version-everywhere:  # Internal: Upgrade Bower dependency files of all FileThis element and app projects
-	@find .. -name bower.json -print | xargs grep "filethis/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+";
-
-.PHONY: upgrade-version-everywhere
-upgrade-version-everywhere:  # Internal: Upgrade Bower dependency files of all FileThis element and app projects
-	@find .. -name bower.json -print | xargs -exec sed i 's/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+/${NAME}#^${VERSION}/g' {} +;
-
 
 
 # Git -----------------------------------------------------------------------------------
