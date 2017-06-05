@@ -134,6 +134,14 @@ print-bower-info:  ## Print information about published Bower package
 print-bower-dependency:  ## Print a line that can be pasted into a bower dependency file for current version of project
 	@echo \ \ \ \ \"${NAME}\": \"${GITHUB_USER}/${NAME}#^${VERSION}\",
 
+.PHONY: find-version-everywhere
+find-version-everywhere:  # Internal: Upgrade Bower dependency files of all FileThis element and app projects
+	@find .. -name bower.json -print | xargs grep "filethis/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+";
+
+.PHONY: upgrade-version-everywhere
+upgrade-version-everywhere:  # Internal: Upgrade Bower dependency files of all FileThis element and app projects
+	@find .. -name bower.json -print | xargs -exec sed i 's/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+/${NAME}#^${VERSION}/g' {} +;
+
 
 
 # Git -----------------------------------------------------------------------------------
@@ -166,6 +174,10 @@ push-git:  ## Push from Git repository
 .PHONY: pull-git
 pull-git:  ## Pull from Git repository
 	git pull
+
+.PHONY: print-git-status
+print-git-status:  ## Print git status
+	@git status -s
 
 
 # Help -----------------------------------------------------------------------------------

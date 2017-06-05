@@ -162,7 +162,7 @@ A panel that displays a list of FileThis sources.
                 return (first.name > second.name ? 1 : -1);
             },
 
-            _searchPatternChanged: function()
+            _searchPatternChanged: function(to, from)
             {
                 this.$.arrayFilter.update();
             },
@@ -176,7 +176,7 @@ A panel that displays a list of FileThis sources.
                 createConnectionDialog.open();
             },
 
-            _showButtonChanged: function()
+            _showButtonChanged: function(to, from)
             {
                 this._showHeader = this._canShowHeader();
             },
