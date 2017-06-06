@@ -92,7 +92,7 @@ print-bower-info:  ## Print information about published Bower package
 .PHONY: find-version-everywhere
 find-version-everywhere:  # Internal: Find and print versions of this project in use by all peer projects
 	@echo Current: ${VERSION}; \
-	find .. -name bower.json -print | xargs grep "filethis/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+" || echo Not used;
+	find ../.. -name bower.json -print | xargs grep "filethis/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+" || echo Not used;
 
 .PHONY: set-version-everywhere
 set-version-everywhere:  # Internal: Set version of this project in all peer projects
