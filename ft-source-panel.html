@@ -25,6 +25,7 @@ limitations under the License.
 <link rel="import" href="../paper-search/paper-search.html">
 <link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
 <link rel="import" href="../ft-source-grid/ft-source-grid.html">
+<link rel="import" href="../ft-scrolling-behavior/ft-scrolling-behavior.html">
 
 
 <!-- TODO: Retrofit this to use iron-list instead of a dom-repeat template. -->
@@ -39,32 +40,33 @@ A panel that displays a list of FileThis sources.
 
 <dom-module id="ft-source-panel">
 
-    <style include="iron-flex iron-flex-alignment"></style>
+    <style include="iron-flex iron-flex-alignment iron-positioning"></style>
 
     <template>
 
-        <div class="layout vertical">
-            
-            <!-- Search and sort bar -->
-            <div
-                    class="layout horizontal center"
-                    hidden$="[[!_showHeader]]">
+        <!-- Search and sort bar -->
+        <div
+                id="searchAndSortBar"
+                class="layout horizontal center"
+                style="border-bottom:1px solid #DDD;"
+                hidden$="[[!_showHeader]]">
 
-                <div class="flex"></div>
+            <div class="flex"></div>
 
-                <paper-search-bar
-                        placeholder="Search"
-                        hide-filter-button
-                        hidden$="[[!showSearchField]]"
-                        style="width:300px; height:30px; border:1px solid #DDD; margin:8px;"
-                        query="{{_searchString}}">
-                </paper-search-bar>
-            </div>
+            <paper-search-bar
+                    placeholder="Search"
+                    hide-filter-button
+                    hidden$="[[!showSearchField]]"
+                    style="width:300px; height:30px; border:1px solid #DDD; margin:8px;"
+                    query="{{_searchString}}">
+            </paper-search-bar>
+        </div>
 
-            <!-- Source Grid -->
+        <!-- Source Grid -->
+        <div
+                id="gridScroller"
+                style="overflow:auto;">
             <ft-source-grid
-                    id="grid"
-                    style="overflow:hidden; overflow-y:scroll; border-top:1px solid #DDD;"
                     sources="[[_sourcesFilteredAndSorted]]">
             </ft-source-grid>
         </div>
@@ -88,6 +90,11 @@ A panel that displays a list of FileThis sources.
         Polymer({
 
             is: 'ft-source-panel',
+
+            behaviors: [
+                Polymer.IronResizableBehavior,
+                FtScrollingBehavior
+            ],
 
             listeners:
             {
@@ -122,7 +129,8 @@ A panel that displays a list of FileThis sources.
                 _showHeader:
                 {
                     type: Boolean,
-                    value: true
+                    value: true,
+                    observer: "_showHeaderChanged"
                 },
 
                 _searchString: {
@@ -135,6 +143,26 @@ A panel that displays a list of FileThis sources.
                     type: Array,
                     value: []
                 }
+            },
+
+            ready: function()
+            {
+                this._manageScroller(this.$.gridScroller);
+            },
+
+            _calculateScrollerWidth: function(scroller)
+            {
+                return this.clientWidth;
+            },
+
+            _calculateScrollerHeight: function(scroller)
+            {
+                const bar = this.$.searchAndSortBar;
+                const barIsHidden = (bar.offsetParent === null);
+                var barHeight = 0;
+                if (!barIsHidden)
+                    barHeight = bar.offsetHeight;
+                return this.clientHeight - barHeight;
             },
 
             _filter: function(source)
@@ -179,6 +207,11 @@ A panel that displays a list of FileThis sources.
             _showButtonChanged: function(to, from)
             {
                 this._showHeader = this._canShowHeader();
+            },
+
+            _showHeaderChanged: function(to, from)
+            {
+                this.notifyResize();
             },
 
             _canShowHeader: function()

@@ -19,6 +19,7 @@ limitations under the License.
 
 <!-- Imports -->
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 
 <link rel="import" href="../../paper-button/paper-button.html">
 <link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
@@ -40,7 +41,7 @@ This element defines a source grid example that allows experimentation with conf
  -->
 <dom-module id="demo-fixture">
 
-    <style include="iron-flex iron-flex-alignment"></style>
+    <style include="iron-flex iron-flex-alignment iron-positioning"></style>
 
     <style is="custom-style">
 
@@ -53,8 +54,8 @@ This element defines a source grid example that allows experimentation with conf
 
     <template>
 
-        <div class="layout horizontal center"
-             style="width:100%">
+        <div
+                class="layout horizontal center">
 
             <!-- Settings -->
             <div class="layout vertical center" style="width:300px">
@@ -65,15 +66,11 @@ This element defines a source grid example that allows experimentation with conf
             </div>
 
             <!-- Panel -->
-            <div
-                    class="layout vertical center"
-                    style="border:1px solid #DDD;">
-                <ft-source-panel
-                       id="panel"
-                       style="width:746px; height:746px; border:1px solid #DDD;"
-                       show-search-field="[[showSearchField]]">
-               </ft-source-panel>
-            </div>
+            <ft-source-panel
+                   id="panel"
+                   style="width:750px; height:650px; border:1px solid #DDD"
+                   show-search-field="[[showSearchField]]">
+           </ft-source-panel>
 
         </div>
 

@@ -12,6 +12,7 @@
     "ft-create-connection-dialog": "filethis/ft-create-connection-dialog#^0.0.7",
     "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.4",
     "ft-source-grid": "filethis/ft-source-grid#^0.0.4",
+    "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^0.0.1",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^2.0.0",
     "array-filter": "43081j/array-filter#^1.0.2",
     "paper-checkbox": "PolymerElements/paper-checkbox#^2.0.0",
