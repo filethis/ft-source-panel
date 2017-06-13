@@ -40,9 +40,15 @@ A panel that displays a list of FileThis sources.
 
 <dom-module id="ft-source-panel">
 
-    <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+    <style include="iron-flex iron-flex-alignment iron-positioning iron-flex-factors"></style>
 
     <template>
+
+        <style>
+            :host {
+                display:block;
+            }
+        </style>
 
         <!-- Search and sort bar -->
         <div
@@ -57,7 +63,7 @@ A panel that displays a list of FileThis sources.
                     placeholder="Search"
                     hide-filter-button
                     hidden$="[[!showSearchField]]"
-                    style="width:300px; height:30px; border:1px solid #DDD; margin:8px;"
+                    style="width:150px; height:30px; border:1px solid #DDD; margin:8px;"
                     query="{{_searchString}}">
             </paper-search-bar>
         </div>
@@ -67,13 +73,17 @@ A panel that displays a list of FileThis sources.
                 id="gridScroller"
                 style="overflow:auto;">
             <ft-source-grid
-                    sources="[[_sourcesFilteredAndSorted]]">
+                    id="sourceGrid"
+                    sources="[[_sourcesFilteredAndSorted]]"
+                    selected-source="{{selectedSource}}">
             </ft-source-grid>
         </div>
 
         <!-- Connect Dialog -->
         <ft-create-connection-dialog
-                id="createConnectionDialog">
+                id="createConnectionDialog"
+                on-cancel="_onCreateConnectionDialogClosed"
+                on-commit="_onCreateConnectionDialogClosed">
         </ft-create-connection-dialog>
 
         <array-filter
@@ -214,6 +224,13 @@ A panel that displays a list of FileThis sources.
                 if (this.showSearchField)
                     return true;
                 return false;
+            },
+
+            _onCreateConnectionDialogClosed: function()
+            {
+                // Deselect the selected source item
+//                this.selectedSource = null;  // This should work!!!
+                this.$.sourceGrid.clearSelection();
             }
 
         });
