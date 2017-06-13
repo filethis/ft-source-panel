@@ -172,8 +172,8 @@ git-push:  ## Push from Git repository
 git-pull:  ## Pull from Git repository
 	git pull
 
-.PHONY: print-git-status
-print-git-status:  ## Print git status
+.PHONY: git-status
+git-status:  ## Print git status
 	@git status -s
 
 

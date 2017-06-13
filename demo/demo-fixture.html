@@ -43,16 +43,21 @@ This element defines a source grid example that allows experimentation with conf
 
     <style include="iron-flex iron-flex-alignment iron-positioning"></style>
 
-    <style is="custom-style">
-
-        paper-checkbox {
-            width:165px;
-            margin-bottom:16px;
-        }
-
-    </style>
-
     <template>
+
+        <style>
+            :host {
+                display:block;
+            }
+        </style>
+
+        <style is="custom-style">
+
+            paper-checkbox {
+                width:165px;
+                margin-bottom:16px;
+            }
+        </style>
 
         <div
                 class="layout horizontal center">
