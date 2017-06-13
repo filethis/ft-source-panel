@@ -144,32 +144,32 @@ release: release-confirm release-unsafe  ## Release version of project.
 # Git -----------------------------------------------------------------------------------
 
 
-.PHONY: add-git
-add-git:  ## Add all git changes, interactively
+.PHONY: git-add
+git-add:  ## Add all git changes, interactively
 	git add -A --interactive
 
-.PHONY: add-git-dry-run
-add-git-dry-run:  ## Do a "dry run" of adding all changes so they will be printed out
+.PHONY: git-add-try-run
+git-add-try-run:  ## Do a "dry run" of adding all changes so they will be printed out
 	git add -A -n;
 
-.PHONY: add-git-fast
-add-git-fast:  ## Add all git changes non-interactively
+.PHONY: git-add-fast
+git-add-fast:  ## Add all git changes non-interactively
 	git add -A
 
-.PHONY: commit-git
-commit-git:  ## Commit all git changes, prompting for a checkin message
+.PHONY: git-commit
+git-commit:  ## Commit all git changes, prompting for a checkin message
 	git commit
 
-.PHONY: commit-git-fast
-commit-git-fast:  ## Commit all git changes with a worthless message
+.PHONY: git-commit-fast
+git-commit-fast:  ## Commit all git changes with a worthless message
 	git commit -m "WIP"
 
-.PHONY: push-git
-push-git:  ## Push from Git repository
+.PHONY: git-push
+git-push:  ## Push from Git repository
 	git push
 
-.PHONY: pull-git
-pull-git:  ## Pull from Git repository
+.PHONY: git-pull
+git-pull:  ## Pull from Git repository
 	git pull
 
 .PHONY: print-git-status
