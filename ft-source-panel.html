@@ -16,13 +16,20 @@ limitations under the License.
 
 
 <link rel="import" href="../polymer/polymer.html">
-
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../iron-label/iron-label.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../array-filter/array-filter.html">
 <link rel="import" href="../paper-search/paper-search.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../neon-animation/neon-animations.html"/>
+
 <link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
 <link rel="import" href="../ft-source-grid/ft-source-grid.html">
 <link rel="import" href="../ft-scrolling-behavior/ft-scrolling-behavior.html">
@@ -54,16 +61,50 @@ A panel that displays a list of FileThis sources.
         <div
                 id="searchAndSortBar"
                 class="layout horizontal center"
-                style="border-bottom:1px solid #DDD;"
+                style="height:60px; padding-left:16px; border-bottom:1px solid #DDD; "
                 hidden$="[[!_showHeader]]">
+
+            <!-- Title -->
+            <iron-label
+                    hidden$="[[!showTitle]]"
+                    style="font-family:Arial; font-size:14pt; ">
+                [[title]]
+            </iron-label>
 
             <div class="flex"></div>
 
+            <!-- Filter -->
+            <paper-menu-button
+                    hidden$="[[!showFilters]]">
+
+                <!-- Button -->
+                <paper-button
+                        slot="dropdown-trigger"
+                        style="width:100px; height:32px; font-size:12px; background-color:white; text-transform: none; border:1px solid #DDD; ">
+                    <iron-icon icon="arrow-drop-down"></iron-icon>
+                    <span>[[_currentFilter.name]]</span>
+                </paper-button>
+
+                <!-- Dropdown -->
+                <paper-listbox
+                        slot="dropdown-content"
+                        selected="{{_currentFilterIndex}}">
+                    <template
+                            is="dom-repeat"
+                            items="[[_filters]]"
+                            as="filter">
+                        <paper-item>[[filter.name]]</paper-item>
+                    </template>
+                </paper-listbox>
+
+            </paper-menu-button>
+
+            <!-- Search -->
             <paper-search-bar
                     placeholder="Search"
                     hide-filter-button
                     hidden$="[[!showSearchField]]"
-                    style="width:150px; height:30px; border:1px solid #DDD; margin:8px;"
+                    style="width:120px; height:30px; border:1px solid #DDD; margin:8px; "
                     query="{{_searchString}}">
             </paper-search-bar>
         </div>
@@ -128,6 +169,29 @@ A panel that displays a list of FileThis sources.
                     value: null
                 },
 
+                /** Show a title string. */
+                showTitle:
+                {
+                    type: Boolean,
+                    value: true,
+                    observer: "_showButtonChanged"
+                },
+
+                /** Title to display when "showTitle" is true. */
+                title:
+                {
+                    type: String,
+                    value: "Sites"
+                },
+
+                /** Show a filter popup button. */
+                showFilters:
+                {
+                    type: Boolean,
+                    value: true,
+                    observer: "_showButtonChanged"
+                },
+
                 /** Show a button that lets users choose to show the search field. */
                 showSearchField:
                 {
@@ -152,12 +216,43 @@ A panel that displays a list of FileThis sources.
                 _sourcesFilteredAndSorted: {
                     type: Array,
                     value: []
+                },
+
+                _filters: {
+                    type: Array,
+                    value: [
+                        { name: "Favorites"},
+                        { name: "Banking"},
+                        { name: "Tax"},
+                        { name: "Utilities"},
+                        { name: "All"}
+                    ]
+                },
+
+                _currentFilter: {
+                    type: String,
+                    value: "Favorites"
+                },
+
+                _currentFilterIndex: {
+                    type: Number,
+                    value: 0,
+                    observer: "_currentFilterIndexChanged"
                 }
+
             },
 
             ready: function()
             {
                 this._manageScroller(this.$.gridScroller);
+            },
+
+            _currentFilterIndexChanged: function(to, from)
+            {
+                if (this._currentFilterIndex === null)
+                    return;
+                const currentFilter = this._filters[this._currentFilterIndex];
+                this._currentFilter = currentFilter;
             },
 
             _calculateScrollerHeight: function(scroller)
@@ -221,6 +316,10 @@ A panel that displays a list of FileThis sources.
 
             _canShowHeader: function()
             {
+                if (this.showTitle)
+                    return true;
+                if (this.showFilters)
+                    return true;
                 if (this.showSearchField)
                     return true;
                 return false;

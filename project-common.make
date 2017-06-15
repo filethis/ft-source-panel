@@ -148,8 +148,8 @@ release: release-confirm release-unsafe  ## Release version of project.
 git-add:  ## Add all git changes, interactively
 	git add -A --interactive
 
-.PHONY: git-add-try-run
-git-add-try-run:  ## Do a "dry run" of adding all changes so they will be printed out
+.PHONY: git-add-dry-run
+git-add-dry-run:  ## Do a "dry run" of adding all changes so they will be printed out
 	git add -A -n;
 
 .PHONY: git-add-fast

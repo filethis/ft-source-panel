@@ -65,6 +65,37 @@ This element defines a source grid example that allows experimentation with conf
             <!-- Settings -->
             <div class="layout vertical center" style="width:300px">
 
+                <paper-checkbox checked="{{showTitle}}">
+                    Show Title
+                </paper-checkbox>
+
+                <div class="layout horizontal">
+
+                    <!-- Label -->
+                    <div>
+                        Title:
+                    </div>
+
+                    <!-- Field -->
+                    <iron-input
+                           id="titleField"
+                           bind-value="{{title}}"
+                           style="font-family:Arial;
+                                    font-size:12px;
+                                    width:100px; height:28px;
+                                    padding-left:6px; padding-right:6px;
+                                    color:#343434;">
+                        <input value="{{value::input}}">
+                    </iron-input>
+
+                </div>
+
+                <div style="height:20px"></div>
+
+                <paper-checkbox checked="{{showFilters}}">
+                    Show Filters
+                </paper-checkbox>
+
                 <paper-checkbox checked="{{showSearchField}}">
                     Show Search Field
                 </paper-checkbox>
@@ -73,7 +104,10 @@ This element defines a source grid example that allows experimentation with conf
             <!-- Panel -->
             <ft-source-panel
                    id="panel"
+                   show-title="[[showTitle]]"
+                   title="[[title]]"
                    style="width:750px; height:650px; border:1px solid #DDD"
+                   show-filters="[[showFilters]]"
                    show-search-field="[[showSearchField]]">
            </ft-source-panel>
 
@@ -89,6 +123,21 @@ This element defines a source grid example that allows experimentation with conf
 
             properties:
             {
+                showTitle:
+                {
+                    type: Boolean,
+                    value: true
+                },
+                title:
+                {
+                    type: String,
+                    value: "Sources"
+                },
+                showFilters:
+                {
+                    type: Boolean,
+                    value: true
+                },
                 showSearchField:
                 {
                     type: Boolean,
