@@ -82,18 +82,18 @@ A panel that displays a list of FileThis sources.
                         slot="dropdown-trigger"
                         style="width:100px; height:32px; font-size:12px; background-color:white; text-transform: none; border:1px solid #DDD; ">
                     <iron-icon icon="arrow-drop-down"></iron-icon>
-                    <span>[[_currentFilter.name]]</span>
+                    <span>[[filter]]</span>
                 </paper-button>
 
                 <!-- Dropdown -->
                 <paper-listbox
                         slot="dropdown-content"
-                        selected="{{_currentFilterIndex}}">
+                        selected="{{_filterIndex}}">
                     <template
                             is="dom-repeat"
                             items="[[_filters]]"
                             as="filter">
-                        <paper-item>[[filter.name]]</paper-item>
+                        <paper-item>[[filter]]</paper-item>
                     </template>
                 </paper-listbox>
 
@@ -149,7 +149,8 @@ A panel that displays a list of FileThis sources.
 
             listeners:
             {
-                'connect': '_onConnectToSource'
+                'connect': '_onConnectToSource',
+                'tap': '_onTap'
             },
 
             properties: {
@@ -159,6 +160,13 @@ A panel that displays a list of FileThis sources.
                     type: Array,
                     notify: true,
                     value: []
+                },
+
+                /** The name of the filter to apply to sources. */
+                filter: {
+                    type: String,
+                    notify: true,
+                    value: ""
                 },
 
                 /** The currently-selected source, if any. */
@@ -221,23 +229,20 @@ A panel that displays a list of FileThis sources.
                 _filters: {
                     type: Array,
                     value: [
-                        { name: "Favorites"},
-                        { name: "Banking"},
-                        { name: "Tax"},
-                        { name: "Utilities"},
-                        { name: "All"}
+                        "All",
+                        "Banking",
+                        "Favorites",
+                        "Financial",
+                        "Payroll",
+                        "Tax",
+                        "Utilities"
                     ]
                 },
 
-                _currentFilter: {
-                    type: String,
-                    value: "Favorites"
-                },
-
-                _currentFilterIndex: {
+                _filterIndex: {
                     type: Number,
                     value: 0,
-                    observer: "_currentFilterIndexChanged"
+                    observer: "_filterIndexChanged"
                 }
 
             },
@@ -247,12 +252,18 @@ A panel that displays a list of FileThis sources.
                 this._manageScroller(this.$.gridScroller);
             },
 
-            _currentFilterIndexChanged: function(to, from)
+            _onTap: function(event)
             {
-                if (this._currentFilterIndex === null)
+                if (event.ftComponentName === undefined)
+                    event.ftComponentName = "ft-source-panel";
+            },
+
+            _filterIndexChanged: function(to, from)
+            {
+                if (this._filterIndex === null)
                     return;
-                const currentFilter = this._filters[this._currentFilterIndex];
-                this._currentFilter = currentFilter;
+                const filter = this._filters[this._filterIndex];
+                this.filter = filter;
             },
 
             _calculateScrollerHeight: function(scroller)
