@@ -3,7 +3,7 @@
   "description": "A panel that displays a list of FileThis sources.",
   "main": "ft-source-panel.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.9.1",
+    "polymer": "Polymer/polymer#^2.0.1",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.0.0",
     "paper-menu-button": "PolymerElements/paper-menu-button#^2.0.0",
     "paper-item": "PolymerElements/paper-item#^2.0.0",
@@ -25,12 +25,8 @@
     "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
     "web-component-tester": "^4.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.1"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   },
   "resolutions": {
-    "webcomponentsjs": "^1.0.1",
-    "iron-a11y-keys-behavior": "^2.0.0",
-    "iron-flex-layout": "^2.0.0",
-    "paper-styles": "^2.0.0"
   }
 }
