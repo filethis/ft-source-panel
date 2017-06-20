@@ -9,9 +9,9 @@
     "paper-item": "PolymerElements/paper-item#^2.0.0",
     "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
     "iron-label": "PolymerElements/iron-label#^2.0.0",
-    "ft-create-connection-dialog": "filethis/ft-create-connection-dialog#^0.0.8",
-    "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.5",
-    "ft-source-grid": "filethis/ft-source-grid#^0.0.5",
+    "ft-create-connection-dialog": "filethis/ft-create-connection-dialog#^0.0.9",
+    "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.6",
+    "ft-source-grid": "filethis/ft-source-grid#^0.0.6",
     "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^0.0.1",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^2.0.0",
     "array-filter": "43081j/array-filter#^1.0.2",
@@ -28,5 +28,10 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   },
   "resolutions": {
+    "polymer": "^2.0.1",
+    "webcomponentsjs": "^v1.0.0",
+    "iron-a11y-keys-behavior": "^2.0.0",
+    "paper-styles": "^2.0.0",
+    "iron-flex-layout": "^2.0.0"
   }
 }
