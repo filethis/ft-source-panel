@@ -111,8 +111,8 @@ release-github-pages:  # Internal target: Create element docs and publish on Git
 	rm -rf ./github-pages-tmp; \
 	echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://filethis.github.io/${NAME}
 
-.PHONY: release-bower
-release-bower:  # Internal target: Register element in public Bower registry. Usually invoked as part of a release via 'release' target.
+.PHONY: bower-register
+bower-register:  # Internal target: Register element in public Bower registry. Usually invoked as part of a release via 'release' target.
 	@bower register ${NAME} git@github.com:filethis/${NAME}.git;
 
 

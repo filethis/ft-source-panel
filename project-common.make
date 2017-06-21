@@ -84,8 +84,8 @@ print-url-github-repo:  ## Print URL of project GitHub repository page
 
 # Release -----------------------------------------------------------------------------------
 
-.PHONY: print-bower-info
-print-bower-info:  ## Print information about published Bower package
+.PHONY: bower-info
+bower-info:  ## Print information about published Bower package
 	@echo Current: ${VERSION}; \
 	bower info ${NAME};
 
@@ -98,24 +98,8 @@ find-version-everywhere:  ## Find and print versions of this project in use by a
 set-version-everywhere:  ## Set version of this project in all peer projects
 	@find ../.. -name bower.json -print | xargs sed -i .bak 's/${NAME}#^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/${NAME}#^${VERSION}/g' && rm ./bower.json.bak || echo Not used;
 
-.PHONY: tag-release
-tag-release:  # Deprecated.
-	@git tag -a v${VERSION} -m '${VERSION}';
-
-.PHONY: tag-release-idempotent
-tag-release-idempotent:  # Deprecated.
-	@if [[ $$(git tag --list v${VERSION}) ]]; then \
-		echo Tag v${VERSION} already applied; \
-	else \
-		git tag -a v${VERSION} -m '${VERSION}'; \
-	fi;
-
-.PHONY: git-push-tags
-git-push-tags:  # Deprecated.
-	git push --tags;
-
-.PHONY: release-github-version
-release-github-version:  # Internal target: Tag with current version and push tags to remote for the git project. Usually invoked as part of a release via 'release' target.
+.PHONY: git-tag-version-and-push
+git-tag-version-and-push:  # Internal target: Tag with current version and push tags to remote for the git project. Usually invoked as part of a release via 'release' target.
 	@if [[ $$(git tag --list v${VERSION}) ]]; then \
 		echo Tag v${VERSION} already applied; \
 	else \
@@ -123,22 +107,9 @@ release-github-version:  # Internal target: Tag with current version and push ta
 	fi; \
 	git push --tags;
 
-.PHONY: release-confirm
-release-confirm:
-	@read -p "Did you remember to bump the version number in this project's Makefile and bower.json files, and then to push all changes? [y/n] " CONT; \
-	if [ "$$CONT" = "y" ]; then \
-	  echo "Continuing"; \
-	else \
-		exit 1; \
-	fi
-
-.PHONY: release-unsafe
-release-unsafe: release-github-version release-github-pages release-bower
-	@echo Released version ${VERSION} of \"${NAME}\" project
-
 .PHONY: release
-release: release-confirm release-unsafe  ## Release version of project.
-	@echo;
+release: set-version-everywhere git-add-fast git-commit-fast git-push git-tag-version-and-push bower-register release-github-pages ## Release version of project.
+	@echo Released version ${VERSION} of \"${NAME}\" project
 
 
 # Git -----------------------------------------------------------------------------------
