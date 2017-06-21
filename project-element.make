@@ -98,8 +98,8 @@ print-url-docs-github-pages:  ## Print URL of element documentation published on
 
 # Release -----------------------------------------------------------------------------------
 
-.PHONY: release-github-pages
-release-github-pages:  # Internal target: Create element docs and publish on GitHub. Usually invoked as part of a release via 'release' target.
+.PHONY: publish-github-pages
+publish-github-pages:  # Internal target: Create element docs and publish on GitHub. Usually invoked as part of a release via 'release' target.
 	@set -e; \
 	rm -rf ./github-pages-tmp; \
 	mkdir -p github-pages-tmp; \
@@ -113,6 +113,6 @@ release-github-pages:  # Internal target: Create element docs and publish on Git
 
 .PHONY: bower-register
 bower-register:  # Internal target: Register element in public Bower registry. Usually invoked as part of a release via 'release' target.
-	@bower register ${NAME} git@github.com:filethis/${NAME}.git;
+	@bower register --config.interactive=false ${NAME} git@github.com:filethis/${NAME}.git;
 
 

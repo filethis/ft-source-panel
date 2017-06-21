@@ -108,7 +108,7 @@ git-tag-version-and-push:  # Internal target: Tag with current version and push 
 	git push --tags;
 
 .PHONY: release
-release: set-version-everywhere git-add-fast git-commit-fast git-push git-tag-version-and-push bower-register release-github-pages ## Release version of project.
+release: set-version-everywhere git-add-fast git-commit-fast git-push git-tag-version-and-push bower-register publish-github-pages ## Release version of project.
 	@echo Released version ${VERSION} of \"${NAME}\" project
 
 
