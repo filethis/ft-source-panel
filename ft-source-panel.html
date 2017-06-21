@@ -115,7 +115,7 @@ A panel that displays a list of FileThis sources.
                 style="overflow:auto;">
             <ft-source-grid
                     id="sourceGrid"
-                    sources="[[_sourcesFilteredAndSorted]]"
+                    sources="[[sources]]"
                     selected-source="{{selectedSource}}">
             </ft-source-grid>
         </div>
@@ -127,13 +127,13 @@ A panel that displays a list of FileThis sources.
                 on-commit="_onCreateConnectionDialogClosed">
         </ft-create-connection-dialog>
 
-        <array-filter
-                id="arrayFilter"
-                items="{{sources}}"
-                filtered="{{_sourcesFilteredAndSorted}}"
-                filter="_filter"
-                sort="_sorter">
-        </array-filter>
+        <!--<array-filter-->
+                <!--id="arrayFilter"-->
+                <!--items="{{sources}}"-->
+                <!--filtered="{{_sourcesFilteredAndSorted}}"-->
+                <!--filter="_filter"-->
+                <!--sort="_sorter">-->
+        <!--</array-filter>-->
 
     </template>
 
@@ -192,11 +192,11 @@ A panel that displays a list of FileThis sources.
                     value: "Sites"
                 },
 
-                /** Show a filter popup button. */
+//                /** Show a filter popup button. */
                 showFilters:
                 {
                     type: Boolean,
-                    value: true,
+                    value: false,
                     observer: "_showButtonChanged"
                 },
 
@@ -221,10 +221,10 @@ A panel that displays a list of FileThis sources.
                     observer: "_searchPatternChanged"
                 },
 
-                _sourcesFilteredAndSorted: {
-                    type: Array,
-                    value: []
-                },
+//                _sourcesFilteredAndSorted: {
+//                    type: Array,
+//                    value: []
+//                },
 
                 _filters: {
                     type: Array,
@@ -303,7 +303,7 @@ A panel that displays a list of FileThis sources.
 
             _searchPatternChanged: function(to, from)
             {
-                this.$.arrayFilter.update();
+//                this.$.arrayFilter.update();
             },
 
             _onConnectToSource: function(event, detail)

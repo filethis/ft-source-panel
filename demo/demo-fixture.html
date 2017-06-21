@@ -92,9 +92,9 @@ This element defines a source grid example that allows experimentation with conf
 
                 <div style="height:20px"></div>
 
-                <paper-checkbox checked="{{showFilters}}">
-                    Show Filters
-                </paper-checkbox>
+                <!--<paper-checkbox checked="{{showFilters}}">-->
+                    <!--Show Filters-->
+                <!--</paper-checkbox>-->
 
                 <paper-checkbox checked="{{showSearchField}}">
                     Show Search Field
@@ -136,7 +136,7 @@ This element defines a source grid example that allows experimentation with conf
                 showFilters:
                 {
                     type: Boolean,
-                    value: true
+                    value: false
                 },
                 showSearchField:
                 {
@@ -158,9 +158,9 @@ This element defines a source grid example that allows experimentation with conf
                         xmlHttpRequest.status === 200)
                     {
                         var sources = JSON.parse(xmlHttpRequest.responseText);
-                        panel.sources = sources;
+                        this.$.panel.sources = sources;
                     }
-                };
+                }.bind(this);
                 xmlHttpRequest.send();
             }
 
