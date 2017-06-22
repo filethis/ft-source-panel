@@ -159,7 +159,8 @@ A panel that displays a list of FileThis sources.
                 sources: {
                     type: Array,
                     notify: true,
-                    value: []
+                    value: [],
+                    observer: "_onSourcesChanged"
                 },
 
                 /** The name of the filter to apply to sources. */
@@ -250,6 +251,12 @@ A panel that displays a list of FileThis sources.
             ready: function()
             {
                 this._manageScroller(this.$.gridScroller);
+            },
+
+            _onSourcesChanged: function()
+            {
+                // Hack so that contents always get clipped, initially
+                this.$.sourceGrid.fire('resize')
             },
 
             _onTap: function(event)

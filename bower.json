@@ -29,6 +29,9 @@
   },
   "resolutions": {
     "polymer": "^2.0.1",
-    "webcomponentsjs": "^v1.0.0"
+    "webcomponentsjs": "^v1.0.0",
+    "iron-a11y-keys-behavior": "^2.0.0",
+    "paper-styles": "^2.0.0",
+    "iron-flex-layout": "^2.0.0"
   }
 }
