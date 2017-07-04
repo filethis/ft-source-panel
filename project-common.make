@@ -129,11 +129,11 @@ git-add-fast:  ## Add all git changes non-interactively
 
 .PHONY: git-commit
 git-commit:  ## Commit all git changes, prompting for a checkin message
-	git commit
+	git commit || echo nothing to commit
 
 .PHONY: git-commit-fast
 git-commit-fast:  ## Commit all git changes with a worthless message
-	git commit -m "WIP"
+	git commit -m "WIP" || echo nothing to commit
 
 .PHONY: git-push
 git-push:  ## Push from Git repository

@@ -55,6 +55,13 @@ A panel that displays a list of FileThis sources.
         <style>
             :host {
                 display:block;
+                
+                --paper-button-raised-keyboard-focus: {
+                    font-weight: normal;
+                };
+                --paper-button-flat-keyboard-focus: {
+                    font-weight: normal;
+                };
             }
         </style>
 
@@ -86,20 +93,28 @@ A panel that displays a list of FileThis sources.
                 <!-- Button -->
                 <paper-button
                         slot="dropdown-trigger"
-                        style="width:100px; height:32px; font-size:12px; background-color:white; text-transform: none; border:1px solid #DDD; ">
-                    <iron-icon icon="arrow-drop-down"></iron-icon>
-                    <span>[[filter]]</span>
+                        style="width:110px; height:32px; font-size:14px; background-color:white; text-transform: none; border:1px solid #DDD; ">
+                    <div layout horizontal center
+                        style="width:100%">
+                        <iron-icon icon="arrow-drop-down"></iron-icon>
+                        <span>[[selectedFilter.name]]</span>
+                    </div>
                 </paper-button>
 
                 <!-- Dropdown -->
                 <paper-listbox
                         slot="dropdown-content"
-                        selected="{{_filterIndex}}">
+                        attr-for-selected="id"
+                        selected="{{selectedFilterId}}">
                     <template
                             is="dom-repeat"
-                            items="[[_filters]]"
+                            items="[[filters]]"
                             as="filter">
-                        <paper-item>[[filter]]</paper-item>
+                        <paper-item
+                                id="[[filter.id]]"
+                                style="font-size:14px; ">
+                            [[filter.name]]
+                        </paper-item>
                     </template>
                 </paper-listbox>
 
@@ -108,8 +123,10 @@ A panel that displays a list of FileThis sources.
             <!-- Search -->
             <paper-input
                     id="searchPatternField"
+                    autofocus
                     label="Search"
-                    hidden$="[[!showSearchPatternField]]"
+                    style="margin-left:16px; "
+                    hidden$="[[!showSearchField]]"
                     value="{{_searchPattern}}">
                 <!--<iron-icon icon="search" slot="prefix"></iron-icon>-->
                 <!--<div slot="prefix" style="width:5px; "></div>-->
@@ -180,13 +197,35 @@ A panel that displays a list of FileThis sources.
                     observer: "_onSourcesChanged"
                 },
 
-                /** The name of the filter to apply to sources. */
-                filter: {
-                    type: String,
-                    notify: true,
-                    value: ""
+                /** The list of filters that can be applied to sources. */
+                filters: {
+                    type: Array,
+                    value: [
+                        {id:"all", name:"All"},
+                        {id:"banking", name:"Banking"},
+                        {id:"favorites", name:"Favorites"},
+                        {id:"financial", name:"Financial"},
+                        {id:"payroll", name:"Payroll"},
+                        {id:"tax", name:"Tax"},
+                        {id:"utilities", name:"Utilities"}
+                    ],
+                    observer: "_onFiltersChanged"
                 },
 
+                /** The id of the filter applied to sources. */
+                selectedFilterId: {
+                    type: String,
+                    notify: true,
+                    observer: "_onSelectedFilterIdChanged"
+                },
+                
+                /** The filter applied to sources. */
+                selectedFilter: {
+                    type: Object,
+                    readonly: true,
+                    observer: "_onSelectedFilterChanged"
+                },
+                
                 /** The currently-selected source, if any. */
                 selectedSource:
                 {
@@ -219,7 +258,7 @@ A panel that displays a list of FileThis sources.
                 },
 
                 /** Show a button that lets users choose to show the search field. */
-                showSearchPatternField:
+                showSearchField:
                 {
                     type: Boolean,
                     value: true,
@@ -248,25 +287,6 @@ A panel that displays a list of FileThis sources.
                 _sourcesFilteredAndSorted: {
                     type: Array,
                     value: []
-                },
-
-                _filters: {
-                    type: Array,
-                    value: [
-                        "All",
-                        "Banking",
-                        "Favorites",
-                        "Financial",
-                        "Payroll",
-                        "Tax",
-                        "Utilities"
-                    ]
-                },
-
-                _filterIndex: {
-                    type: Number,
-                    value: 0,
-                    observer: "_filterIndexChanged"
                 }
 
             },
@@ -279,6 +299,41 @@ A panel that displays a list of FileThis sources.
 //                    {
 //                        this._printActiveElementStack(document);
 //                    }.bind(this), 2000);
+            },
+            
+            _onSelectedFilterIdChanged: function(to, from)
+            {
+                if (!to)
+                {
+                    this.selectedFilter = null;
+                    return;
+                }
+
+                const selectedFilterId = to;
+                this.filters.forEach(function(filter)
+                {
+                    if (filter.id === selectedFilterId)
+                    {
+                        this.selectedFilter = filter;
+                        return;
+                    }
+                }.bind(this))
+            },
+
+            _onSelectedFilterChanged: function(to, from)
+            {
+            },
+
+            _onFiltersChanged: function(to, from)
+            {
+                if (this.filters.length === 0)
+                {
+                    this.selectedFilterId = null;
+                    return;
+                }
+
+                const firstFilter = this.filters[0];
+                this.selectedFilterId = firstFilter.id;
             },
 
             _printActiveElementStack: function()
@@ -332,16 +387,6 @@ A panel that displays a list of FileThis sources.
             {
                 if (event.ftComponentName === undefined)
                     event.ftComponentName = "ft-source-panel";
-            },
-
-            _filterIndexChanged: function(to, from)
-            {
-                if (this._filterIndex === null)
-                    return;
-                if (this._filterIndex === -1)
-                    return;
-                const filter = this._filters[this._filterIndex];
-                this.filter = filter;
             },
 
             _calculateScrollerHeight: function(scroller)
@@ -411,7 +456,7 @@ A panel that displays a list of FileThis sources.
                     return true;
                 if (this.showFilters)
                     return true;
-                if (this.showSearchPatternField)
+                if (this.showSearchField)
                     return true;
                 return false;
             },
