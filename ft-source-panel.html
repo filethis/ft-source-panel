@@ -20,15 +20,16 @@ limitations under the License.
 
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../iron-label/iron-label.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../array-filter/array-filter.html">
-<link rel="import" href="../paper-search/paper-search.html">
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../neon-animation/neon-animations.html"/>
+<link rel="import" href="../array-filter/array-filter.html">
 
 <link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
 <link rel="import" href="../ft-source-grid/ft-source-grid.html">
@@ -61,7 +62,7 @@ A panel that displays a list of FileThis sources.
         <div
                 id="searchAndSortBar"
                 class="layout horizontal center"
-                style="height:60px; padding-left:16px; border-bottom:1px solid #DDD; "
+                style="height:60px; padding-left:16px; padding-right:16px; border-bottom:1px solid #DDD; "
                 hidden$="[[!_showHeader]]">
 
             <!-- Title -->
@@ -72,6 +73,11 @@ A panel that displays a list of FileThis sources.
             </iron-label>
 
             <div class="flex"></div>
+
+            <paper-button
+                    on-click="_onFocusButtonClicked">
+                Focus
+            </paper-button>
 
             <!-- Filter -->
             <paper-menu-button
@@ -100,13 +106,23 @@ A panel that displays a list of FileThis sources.
             </paper-menu-button>
 
             <!-- Search -->
-            <paper-search-bar
-                    placeholder="Search"
-                    hide-filter-button
-                    hidden$="[[!showSearchField]]"
-                    style="width:120px; height:30px; border:1px solid #DDD; margin:8px; "
-                    query="{{_searchString}}">
-            </paper-search-bar>
+            <paper-input
+                    id="searchPatternField"
+                    label="Search"
+                    hidden$="[[!showSearchPatternField]]"
+                    value="{{_searchPattern}}">
+                <!--<iron-icon icon="search" slot="prefix"></iron-icon>-->
+                <!--<div slot="prefix" style="width:5px; "></div>-->
+                <paper-icon-button
+                        slot="suffix"
+                        on-click="_clearSearchPattern"
+                        hidden$="[[!_haveSearchPattern]]"
+                        icon="clear"
+                        alt="clear"
+                        title="clear">
+                </paper-icon-button>
+            </paper-input>
+
         </div>
 
         <!-- Source Grid -->
@@ -115,7 +131,7 @@ A panel that displays a list of FileThis sources.
                 style="overflow:auto;">
             <ft-source-grid
                     id="sourceGrid"
-                    sources="[[sources]]"
+                    sources="[[_sourcesFilteredAndSorted]]"
                     selected-source="{{selectedSource}}">
             </ft-source-grid>
         </div>
@@ -127,13 +143,14 @@ A panel that displays a list of FileThis sources.
                 on-commit="_onCreateConnectionDialogClosed">
         </ft-create-connection-dialog>
 
-        <!--<array-filter-->
-                <!--id="arrayFilter"-->
-                <!--items="{{sources}}"-->
-                <!--filtered="{{_sourcesFilteredAndSorted}}"-->
-                <!--filter="_filter"-->
-                <!--sort="_sorter">-->
-        <!--</array-filter>-->
+        <!-- Filtered source list -->
+        <array-filter
+                id="arrayFilter"
+                items="{{sources}}"
+                filtered="{{_sourcesFilteredAndSorted}}"
+                filter="_filter"
+                sort="_sorter">
+        </array-filter>
 
     </template>
 
@@ -193,16 +210,16 @@ A panel that displays a list of FileThis sources.
                     value: "Sites"
                 },
 
-//                /** Show a filter popup button. */
+                /** Show a filter popup button. */
                 showFilters:
                 {
                     type: Boolean,
-                    value: false,
+                    value: true,
                     observer: "_showButtonChanged"
                 },
 
                 /** Show a button that lets users choose to show the search field. */
-                showSearchField:
+                showSearchPatternField:
                 {
                     type: Boolean,
                     value: true,
@@ -216,16 +233,22 @@ A panel that displays a list of FileThis sources.
                     observer: "_showHeaderChanged"
                 },
 
-                _searchString: {
+                _searchPattern: {
                     type: String,
                     value: "",
                     observer: "_searchPatternChanged"
                 },
 
-//                _sourcesFilteredAndSorted: {
-//                    type: Array,
-//                    value: []
-//                },
+                _haveSearchPattern:
+                {
+                    type: Boolean,
+                    value: false
+                },
+
+                _sourcesFilteredAndSorted: {
+                    type: Array,
+                    value: []
+                },
 
                 _filters: {
                     type: Array,
@@ -251,6 +274,52 @@ A panel that displays a list of FileThis sources.
             ready: function()
             {
                 this._manageScroller(this.$.gridScroller);
+
+//                setInterval(function()
+//                    {
+//                        this._printActiveElementStack(document);
+//                    }.bind(this), 2000);
+            },
+
+            _printActiveElementStack: function()
+            {
+                this._printActiveElementStackRecursive(document.activeElement);
+                console.log("-------------");
+            },
+
+            _printActiveElementStackRecursive: function(element)
+            {
+                console.log(element);
+
+                const shadowRoot = element.shadowRoot;
+                if (!shadowRoot)
+                    return;
+
+                var activeElement = shadowRoot.activeElement;
+                if (!activeElement)
+                    return;
+
+                // Recurse
+                this._printActiveElementStackRecursive(activeElement);
+            },
+
+            _onFocusButtonClicked: function()
+            {
+                this.async(function()
+                {
+                    this._forceFocus();
+                }, 500)
+            },
+
+            _forceFocus: function()
+            {
+                var searchPatternField = this.$.searchPatternField;
+                searchPatternField.focus();
+            },
+            
+            _clearSearchPattern: function()
+            {
+                this._searchPattern = "";
             },
 
             _onSourcesChanged: function()
@@ -269,6 +338,8 @@ A panel that displays a list of FileThis sources.
             {
                 if (this._filterIndex === null)
                     return;
+                if (this._filterIndex === -1)
+                    return;
                 const filter = this._filters[this._filterIndex];
                 this.filter = filter;
             },
@@ -285,7 +356,7 @@ A panel that displays a list of FileThis sources.
 
             _filter: function(source)
             {
-                const searchString = this._searchString.toLowerCase();
+                const searchString = this._searchPattern.toLowerCase();
 
                 // If we have no search string, let everything through
                 if (searchString === "")
@@ -310,7 +381,9 @@ A panel that displays a list of FileThis sources.
 
             _searchPatternChanged: function(to, from)
             {
-//                this.$.arrayFilter.update();
+                this._haveSearchPattern = !!this._searchPattern;
+
+                this.$.arrayFilter.update();
             },
 
             _onConnectToSource: function(event, detail)
@@ -338,7 +411,7 @@ A panel that displays a list of FileThis sources.
                     return true;
                 if (this.showFilters)
                     return true;
-                if (this.showSearchField)
+                if (this.showSearchPatternField)
                     return true;
                 return false;
             },
