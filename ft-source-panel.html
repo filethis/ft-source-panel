@@ -376,7 +376,8 @@ A panel that displays a list of FileThis sources.
             {
                 this._haveSearchPattern = !!this._searchPattern;
 
-                this.$.arrayFilter.update();
+                const arrayFilter = this.$.arrayFilter;
+                arrayFilter.update();
             },
 
             _onConnectToSource: function(event, detail)

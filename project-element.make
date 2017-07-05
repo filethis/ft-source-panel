@@ -60,39 +60,23 @@ run-browser-sync-test:  ## Run BrowserSync for tests
 
 # Demo -----------------------------------------------------------------------------------
 
-.PHONY: open-url-local
-open-url-local:  ## Open URL of local element demo
-	@open http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
-
-.PHONY: print-url-local
-print-url-local:  ## Print URL of local element demo
-	@echo http://localhost:${LOCAL_PORT}/components/${NAME}/demo/;
-
-.PHONY: open-url-github-pages
-open-url-github-pages:  ## Open URL of element demo published on GitHub Pages
+.PHONY: open-app
+open-app:  ## Open URL of element demo published on GitHub Pages
 	@open https://filethis.github.io/${NAME}/components/${NAME}/demo;
 
-.PHONY: print-url-github-pages
-print-url-github-pages:  ## Print URL of element demo published on GitHub Pages
+.PHONY: url-app
+url-app:  ## Print URL of element demo published on GitHub Pages
 	@echo https://filethis.github.io/${NAME}/components/${NAME}/demo;
 
 
 # Docs -----------------------------------------------------------------------------------
 
-.PHONY: open-url-docs-local
-open-url-docs-local:  ## Open URL of local element documentation
-	@open http://localhost:${LOCAL_PORT}/components/${NAME}/;
-
-.PHONY: print-url-docs-local
-print-url-docs-local:  ## Print URL of local element documentation
-	@echo http://localhost:${LOCAL_PORT}/components/${NAME}/;
-
-.PHONY: open-url-docs-github-pages
-open-url-docs-github-pages:  ## Open URL of element documentation published on GitHub Pages
+.PHONY: open-docs
+open-docs:  ## Open URL of element documentation published on GitHub Pages
 	@open https://filethis.github.io/${NAME}/components/${NAME}/;
 
-.PHONY: print-url-docs-github-pages
-print-url-docs-github-pages:  ## Print URL of element documentation published on GitHub Pages
+.PHONY: url-docs
+url-docs:  ## Print URL of element documentation published on GitHub Pages
 	@echo https://filethis.github.io/${NAME}/components/${NAME}/;
 
 

@@ -32,17 +32,17 @@ github-init:  ## Initialize GitHub project
 	git remote add origin $$repo_url; \
 	git push -u origin master
 
-.PHONY: install-bower-packages
-install-bower-packages:  ## Install all Bower packages specified in bower.json file
+.PHONY: bower-install-packages
+bower-install-packages:  ## Install all Bower packages specified in bower.json file
 	@bower install --save
 
-.PHONY: clean-bower-packages
-clean-bower-packages:  ## Clean all installed bower packages. Leaves "bower link" symlink directories alone.
+.PHONY: bower-clean-packages
+bower-clean-packages:  ## Clean all installed bower packages. Leaves "bower link" symlink directories alone.
 	@cd ./bower_components; \
 	find . -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +;
 
-.PHONY: reinstall-bower-packages
-reinstall-bower-packages: clean-bower-packages install-bower-packages  ## Clean and reinstall all bower packages. Leaves "bower link" symlink directories alone.
+.PHONY: bower-reinstall-packages
+bower-reinstall-packages: bower-clean-packages bower-install-packages  ## Clean and reinstall all bower packages. Leaves "bower link" symlink directories alone.
 
 
 # Testing -----------------------------------------------------------------------------------
@@ -73,12 +73,12 @@ serve:  ## Serve project locally using the Polymer server
 
 # GitHub Repository -----------------------------------------------------------------------------------
 
-.PHONY: open-url-github-repo
-open-url-github-repo:  ## Open URL of project GitHub repository page
+.PHONY: open-repo
+open-repo:  ## Open URL of project GitHub repository page
 	@open https://github.com/filethis/${NAME}
 
-.PHONY: print-url-github-repo
-print-url-github-repo:  ## Print URL of project GitHub repository page
+.PHONY: url-repo
+url-repo:  ## Print URL of project GitHub repository page
 	@echo https://github.com/filethis/${NAME}
 
 
