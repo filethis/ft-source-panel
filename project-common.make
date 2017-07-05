@@ -148,6 +148,12 @@ git-status:  ## Print git status
 	@git status -s
 
 
+# Validation -----------------------------------------------------------------------------------
+
+.PHONY: lintall
+lintall: lint eslint ## Run all linters on project files
+
+
 # Help -----------------------------------------------------------------------------------
 
 .PHONY: help

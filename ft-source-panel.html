@@ -23,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-item/paper-item.html">
@@ -299,13 +300,13 @@ A panel that displays a list of FileThis sources.
                     return;
                 }
 
-                const firstFilter = this.filters[0];
+                var firstFilter = this.filters[0];
                 this.selectedFilterId = firstFilter.id;
             },
 
             _onSelectedFilterIdChanged: function(to, from)
             {
-                const selectedFilterId = to;
+                var selectedFilterId = to;
 
                 if (!selectedFilterId)
                 {
@@ -339,8 +340,8 @@ A panel that displays a list of FileThis sources.
 
             _calculateScrollerHeight: function(scroller)
             {
-                const bar = this.$.searchAndSortBar;
-                const barIsHidden = (bar.offsetParent === null);
+                var bar = this.$.searchAndSortBar;
+                var barIsHidden = (bar.offsetParent === null);
                 var barHeight = 0;
                 if (!barIsHidden)
                     barHeight = bar.offsetHeight;
@@ -349,16 +350,16 @@ A panel that displays a list of FileThis sources.
 
             _filter: function(source)
             {
-                const searchString = this._searchPattern.toLowerCase();
+                var searchString = this._searchPattern.toLowerCase();
 
                 // If we have no search string, let everything through
                 if (searchString === "")
                     return true;
 
                 // If the search string matches any part of the source name, let it through
-                const sourceName = source.name.toLowerCase();
-                const index = sourceName.indexOf(searchString);
-                const containsSearchString = (index >= 0);
+                var sourceName = source.name.toLowerCase();
+                var index = sourceName.indexOf(searchString);
+                var containsSearchString = (index >= 0);
                 if (containsSearchString)
                     return true;
 
@@ -376,7 +377,7 @@ A panel that displays a list of FileThis sources.
             {
                 this._haveSearchPattern = !!this._searchPattern;
 
-                const arrayFilter = this.$.arrayFilter;
+                var arrayFilter = this.$.arrayFilter;
                 arrayFilter.update();
             },
 

@@ -25,6 +25,10 @@ include project-common.make
 lint:  ## Lint project files
 	@polymer lint --input ${NAME}.html;
 
+.PHONY: eslint
+eslint:  ## ESLint project files
+	@eslint --ext .html,.js ./;
+
 
 # Running -----------------------------------------------------------------------------------
 
