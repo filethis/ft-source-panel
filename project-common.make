@@ -150,8 +150,8 @@ git-status:  ## Print git status
 
 # Validation -----------------------------------------------------------------------------------
 
-.PHONY: lintall
-lintall: lint eslint ## Run all linters on project files
+.PHONY: lint
+lint: polymerlint eslint ## Run all linters on project files
 
 
 # Help -----------------------------------------------------------------------------------

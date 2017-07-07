@@ -21,8 +21,8 @@ include project-common.make
 
 # Validation -----------------------------------------------------------------------------------
 
-.PHONY: lint
-lint:  ## Lint project files
+.PHONY: polymerlint
+polymerlint:  ## Run Polymer linter on project files
 	@polymer lint --input ${NAME}.html;
 
 .PHONY: eslint
