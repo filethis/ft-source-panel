@@ -15,6 +15,9 @@
 #
 
 
+SHELL := /bin/bash
+
+
 # Project Initialization -----------------------------------------------------------------------------------
 
 .PHONY: github-init
@@ -106,6 +109,17 @@ git-tag-version-and-push:  # Internal target: Tag with current version and push 
 		git tag -a v${VERSION} -m '${VERSION}'; \
 	fi; \
 	git push --tags;
+
+.PHONY: bump-version
+bump-version: bump-version-only set-version-everywhere  ## Increment the patch version number.
+
+.PHONY: bump-version-only
+bump-version-only:
+	@NEW_VERSION=`../../bin/increment_version.sh -p ${VERSION}`; \
+	echo NEW_VERSION: $$NEW_VERSION; \
+	COMMAND=s/VERSION=[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/VERSION=$$NEW_VERSION/g; \
+	sed -i .bak $$COMMAND ./Makefile && rm ./Makefile.bak \
+	echo "Bumped ${VERSION} ---> $$NEW_VERSION";
 
 .PHONY: release
 release: set-version-everywhere git-add-fast git-commit-fast git-push git-tag-version-and-push bower-register publish-github-pages ## Release version of project.

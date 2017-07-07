@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+SHELL := /bin/bash
+
 
 # Targets common to both application and element projects
 include project-common.make
