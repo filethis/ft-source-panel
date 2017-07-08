@@ -37,7 +37,7 @@ github-init:  ## Initialize GitHub project
 
 .PHONY: bower-install-packages
 bower-install-packages:  ## Install all Bower packages specified in bower.json file
-	@bower install --save
+	@python ../../bin/bower-install.py
 
 .PHONY: bower-clean-packages
 bower-clean-packages:  ## Clean all installed bower packages. Leaves "bower link" symlink directories alone.
