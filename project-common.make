@@ -42,7 +42,7 @@ bower-install-packages:  ## Install all Bower packages specified in bower.json f
 .PHONY: bower-clean-packages
 bower-clean-packages:  ## Clean all installed bower packages. Leaves "bower link" symlink directories alone.
 	@cd ./bower_components; \
-	find . -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +;
+	find . -mindepth 1 -maxdepth 1 -exec rm -rf {} +;
 
 .PHONY: bower-reinstall-packages
 bower-reinstall-packages: bower-clean-packages bower-install-packages  ## Clean and reinstall all bower packages. Leaves "bower link" symlink directories alone.
