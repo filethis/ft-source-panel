@@ -139,7 +139,7 @@ A panel that displays a list of FileThis sources.
         <!-- Source Grid -->
         <div
                 id="gridScroller"
-                style="overflow:auto;">
+                style="overflow:auto; background-color:white; ">
             <ft-source-grid
                     id="sourceGrid"
                     sources="[[_sourcesFilteredAndSorted]]"
@@ -231,7 +231,7 @@ A panel that displays a list of FileThis sources.
                 /** Show a filter popup button. */
                 showFilters:
                 {
-                    type: Boolean,
+                    type: Object,  // Can't use Boolean
                     value: true,
                     observer: "_showButtonChanged"
                 },
@@ -246,7 +246,7 @@ A panel that displays a list of FileThis sources.
                 /** Show a title string. */
                 showTitle:
                 {
-                    type: Boolean,
+                    type: Object,  // Can't use Boolean
                     value: true,
                     observer: "_showButtonChanged"
                 },
@@ -254,7 +254,7 @@ A panel that displays a list of FileThis sources.
                 /** Show a button that lets users choose to show the search field. */
                 showSearchField:
                 {
-                    type: Boolean,
+                    type: Object,  // Can't use Boolean
                     value: true,
                     observer: "_showButtonChanged"
                 },
