@@ -40,12 +40,12 @@ bower-install-packages:  ## Install all Bower packages specified in bower.json f
 	@python ../../bin/bower-install.py
 
 .PHONY: bower-clean-packages
-bower-clean-packages:  ## Clean all installed bower packages. Leaves "bower link" symlink directories alone.
+bower-clean-packages:  ## Clean all installed bower packages.
 	@cd ./bower_components; \
 	find . -mindepth 1 -maxdepth 1 -exec rm -rf {} +;
 
 .PHONY: bower-reinstall-packages
-bower-reinstall-packages: bower-clean-packages bower-install-packages  ## Clean and reinstall all bower packages. Leaves "bower link" symlink directories alone.
+bower-reinstall-packages: bower-clean-packages bower-install-packages  ## Clean and reinstall all bower packages.
 
 
 # Testing -----------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ find-version-everywhere:  ## Find and print versions of this project in use by a
 	find ../.. -name bower.json -print | xargs grep "filethis/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+" || echo Not used;
 
 .PHONY: set-version-everywhere
-set-version-everywhere:  # Deprecated. Should not need, as the bump-version does this and has its own copy of this code that we don't want to have to keep in sync.
+set-version-everywhere:
 	@find ../.. -name bower.json -print | xargs sed -i .bak 's/${NAME}#^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/${NAME}#^${VERSION}/g' && rm ./bower.json.bak || echo Not used; \
 	echo Set version in all projects that depend on this one
 
