@@ -15,13 +15,11 @@ limitations under the License.
 -->
 
 
-<!-- FileThis demo element -->
-
 <!-- Imports -->
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../iron-input/iron-input.html">
+<link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../ft-source-panel.html">
-<link rel="import" href="./ft-source-panel-config.html">
 
 
 <!--
@@ -30,7 +28,7 @@ This element defines a source grid example that allows experimentation with conf
 
 @demo demo/index.html
  -->
-<dom-module id="demo-fixture">
+<dom-module id="ft-source-panel-config">
 
     <template>
 
@@ -42,26 +40,53 @@ This element defines a source grid example that allows experimentation with conf
             }
         </style>
 
-        <div class="layout horizontal center">
+        <style is="custom-style">
 
-            <!-- Settings -->
-            <ft-source-panel-config
-                show-title="{{showTitle}}"
-                title="{{title}}"
-                show-filters="{{showFilters}}"
-                show-search-field="{{showSearchField}}">
-            </ft-source-panel-config>
+            paper-checkbox {
+                width:165px;
+                margin-bottom:16px;
+            }
+        </style>
 
-            <!-- Panel -->
-            <ft-source-panel
-                   id="panel"
-                   style="width:750px; height:650px; border:1px solid #DDD"
-                   show-title="[[showTitle]]"
-                   title="[[title]]"
-                   show-filters="[[showFilters]]"
-                   show-search-field="[[showSearchField]]">
-           </ft-source-panel>
+        <!-- Settings -->
+        <div
+                class="layout vertical center"
+                style="width:300px">
 
+            <paper-checkbox checked="{{showTitle}}">
+                Show Title
+            </paper-checkbox>
+
+            <div class="layout horizontal">
+
+                <!-- Label -->
+                <div>
+                    Title:
+                </div>
+
+                <!-- Field -->
+                <iron-input
+                       id="titleField"
+                       bind-value="{{title}}"
+                       style="font-family:Arial;
+                                font-size:12px;
+                                width:100px; height:28px;
+                                padding-left:6px; padding-right:6px;
+                                color:#343434;">
+                    <input value="{{value::input}}">
+                </iron-input>
+
+            </div>
+
+            <div style="height:20px"></div>
+
+            <paper-checkbox checked="{{showFilters}}">
+                Show Filters
+            </paper-checkbox>
+
+            <paper-checkbox checked="{{showSearchField}}">
+                Show Search Field
+            </paper-checkbox>
         </div>
 
     </template>
@@ -70,49 +95,34 @@ This element defines a source grid example that allows experimentation with conf
 
         Polymer
         ({
-            is: 'demo-fixture',
+            is: 'ft-source-panel-config',
 
             properties:
             {
                 showTitle:
                 {
                     type: Boolean,
+                    notify: true,
                     value: true
                 },
                 title:
                 {
                     type: String,
+                    notify: true,
                     value: "Sources"
                 },
                 showFilters:
                 {
                     type: Boolean,
+                    notify: true,
                     value: true
                 },
                 showSearchField:
                 {
                     type: Boolean,
+                    notify: true,
                     value: true
                 }
-            },
-
-            ready: function()
-            {
-                var path = "fake-sources.json";
-
-                var xmlHttpRequest = new XMLHttpRequest();
-                xmlHttpRequest.overrideMimeType("application/json");
-                xmlHttpRequest.open('GET', path, true);
-                xmlHttpRequest.onreadystatechange = function()
-                {
-                    if (xmlHttpRequest.readyState === 4 &&
-                        xmlHttpRequest.status === 200)
-                    {
-                        var sources = JSON.parse(xmlHttpRequest.responseText);
-                        this.$.panel.sources = sources;
-                    }
-                }.bind(this);
-                xmlHttpRequest.send();
             }
 
         });
