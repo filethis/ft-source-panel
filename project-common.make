@@ -99,7 +99,7 @@ find-version-everywhere:  ## Find and print versions of this project in use by a
 
 .PHONY: set-version-everywhere
 set-version-everywhere:
-	@find ../.. -name bower.json -print | xargs sed -i .bak 's/${NAME}#^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/${NAME}#^${VERSION}/g' && rm ./bower.json.bak || echo Not used; \
+	python ../../bin/set-version-everywhere.py ${NAME} ${VERSION} ../..; \
 	echo Set version in all projects that depend on this one
 
 .PHONY: git-tag-version-and-push
@@ -117,7 +117,7 @@ bump-version:  ## Increment the patch version number.
 	COMMAND=s/VERSION=[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/VERSION=$$NEW_VERSION/g; \
 	sed -i .bak $$COMMAND ./Makefile && rm ./Makefile.bak; \
 	echo "Bumped ${VERSION} ---> $$NEW_VERSION"; \
-	find ../.. -name bower.json -print | xargs sed -i .bak 's/${NAME}#^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/${NAME}#^$$NEW_VERSION/g' && rm ./bower.json.bak || echo Not used; \
+	python ../../bin/set-version-everywhere.py  ${NAME} $$NEW_VERSION ../..; \
 	echo Set version in all projects that depend on this one
 
 .PHONY: release
