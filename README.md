@@ -1,38 +1,7 @@
-# \<ft-source-panel\>
+[Demo](https://filethis.github.io/ft-source-panel/components/ft-source-panel/demo/)    [API](https://filethis.github.io/ft-source-panel/components/ft-source-panel/)    [Repo](https://github.com/filethis/ft-source-panel)
 
-A panel that displays a list of FileThis sources.
+### \<ft-source-panel\>
 
-## Install the Polymer-CLI
+This element displays a list of FileThis [source resources](https://filethis.com/developers/doc/index.html#/source). Above the list is a header area that can display a title, a popup menu of filtering options, and a textual search field. The display of all header elements is configurable.
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
-
-## Viewing Your Application
-
-```
-$ polymer serve
-```
-
-## Building Your Application
-
-```
-$ polymer build
-```
-
-This will create a `build/` folder with `bundled/` and `unbundled/` sub-folders
-containing a bundled (Vulcanized) and unbundled builds, both run through HTML,
-CSS, and JS optimizers.
-
-You can serve the built versions by giving `polymer serve` a folder to serve
-from:
-
-```
-$ polymer serve build/bundled
-```
-
-## Running Tests
-
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+When the user clicks on a source item, a modal dialog is posed that prompt the user to enter their username and password for the given website.
