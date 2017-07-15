@@ -38,12 +38,12 @@ limitations under the License.
 
 
 <!--
-`ft-source-panel`
-A panel that displays a list of FileThis sources.
+`<ft-source-panel>`
 
-@demo demo/index.html 
+This element displays a list of FileThis source resources. Above the list is a header area that can display a title, a popup menu of filtering options, and a textual search field. Which header elements are displayed is configurable.
+
+@demo
 -->
-
 <dom-module id="ft-source-panel">
 
     <template>
@@ -228,10 +228,16 @@ A panel that displays a list of FileThis sources.
                     readonly: true
                 },
                 
-                /** Show a filter popup button. */
+                /**
+                 * Show a filter popup button.
+                 *
+                 * Note that you can provide the strings "true" and "false" as attribute values.
+                 *
+                 * @type {boolean}
+                 */
                 showFilters:
                 {
-                    type: Object,  // Can't use Boolean
+                    type: Object,
                     value: true,
                     observer: "_showButtonChanged"
                 },
@@ -243,22 +249,35 @@ A panel that displays a list of FileThis sources.
                     value: "Sites"
                 },
 
-                /** Show a title string. */
+                /**
+                 * Show a title string.
+                 *
+                 * Note that you can provide the strings "true" and "false" as attribute values.
+                 *
+                 * @type {boolean}
+                 */
                 showTitle:
                 {
-                    type: Object,  // Can't use Boolean
+                    type: Object,
                     value: true,
                     observer: "_showButtonChanged"
                 },
 
-                /** Show a button that lets users choose to show the search field. */
+                /**
+                 * Show a button that lets users choose to show the search field.
+                 *
+                 * Note that you can provide the strings "true" and "false" as attribute values.
+                 *
+                 * @type {boolean}
+                 */
                 showSearchField:
                 {
-                    type: Object,  // Can't use Boolean
+                    type: Object,
                     value: true,
                     observer: "_showButtonChanged"
                 },
 
+                /** True when at least one of the header widgets is displayed. When false, the header is hidden. */
                 _showHeader:
                 {
                     type: Boolean,
@@ -266,18 +285,21 @@ A panel that displays a list of FileThis sources.
                     observer: "_showHeaderChanged"
                 },
 
+                /** The search string entered by the user. */
                 _searchPattern: {
                     type: String,
                     value: "",
                     observer: "_searchPatternChanged"
                 },
 
+                /** True when there is a search pattern. */
                 _haveSearchPattern:
                 {
                     type: Boolean,
                     value: false
                 },
 
+                /** The output of the <array-filter> used to filter and sort the _sources_ list. */
                 _sourcesFilteredAndSorted: {
                     type: Array,
                     value: []
