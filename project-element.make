@@ -34,8 +34,8 @@ eslint:  ## ESLint project files
 
 # Running -----------------------------------------------------------------------------------
 
-.PHONY: run-browser-sync
-run-browser-sync:  ## Run BrowserSync against local files. Element demos require a running Polymer server. See: https://www.browsersync.io/
+.PHONY: open
+open:  ## Run BrowserSync against local files. Element demos require a running Polymer server. See: https://www.browsersync.io/
 	@if lsof -i tcp:${LOCAL_PORT} > /dev/null; then \
 		echo Found running Polymer server; \
 	else \
@@ -48,8 +48,8 @@ run-browser-sync:  ## Run BrowserSync against local files. Element demos require
 		--port ${LOCAL_PORT} \
 		--startPath "/components/${NAME}/demo/";
 
-.PHONY: run-browser-sync-test
-run-browser-sync-test:  ## Run BrowserSync for tests
+.PHONY: open-test
+open-test:  ## Run BrowserSync for tests
 	@if lsof -i tcp:${LOCAL_PORT} > /dev/null; then \
 		echo Found running Polymer server; \
 	else \
@@ -68,22 +68,22 @@ run-browser-sync-test:  ## Run BrowserSync for tests
 
 .PHONY: open-app
 open-app:  ## Open URL of element demo published on GitHub Pages
-	@open https://filethis.github.io/${NAME}/components/${NAME}/demo;
+	@open https://${GITHUB_USER}.github.io/${NAME}/components/${NAME}/demo;
 
 .PHONY: url-app
 url-app:  ## Print URL of element demo published on GitHub Pages
-	@echo https://filethis.github.io/${NAME}/components/${NAME}/demo;
+	@echo https://${GITHUB_USER}.github.io/${NAME}/components/${NAME}/demo;
 
 
 # Docs -----------------------------------------------------------------------------------
 
 .PHONY: open-docs
 open-docs:  ## Open URL of element documentation published on GitHub Pages
-	@open https://filethis.github.io/${NAME}/components/${NAME}/;
+	@open https://${GITHUB_USER}.github.io/${NAME}/components/${NAME}/;
 
 .PHONY: url-docs
 url-docs:  ## Print URL of element documentation published on GitHub Pages
-	@echo https://filethis.github.io/${NAME}/components/${NAME}/;
+	@echo https://${GITHUB_USER}.github.io/${NAME}/components/${NAME}/;
 
 
 # Release -----------------------------------------------------------------------------------
@@ -95,14 +95,14 @@ publish-github-pages:  # Internal target: Create element docs and publish on Git
 	mkdir -p github-pages-tmp; \
 	cd ./github-pages-tmp; \
 	git gc; \
-	gp.sh filethis ${NAME}; \
+	gp.sh ${GITHUB_USER} ${NAME}; \
 	git gc; \
 	cd ../; \
 	rm -rf ./github-pages-tmp; \
-	echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://filethis.github.io/${NAME}
+	echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://${GITHUB_USER}.github.io/${NAME}
 
 .PHONY: bower-register
 bower-register:  # Internal target: Register element in public Bower registry. Usually invoked as part of a release via 'release' target.
-	@bower register --config.interactive=false ${NAME} git@github.com:filethis/${NAME}.git;
+	@bower register --config.interactive=false ${NAME} git@github.com:${GITHUB_USER}/${NAME}.git;
 
 

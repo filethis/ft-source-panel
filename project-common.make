@@ -37,7 +37,7 @@ github-init:  ## Initialize GitHub project
 
 .PHONY: bower-install-packages
 bower-install-packages:  ## Install all Bower packages specified in bower.json file
-	@python ../../bin/bower-install.py
+	@python ../../bin/bower-install.py True ${GITHUB_USER_ABBREV}
 
 .PHONY: bower-clean-packages
 bower-clean-packages:  ## Clean all installed bower packages.
@@ -78,11 +78,11 @@ serve:  ## Serve project locally using the Polymer server
 
 .PHONY: open-repo
 open-repo:  ## Open URL of project GitHub repository page
-	@open https://github.com/filethis/${NAME}
+	@open https://github.com/${GITHUB_USER}/${NAME}
 
 .PHONY: url-repo
 url-repo:  ## Print URL of project GitHub repository page
-	@echo https://github.com/filethis/${NAME}
+	@echo https://github.com/${GITHUB_USER}/${NAME}
 
 
 # Release -----------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ bower-info:  ## Print information about published Bower package
 .PHONY: find-version-everywhere
 find-version-everywhere:  ## Find and print versions of this project in use by all peer projects
 	@echo Current: ${VERSION}; \
-	find ../.. -name bower.json -print | xargs grep "filethis/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+" || echo Not used;
+	find ../.. -name bower.json -print | xargs grep "${GITHUB_USER}/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+" || echo Not used;
 
 .PHONY: set-version-everywhere
 set-version-everywhere:
