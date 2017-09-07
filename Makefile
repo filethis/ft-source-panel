@@ -1,6 +1,6 @@
 # Project configuration
 NAME=ft-source-panel
-VERSION=0.0.18
+VERSION=0.0.19
 LOCAL_PORT=3011
 GITHUB_USER=filethis
 GITHUB_USER_ABBREV=ft
