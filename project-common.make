@@ -37,7 +37,8 @@ github-init:  ## Initialize GitHub project
 
 .PHONY: bower-install-packages
 bower-install-packages:  ## Install all Bower packages specified in bower.json file
-	@python ../../bin/bower-install.py True ${GITHUB_USER_ABBREV}
+	@mkdir -p ./bower_components; \
+	python ../../bin/bower-install.py True ${GITHUB_USER_ABBREV}
 
 .PHONY: bower-clean-packages
 bower-clean-packages:  ## Clean all installed bower packages.

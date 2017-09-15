@@ -5,6 +5,7 @@
   "dependencies": {
     "array-filter": "43081j/array-filter#^2.0.0",
     "ft-create-connection-dialog": "filethis/ft-create-connection-dialog#^0.0.17",
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.1",
     "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^0.0.8",
     "ft-source-grid": "filethis/ft-source-grid#^0.0.14",
     "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.13",
