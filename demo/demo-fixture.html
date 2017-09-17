@@ -43,27 +43,31 @@ This element defines a source grid example that allows experimentation with conf
             }
         </style>
 
-        <div class="layout horizontal center">
+        <ft-element-demo
+                style="width:100%; height:100%; ">
 
             <!-- Settings -->
             <ft-source-panel-config
-                show-title="{{showTitle}}"
-                title="{{title}}"
-                show-filters="{{showFilters}}"
-                show-search-field="{{showSearchField}}">
+                    slot="config"
+                    style="height:100%; padding:20px; "
+                    show-title="{{showTitle}}"
+                    title="{{title}}"
+                    show-filters="{{showFilters}}"
+                    show-search-field="{{showSearchField}}">
             </ft-source-panel-config>
 
             <!-- Panel -->
             <ft-source-panel
-                   id="panel"
-                   style="width:750px; height:650px; border:1px solid #DDD"
-                   show-title="[[showTitle]]"
-                   title="[[title]]"
-                   show-filters="[[showFilters]]"
-                   show-search-field="[[showSearchField]]">
+                    slot="element"
+                    id="panel"
+                    style="width:100%; height:100%; "
+                    show-title="[[showTitle]]"
+                    title="[[title]]"
+                    show-filters="[[showFilters]]"
+                    show-search-field="[[showSearchField]]">
            </ft-source-panel>
 
-        </div>
+        </ft-element-demo>
 
     </template>
 

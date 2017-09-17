@@ -17,7 +17,6 @@ limitations under the License.
 
 <link rel="import" href="../array-filter/array-filter.html">
 <link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
-<link rel="import" href="../ft-scrolling-behavior/ft-scrolling-behavior.html">
 <link rel="import" href="../ft-source-grid/ft-source-grid.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
@@ -53,7 +52,8 @@ This element displays a list of FileThis source resources. Above the list is a h
         <style>
             :host {
                 display:block;
-                
+                @apply --layout-vertical;
+
                 --paper-button-raised-keyboard-focus: {
                     font-weight: normal;
                 };
@@ -137,15 +137,12 @@ This element displays a list of FileThis source resources. Above the list is a h
         </div>
 
         <!-- Source Grid -->
-        <div
-                id="gridScroller"
-                style="overflow:auto; background-color:white; ">
-            <ft-source-grid
-                    id="sourceGrid"
-                    sources="[[_sourcesFilteredAndSorted]]"
-                    selected-source="{{selectedSource}}">
-            </ft-source-grid>
-        </div>
+        <ft-source-grid
+                id="sourceGrid"
+                class="flex"
+                sources="[[_sourcesFilteredAndSorted]]"
+                selected-source="{{selectedSource}}">
+        </ft-source-grid>
 
         <!-- Connect Dialog -->
         <ft-create-connection-dialog
@@ -169,11 +166,6 @@ This element displays a list of FileThis source resources. Above the list is a h
         Polymer({
 
             is: 'ft-source-panel',
-
-            behaviors: [
-                Polymer.IronResizableBehavior,
-                FileThis.ScrollingBehavior
-            ],
 
             listeners:
             {
@@ -281,8 +273,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 _showHeader:
                 {
                     type: Boolean,
-                    value: true,
-                    observer: "_showHeaderChanged"
+                    value: true
                 },
 
                 /** The search string entered by the user. */
@@ -307,11 +298,6 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             },
 
-            ready: function()
-            {
-                this._manageScroller(this.$.gridScroller);
-            },
-            
             _onFiltersChanged: function(to, from)
             {
                 if (this.filters.length === 0)
@@ -348,6 +334,7 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             _onSourcesChanged: function()
             {
+                // TODO: Is this still necessary?
                 // Hack so that contents always get clipped, initially
                 this.$.sourceGrid.fire('resize')
             },
@@ -356,16 +343,6 @@ This element displays a list of FileThis source resources. Above the list is a h
             {
                 if (event.ftComponentName === undefined)
                     event.ftComponentName = "ft-source-panel";
-            },
-
-            _calculateScrollerHeight: function(scroller)
-            {
-                var bar = this.$.searchAndSortBar;
-                var barIsHidden = (bar.offsetParent === null);
-                var barHeight = 0;
-                if (!barIsHidden)
-                    barHeight = bar.offsetHeight;
-                return this.clientHeight - barHeight;
             },
 
             _filter: function(source)
@@ -416,11 +393,6 @@ This element displays a list of FileThis source resources. Above the list is a h
 
                 if (!this.showSearchField)
                     this._clearSearchPattern();
-            },
-
-            _showHeaderChanged: function(to, from)
-            {
-                this.notifyResize();
             },
 
             _canShowHeader: function()
