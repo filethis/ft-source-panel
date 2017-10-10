@@ -9,6 +9,7 @@
     "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^0.0.8",
     "ft-source-grid": "filethis/ft-source-grid#^0.0.14",
     "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.13",
+    "ft-styler": "filethis/ft-styler#^0.0.1",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#1 - 2",
     "iron-input": "PolymerElements/iron-input#1 - 2",
     "iron-label": "PolymerElements/iron-label#1 - 2",
