@@ -427,15 +427,15 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             _onConfigPropertyChanged: function(to, from)
             {
-                this._invalidChangedDebouncer = Polymer.Debouncer.debounce
+                this._configPropertyChangedDebouncer = Polymer.Debouncer.debounce
                 (
                     this._configPropertyChangedDebouncer,
                     Polymer.Async.timeOut.after(60),
-                    this.__onConfigPropertyChangedDebounced.bind(this)
+                    this._onConfigPropertyChangedDebounced.bind(this)
                 );
             },
 
-            __onConfigPropertyChangedDebounced: function()
+            _onConfigPropertyChangedDebounced: function()
             {
                 this._showButtonChanged();
 
