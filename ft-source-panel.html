@@ -30,6 +30,7 @@ limitations under the License.
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../polymer/lib/utils/debounce.html">
 <link rel="import" href="../polymer/polymer.html">
 
 
@@ -175,6 +176,11 @@ This element displays a list of FileThis source resources. Above the list is a h
                 'tap': '_onTap'
             },
 
+            observers:
+            [
+                "_onConfigPropertyChanged(showFilters, title, showTitle, showSearchField)"
+            ],
+
             properties: {
 
                 /** The list of all source resources. */
@@ -232,8 +238,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 showFilters:
                 {
                     type: Object,
-                    value: true,
-                    observer: "_showButtonChanged"
+                    value: true
                 },
 
                 /** Title to display when "showTitle" is true. */
@@ -253,8 +258,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 showTitle:
                 {
                     type: Object,
-                    value: true,
-                    observer: "_showButtonChanged"
+                    value: true
                 },
 
                 /**
@@ -267,8 +271,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 showSearchField:
                 {
                     type: Object,
-                    value: true,
-                    observer: "_showButtonChanged"
+                    value: true
                 },
 
                 /** True when at least one of the header widgets is displayed. When false, the header is hidden. */
@@ -296,6 +299,13 @@ This element displays a list of FileThis source resources. Above the list is a h
                 _sourcesFilteredAndSorted: {
                     type: Array,
                     value: []
+                },
+
+                /** The instantiation code. */
+                code: {
+                    type: String,
+                    notify: true,
+                    value: ""
                 }
 
             },
@@ -413,6 +423,35 @@ This element displays a list of FileThis source resources. Above the list is a h
                 // Deselect the selected source item
 //                this.selectedSource = null;  // This should work!!!
                 this.$.sourceGrid.clearSelection();
+            },
+
+            _onConfigPropertyChanged: function(to, from)
+            {
+                this._invalidChangedDebouncer = Polymer.Debouncer.debounce
+                (
+                    this._configPropertyChangedDebouncer,
+                    Polymer.Async.timeOut.after(60),
+                    this.__onConfigPropertyChangedDebounced.bind(this)
+                );
+            },
+
+            __onConfigPropertyChangedDebounced: function()
+            {
+                this._showButtonChanged();
+
+                var code =
+                    "<{{name}}\n" +
+                    "    showTitle='{{showTitle}}'\n" +
+                    "    title='{{title}}'\n" +
+                    "    showSearchField='{{showSearchField}}'\n" +
+                    "    showFilters='{{showFilters}}'>\n" +
+                    "</{{name}}>";
+                code = code.replace(/{{name}}/g, this.localName);
+                code = code.replace(/{{showTitle}}/g, this.showTitle);
+                code = code.replace(/{{title}}/g, this.title);
+                code = code.replace(/{{showFilters}}/g, this.showFilters);
+                code = code.replace(/{{showSearchField}}/g, this.showSearchField);
+                this.code = code;
             }
 
         });
