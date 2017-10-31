@@ -103,6 +103,6 @@ publish-github-pages:  # Internal target: Create element docs and publish on Git
 
 .PHONY: bower-register
 bower-register:  # Internal target: Register element in public Bower registry. Usually invoked as part of a release via 'release' target.
-	@bower register --config.interactive=false ${NAME} git@github.com:${GITHUB_USER}/${NAME}.git;
+	@bower register --config.interactive=false ${NAME} git@github.com:${GITHUB_USER}/${NAME}.git || echo Going on...
 
 
