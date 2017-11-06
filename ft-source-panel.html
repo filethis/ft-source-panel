@@ -173,7 +173,7 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             listeners:
             {
-                'connect': '_onConnectToSource',
+                'connect-command': '_onConnectCommand',
                 'tap': '_onTap'
             },
 
@@ -391,7 +391,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 arrayFilter.update();
             },
 
-            _onConnectToSource: function(event, detail)
+            _onConnectCommand: function(event, detail)
             {
                 var source = detail;
                 var createConnectionDialog = this.$.createConnectionDialog;
