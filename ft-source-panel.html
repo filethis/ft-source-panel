@@ -453,7 +453,34 @@ This element displays a list of FileThis source resources. Above the list is a h
                 code = code.replace(/{{showFilters}}/g, this.showFilters);
                 code = code.replace(/{{showSearchField}}/g, this.showSearchField);
                 this.code = code;
-            }
+            },
+
+            generateSettings: function()
+            {
+                // NOTE: Must keep the default values here up to date with properties
+                var config = {};
+                if (this.showFilters !== true)
+                    config.showFilters = this.showFilters;
+                if (this.title !== "Sites")
+                    config.title = this.title;
+                if (this.showTitle !== true)
+                    config.showTitle = this.showTitle;
+                if (this.showSearchField !== true)
+                    config.showSearchField = this.showSearchField;
+                return config;
+            },
+
+            applySettings: function(settings)
+            {
+                if (settings.showFilters)
+                    this.showFilters = settings.showFilters;
+                if (settings.title)
+                    this.title = settings.title;
+                if (settings.showTitle)
+                    this.showTitle = settings.showTitle;
+                if (settings.showSearchField)
+                    this.showSearchField = settings.showSearchField;
+            },
 
         });
     </script>

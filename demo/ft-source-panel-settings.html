@@ -1,0 +1,164 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<!-- Imports -->
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../iron-input/iron-input.html">
+<link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../polymer/polymer.html">
+
+
+<!--
+
+This element defines a source grid example that allows experimentation with configuration.
+
+@demo
+ -->
+<dom-module id="ft-source-panel-settings">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+                @apply --layout-vertical;
+                @apply --ft-source-panel-settings;
+            }
+        </style>
+
+        <style is="custom-style">
+
+            paper-checkbox {
+                width:165px;
+                margin-bottom:16px;
+            }
+        </style>
+
+        <!-- Settings -->
+        <paper-checkbox checked="{{showTitle}}">
+            Show Title
+        </paper-checkbox>
+
+        <div class="layout horizontal">
+
+            <!-- Label -->
+            <div>
+                Title:
+            </div>
+
+            <!-- Field -->
+            <iron-input
+                   id="titleField"
+                   bind-value="{{title}}"
+                   style="font-family:Arial;
+                            font-size:12px;
+                            width:100px; height:28px;
+                            padding-left:6px; padding-right:6px;
+                            color:#343434;">
+                <input value="{{value::input}}">
+            </iron-input>
+
+        </div>
+
+        <div style="height:20px"></div>
+
+        <paper-checkbox checked="{{showFilters}}">
+            Show Filters
+        </paper-checkbox>
+
+        <paper-checkbox checked="{{showSearchField}}">
+            Show Search Field
+        </paper-checkbox>
+
+    </template>
+
+    <script>
+
+        Polymer
+        ({
+            is: 'ft-source-panel-settings',
+
+            properties:
+            {
+                showTitle:
+                {
+                    type: Boolean,
+                    notify: true,
+                    value: true,
+                    observer: "_onSettingChanged"
+                },
+                title:
+                {
+                    type: String,
+                    notify: true,
+                    value: "Sources",
+                    observer: "_onSettingChanged"
+                },
+                showFilters:
+                {
+                    type: Boolean,
+                    notify: true,
+                    value: true,
+                    observer: "_onSettingChanged"
+                },
+                showSearchField:
+                {
+                    type: Boolean,
+                    notify: true,
+                    value: true,
+                    observer: "_onSettingChanged"
+                },
+
+                settings:
+                {
+                    type: Object,
+                    readOnly: true,
+                    notify: true,
+                    observer: "_onSettingChanged"
+                },
+
+            },
+
+            ready: function()
+            {
+                this._updateSettings();
+            },
+
+            _onSettingChanged: function(to, from)
+            {
+                this._updateSettings();
+            },
+
+            _updateSettings: function()
+            {
+                var config = {};
+                config.showFilters = this.showFilters;
+                config.title = this.title;
+                config.showTitle = this.showTitle;
+                config.showSearchField = this.showSearchField;
+                return config;
+            },
+
+        });
+
+    </script>
+
+</dom-module>
+

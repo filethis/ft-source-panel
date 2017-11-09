@@ -6,6 +6,8 @@
     "array-filter": "43081j/array-filter#^2.0.0",
     "ft-create-connection-dialog": "filethis/ft-create-connection-dialog#^0.0.22",
     "ft-element-demo": "filethis/ft-element-demo#^0.0.9",
+    "ft-error-behavior": "filethis/ft-error-behavior#^0.0.16",
+    "ft-http-behavior": "filethis/ft-http-behavior#^0.0.16",
     "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^0.0.13",
     "ft-source-grid": "filethis/ft-source-grid#^0.0.19",
     "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.18",
