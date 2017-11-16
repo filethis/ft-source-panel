@@ -17,6 +17,8 @@ limitations under the License.
 
 <link rel="import" href="../array-filter/array-filter.html">
 <link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
+<link rel="import" href="../ft-settings/ft-settings-applier-behavior.html">
+<link rel="import" href="../ft-settings/ft-settings-publisher-behavior.html">
 <link rel="import" href="../ft-source-grid/ft-source-grid.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
@@ -179,7 +181,12 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             observers:
             [
-                "_onConfigPropertyChanged(showFilters, title, showTitle, showSearchField)"
+                "_onSettingsPropertyChanged(showFilters, title, showTitle, showSearchField)",
+            ],
+
+            behaviors: [
+                FileThis.SettingsPublisherBehavior,
+                FileThis.SettingsApplierBehavior,
             ],
 
             properties: {
@@ -311,6 +318,12 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             },
 
+            ready: function()
+            {
+                var propertyNames = [ "showTitle", "title", "showFilters", "showSearchField" ];
+                this.settingsPublish("ft-source-panel", propertyNames);
+            },
+
             _onFiltersChanged: function(to, from)
             {
                 if (this.filters.length === 0)
@@ -426,60 +439,34 @@ This element displays a list of FileThis source resources. Above the list is a h
                 this.$.sourceGrid.clearSelection();
             },
 
-            _onConfigPropertyChanged: function(to, from)
-            {
-                this._configPropertyChangedDebouncer = Polymer.Debouncer.debounce
-                (
-                    this._configPropertyChangedDebouncer,
-                    Polymer.Async.timeOut.after(60),
-                    this._onConfigPropertyChangedDebounced.bind(this)
-                );
-            },
-
-            _onConfigPropertyChangedDebounced: function()
+            _onSettingsPropertyChanged: function()
             {
                 this._showButtonChanged();
 
-                var code =
-                    "<{{name}}\n" +
-                    "    showTitle='{{showTitle}}'\n" +
-                    "    title='{{title}}'\n" +
-                    "    showSearchField='{{showSearchField}}'\n" +
-                    "    showFilters='{{showFilters}}'>\n" +
-                    "</{{name}}>";
-                code = code.replace(/{{name}}/g, this.localName);
-                code = code.replace(/{{showTitle}}/g, this.showTitle);
-                code = code.replace(/{{title}}/g, this.title);
-                code = code.replace(/{{showFilters}}/g, this.showFilters);
-                code = code.replace(/{{showSearchField}}/g, this.showSearchField);
-                this.code = code;
+                this.updateSettings();
             },
 
-            generateSettings: function()
+            _old: function()
             {
-                // NOTE: Must keep the default values here up to date with properties
-                var config = {};
-                if (this.showFilters !== true)
-                    config.showFilters = this.showFilters;
-                if (this.title !== "Sites")
-                    config.title = this.title;
-                if (this.showTitle !== true)
-                    config.showTitle = this.showTitle;
-                if (this.showSearchField !== true)
-                    config.showSearchField = this.showSearchField;
-                return config;
-            },
+                this._showButtonChanged();
+                
+                // Update the settings
+                this.updateSettings();
 
-            applySettings: function(settings)
-            {
-                if (settings.showFilters)
-                    this.showFilters = settings.showFilters;
-                if (settings.title)
-                    this.title = settings.title;
-                if (settings.showTitle)
-                    this.showTitle = settings.showTitle;
-                if (settings.showSearchField)
-                    this.showSearchField = settings.showSearchField;
+                // Update the code
+//                var code =
+//                    "<{{name}}\n" +
+//                    "    show-title='{{showTitle}}'\n" +
+//                    "    title='{{title}}'\n" +
+//                    "    show-search-field='{{showSearchField}}'\n" +
+//                    "    show-filters='{{showFilters}}'>\n" +
+//                    "</{{name}}>";
+//                code = code.replace(/{{name}}/g, this.localName);
+//                code = code.replace(/{{showTitle}}/g, this.showTitle);
+//                code = code.replace(/{{title}}/g, this.title);
+//                code = code.replace(/{{showFilters}}/g, this.showFilters);
+//                code = code.replace(/{{showSearchField}}/g, this.showSearchField);
+//                this.code = code;
             },
 
         });

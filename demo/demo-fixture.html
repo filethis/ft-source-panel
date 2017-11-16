@@ -22,7 +22,7 @@ limitations under the License.
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../ft-source-panel.html">
-<link rel="import" href="./ft-source-panel-settings.html">
+<link rel="import" href="ft-source-panel-settings-editor.html">
 
 
 <!--
@@ -51,7 +51,8 @@ This element defines a source grid example that allows experimentation with conf
             style="width:100%; height:100%; "
         >
             <!-- Settings -->
-            <ft-source-panel-settings
+            <ft-source-panel-settings-editor
+                id="settings"
                 slot="config"
                 style="padding:20px; "
                 show-title="{{showTitle}}"
@@ -59,7 +60,7 @@ This element defines a source grid example that allows experimentation with conf
                 show-filters="{{showFilters}}"
                 show-search-field="{{showSearchField}}"
             >
-            </ft-source-panel-settings>
+            </ft-source-panel-settings-editor>
 
             <!-- Panel -->
             <ft-source-panel
@@ -86,6 +87,22 @@ This element defines a source grid example that allows experimentation with conf
 
             properties:
             {
+                _setterData: {
+                    type: Object,
+                    value: {
+                        name: "panel",
+                        properties: {
+                            showFilters: false,
+                            title: "Yahoo!!!",
+                        },
+                    }
+                },
+
+                _base: {
+                    type: Object,
+                    value: this,
+                },
+
                 showTitle:
                 {
                     type: Boolean,

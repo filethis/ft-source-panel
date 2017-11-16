@@ -16,6 +16,7 @@ limitations under the License.
 
 
 <!-- Imports -->
+<link rel="import" href="../../ft-settings/ft-settings-publisher-behavior.html">
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../iron-input/iron-input.html">
 <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
@@ -28,7 +29,7 @@ This element defines a source grid example that allows experimentation with conf
 
 @demo
  -->
-<dom-module id="ft-source-panel-settings">
+<dom-module id="ft-source-panel-settings-editor">
 
     <template>
 
@@ -39,7 +40,7 @@ This element defines a source grid example that allows experimentation with conf
                 display:block;
                 overflow:hidden;
                 @apply --layout-vertical;
-                @apply --ft-source-panel-settings;
+                @apply --ft-source-panel-settings-editor;
             }
         </style>
 
@@ -93,7 +94,16 @@ This element defines a source grid example that allows experimentation with conf
 
         Polymer
         ({
-            is: 'ft-source-panel-settings',
+            is: 'ft-source-panel-settings-editor',
+
+            behaviors: [
+                FileThis.SettingsPublisherBehavior
+            ],
+
+            observers:
+            [
+                "_onSettingsPropertyChanged(showFilters, title, showTitle, showSearchField)",
+            ],
 
             properties:
             {
@@ -102,58 +112,37 @@ This element defines a source grid example that allows experimentation with conf
                     type: Boolean,
                     notify: true,
                     value: true,
-                    observer: "_onSettingChanged"
                 },
                 title:
                 {
                     type: String,
                     notify: true,
                     value: "Sources",
-                    observer: "_onSettingChanged"
                 },
                 showFilters:
                 {
                     type: Boolean,
                     notify: true,
                     value: true,
-                    observer: "_onSettingChanged"
                 },
                 showSearchField:
                 {
                     type: Boolean,
                     notify: true,
                     value: true,
-                    observer: "_onSettingChanged"
-                },
-
-                settings:
-                {
-                    type: Object,
-                    readOnly: true,
-                    notify: true,
-                    observer: "_onSettingChanged"
                 },
 
             },
 
             ready: function()
             {
-                this._updateSettings();
+                var propertyNames = [ "showTitle", "title", "showFilters", "showSearchField" ];
+                this.settingsPublish("ft-source-panel-settings-editor", propertyNames);
             },
 
-            _onSettingChanged: function(to, from)
+            _onSettingsPropertyChanged: function()
             {
-                this._updateSettings();
-            },
-
-            _updateSettings: function()
-            {
-                var config = {};
-                config.showFilters = this.showFilters;
-                config.title = this.title;
-                config.showTitle = this.showTitle;
-                config.showSearchField = this.showSearchField;
-                return config;
+                this.updateSettings();
             },
 
         });

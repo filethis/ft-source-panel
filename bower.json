@@ -9,6 +9,7 @@
     "ft-error-behavior": "filethis/ft-error-behavior#^0.0.16",
     "ft-http-behavior": "filethis/ft-http-behavior#^0.0.16",
     "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^0.0.13",
+    "ft-settings": "filethis/ft-settings#^0.0.1",
     "ft-source-grid": "filethis/ft-source-grid#^0.0.19",
     "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.18",
     "ft-styler": "filethis/ft-styler#^0.0.6",
