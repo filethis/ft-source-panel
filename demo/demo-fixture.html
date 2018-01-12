@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../ft-element-demo/ft-element-demo.html">
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../ft-source-panel-settings.html">
 <link rel="import" href="../ft-source-panel.html">
 <link rel="import" href="ft-source-panel-settings-editor.html">
 
@@ -44,6 +45,8 @@ This element defines a source grid example that allows experimentation with conf
             }
         </style>
 
+        <ft-source-panel-settings></ft-source-panel-settings>
+
         <ft-element-demo
             name="ft-source-panel"
             code="[[code]]"
@@ -55,10 +58,6 @@ This element defines a source grid example that allows experimentation with conf
                 id="settings"
                 slot="config"
                 style="padding:20px; "
-                show-title="{{showTitle}}"
-                title="{{title}}"
-                show-filters="{{showFilters}}"
-                show-search-field="{{showSearchField}}"
             >
             </ft-source-panel-settings-editor>
 
@@ -67,10 +66,6 @@ This element defines a source grid example that allows experimentation with conf
                 slot="instance"
                 id="panel"
                 style="width:100%; height:100%; "
-                show-title="[[showTitle]]"
-                title="[[title]]"
-                show-filters="[[showFilters]]"
-                show-search-field="[[showSearchField]]"
                 code="{{code}}"
             >
            </ft-source-panel>
@@ -87,47 +82,42 @@ This element defines a source grid example that allows experimentation with conf
 
             properties:
             {
-                _setterData: {
-                    type: Object,
-                    value: {
-                        name: "panel",
-                        properties: {
-                            showFilters: false,
-                            title: "Yahoo!!!",
-                        },
-                    }
-                },
-
                 _base: {
                     type: Object,
                     value: this,
                 },
 
-                showTitle:
-                {
-                    type: Boolean,
-                    value: true
-                },
-                title:
-                {
-                    type: String,
-                    value: "Sources"
-                },
-                showFilters:
-                {
-                    type: Boolean,
-                    value: true
-                },
-                showSearchField:
-                {
-                    type: Boolean,
-                    value: true
-                },
                 code:
                 {
                     type: String,
                     value: ""
-                }
+                },
+            },
+
+            _onSet: function(event)
+            {
+                var detail = event.detail;
+                var path = detail.path;
+                var value = detail.value;
+                console.log("SET: " + path + " = " + value.toString());
+            },
+
+            _onSubscribe: function(event)
+            {
+                var detail = event.detail;
+                var path = detail.path;
+                var element = detail.element;
+                var elementId = element.id;
+                console.log("SUBSCRIBE: " + elementId + " to " + path);
+            },
+
+            _onUnsubscribe: function(event)
+            {
+                var detail = event.detail;
+                var path = detail.path;
+                var element = detail.element;
+                var elementId = element.id;
+                console.log("UNSUBSCRIBE: " + elementId + " to " + path);
             },
 
             ready: function()

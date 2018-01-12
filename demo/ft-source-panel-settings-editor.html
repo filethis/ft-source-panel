@@ -16,7 +16,7 @@ limitations under the License.
 
 
 <!-- Imports -->
-<link rel="import" href="../../ft-settings/ft-settings-publisher-behavior.html">
+<link rel="import" href="../../ft-global-variable/ft-global-variable.html">
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../iron-input/iron-input.html">
 <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
@@ -53,21 +53,27 @@ This element defines a source grid example that allows experimentation with conf
         </style>
 
         <!-- Settings -->
-        <paper-checkbox checked="{{showTitle}}">
-            Show Title
+        <ft-global-variable context="ft-source-panel-settings-editor" name="ft-source-panel-show-filters" value="{{showFilters}}"></ft-global-variable>
+        <ft-global-variable context="ft-source-panel-settings-editor" name="ft-source-panel-heading" value="{{heading}}"></ft-global-variable>
+        <ft-global-variable context="ft-source-panel-settings-editor" name="ft-source-panel-show-heading" value="{{showHeading}}"></ft-global-variable>
+        <ft-global-variable context="ft-source-panel-settings-editor" name="ft-source-panel-show-search-field" value="{{showSearchField}}"></ft-global-variable>
+
+        <!-- Settings -->
+        <paper-checkbox checked="{{showHeading}}">
+            Show Heading
         </paper-checkbox>
 
         <div class="layout horizontal">
 
             <!-- Label -->
             <div>
-                Title:
+                Heading:
             </div>
 
             <!-- Field -->
             <iron-input
-                   id="titleField"
-                   bind-value="{{title}}"
+                   id="headingField"
+                   bind-value="{{heading}}"
                    style="font-family:Arial;
                             font-size:12px;
                             width:100px; height:28px;
@@ -96,53 +102,56 @@ This element defines a source grid example that allows experimentation with conf
         ({
             is: 'ft-source-panel-settings-editor',
 
-            behaviors: [
-                FileThis.SettingsPublisherBehavior
-            ],
 
-            observers:
-            [
-                "_onSettingsPropertyChanged(showFilters, title, showTitle, showSearchField)",
-            ],
 
-            properties:
+            /**
+             * Show a filter popup button.
+             *
+             * Note that you can provide the strings "true" and "false" as attribute values.
+             *
+             * @type {boolean}
+             */
+            showFilters:
             {
-                showTitle:
-                {
-                    type: Boolean,
-                    notify: true,
-                    value: true,
-                },
-                title:
-                {
-                    type: String,
-                    notify: true,
-                    value: "Sources",
-                },
-                showFilters:
-                {
-                    type: Boolean,
-                    notify: true,
-                    value: true,
-                },
-                showSearchField:
-                {
-                    type: Boolean,
-                    notify: true,
-                    value: true,
-                },
-
+                type: Object,
+                value: true,
+                notify: true,
             },
 
-            ready: function()
+            /** Heading to display when "showHeading" is true. */
+            heading:
             {
-                var propertyNames = [ "showTitle", "title", "showFilters", "showSearchField" ];
-                this.settingsPublish("ft-source-panel-settings-editor", propertyNames);
+                type: String,
+                value: "Sites",
+                notify: true,
             },
 
-            _onSettingsPropertyChanged: function()
+            /**
+             * Show a heading string.
+             *
+             * Note that you can provide the strings "true" and "false" as attribute values.
+             *
+             * @type {boolean}
+             */
+            showHeading:
             {
-                this.updateSettings();
+                type: Object,
+                value: true,
+                notify: true,
+            },
+
+            /**
+             * Show a button that lets users choose to show the search field.
+             *
+             * Note that you can provide the strings "true" and "false" as attribute values.
+             *
+             * @type {boolean}
+             */
+            showSearchField:
+            {
+                type: Object,
+                value: true,
+                notify: true,
             },
 
         });
