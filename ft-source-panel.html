@@ -70,10 +70,10 @@ This element displays a list of FileThis source resources. Above the list is a h
 
 
         <!-- Settings -->
-        <ft-global-variable context="ft-source-panel" name="ft-source-panel-show-filters" value="{{showFilters}}"></ft-global-variable>
-        <ft-global-variable context="ft-source-panel" name="ft-source-panel-heading" value="{{heading}}"></ft-global-variable>
-        <ft-global-variable context="ft-source-panel" name="ft-source-panel-show-heading" value="{{showHeading}}"></ft-global-variable>
-        <ft-global-variable context="ft-source-panel" name="ft-source-panel-show-search-field" value="{{showSearchField}}"></ft-global-variable>
+        <ft-global-variable name="ft-source-panel-show-filters" value="{{showFilters}}"></ft-global-variable>
+        <ft-global-variable name="ft-source-panel-heading" value="{{heading}}"></ft-global-variable>
+        <ft-global-variable name="ft-source-panel-show-heading" value="{{showHeading}}"></ft-global-variable>
+        <ft-global-variable name="ft-source-panel-show-search-field" value="{{showSearchField}}"></ft-global-variable>
 
         <!-- Search and sort bar -->
         <div
@@ -284,7 +284,6 @@ This element displays a list of FileThis source resources. Above the list is a h
                 showFilters:
                 {
                     type: Object,
-                    value: true,
                     notify: true,
                 },
 
@@ -292,7 +291,6 @@ This element displays a list of FileThis source resources. Above the list is a h
                 heading:
                 {
                     type: String,
-                    value: "Sites",
                     notify: true,
                 },
 
@@ -306,7 +304,6 @@ This element displays a list of FileThis source resources. Above the list is a h
                 showHeading:
                 {
                     type: Object,
-                    value: true,
                     notify: true,
                 },
 
@@ -320,7 +317,6 @@ This element displays a list of FileThis source resources. Above the list is a h
                 showSearchField:
                 {
                     type: Object,
-                    value: true,
                     notify: true,
                 },
 
