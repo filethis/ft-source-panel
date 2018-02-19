@@ -1,0 +1,132 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<link rel="import" href="../polymer/polymer.html">
+
+<ft-source-panel-settings></ft-source-panel-settings>
+<script>
+
+    // Make sure the "FileThis" namespace exists
+    window.FileThis = window.FileThis || {};
+
+    /**
+     * `<ft-source-panel-settings-behavior>`
+     *
+     * Mixin to get source panel settings properties.
+     *
+     * @demo
+     * @polymerBehavior FileThis.SourcePanelSettingsBehavior
+     */
+    FileThis.SourcePanelSettingsBehavior = {
+
+        observers:[
+            '_onInternalSettingsChanged(showFilters, heading, showHeading, showSearchField)',
+        ],
+
+        properties: {
+
+            /**
+             * Show a filter popup button.
+             *
+             * Note that you can provide the strings "true" and "false" as attribute values.
+             *
+             * @type {boolean}
+             */
+            showFilters:
+            {
+                type: Object,
+                value: true,
+                notify: true,
+                observer: "_onShowFiltersChanged",
+            },
+
+            /** Heading to display when "showHeading" is true. */
+            heading:
+            {
+                type: String,
+                value: "Sites",
+                notify: true,
+            },
+
+            /**
+             * Show a heading string.
+             *
+             * Note that you can provide the strings "true" and "false" as attribute values.
+             *
+             * @type {boolean}
+             */
+            showHeading:
+            {
+                type: Object,
+                value: true,
+                notify: true,
+            },
+
+            /**
+             * Show a button that lets users choose to show the search field.
+             *
+             * Note that you can provide the strings "true" and "false" as attribute values.
+             *
+             * @type {boolean}
+             */
+            showSearchField:
+            {
+                type: Object,
+                value: true,
+                notify: true,
+            },
+
+        },
+
+        _onShowFiltersChanged: function(to, from)
+        {
+            var foo = "bar";
+        },
+
+        _onInternalSettingsChanged: function(to)
+        {
+            this.fire("internal-settings-changed");
+        },
+
+        generateSettings: function()
+        {
+            var attributes = "";
+            if (this.showFilters !== true)
+                attributes += "\n    showFilters=false";
+            if (this.showHeading !== true)
+                attributes += "\n    showHeading=false";
+            if (this.heading !== "Sites")
+                attributes += "\n    heading='" + this.heading + "'";
+            if (this.showSearchField !== true)
+                attributes += "\n    showSearchField=false";
+
+            if (attributes.length === 0)
+                return "";
+
+            var settings = "";
+
+            settings += "\n<link rel=\"import\" href=\"../bower_components/ft-source-panel/ft-source-panel-settings.html\">\n";
+
+            settings += "\n<ft-source-panel-settings ";
+            settings += attributes;
+            settings += ">\n</ft-source-panel-settings>\n";
+
+            return settings;
+        },
+    }
+
+</script>

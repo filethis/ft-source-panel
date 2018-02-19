@@ -17,6 +17,7 @@ limitations under the License.
 
 <link rel="import" href="../ft-global-variable/ft-global-variable.html">
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="ft-source-panel-settings-behavior.html">
 
 
 <!--
@@ -28,82 +29,27 @@ Settings applied to the ft-source-panel.
 -->
 <dom-module id="ft-source-panel-settings">
 
-    <template>
-        <ft-global-variable name="ft-source-panel-show-filters" value="{{showFilters}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-heading" value="{{heading}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-show-heading" value="{{showHeading}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-show-search-field" value="{{showSearchField}}"></ft-global-variable>
-    </template>
-
     <script>
         Polymer({
 
             is: 'ft-source-panel-settings',
 
-            properties: {
+            behaviors: [FileThis.SourcePanelSettingsBehavior],
 
-                /**
-                 * Show a filter popup button.
-                 *
-                 * Note that you can provide the strings "true" and "false" as attribute values.
-                 *
-                 * @type {boolean}
-                 */
-                showFilters:
-                {
-                    type: Object,
-                    value: true,
-                    notify: true,
-                },
-
-                /** Heading to display when "showHeading" is true. */
-                heading:
-                {
-                    type: String,
-                    value: "Sites",
-                    notify: true,
-                },
-
-                /**
-                 * Show a heading string.
-                 *
-                 * Note that you can provide the strings "true" and "false" as attribute values.
-                 *
-                 * @type {boolean}
-                 */
-                showHeading:
-                {
-                    type: Object,
-                    value: true,
-                    notify: true,
-                },
-
-                /**
-                 * Show a button that lets users choose to show the search field.
-                 *
-                 * Note that you can provide the strings "true" and "false" as attribute values.
-                 *
-                 * @type {boolean}
-                 */
-                showSearchField:
-                {
-                    type: Object,
-                    value: true,
-                    notify: true,
-                },
-
-            },
-
-            ready: function()
+            attached: function()
             {
-                // setTimeout(function()
-                // {
-                //     this.showHeading = true;
-                //     this.heading = "Awesome";
-                // }.bind(this), 2000)
+                this.async(this._initializeSettings);
             },
 
+            _initializeSettings: function()
+            {
+                window.FileThis.FtGlobalVariable.propagateValue("ft-source-panel-show-filters", this.showFilters);
+                window.FileThis.FtGlobalVariable.propagateValue("ft-source-panel-heading", this.heading);
+                window.FileThis.FtGlobalVariable.propagateValue("ft-source-panel-show-heading", this.showHeading);
+                window.FileThis.FtGlobalVariable.propagateValue("ft-source-panel-show-search-field", this.showSearchField);
+            },
         });
+
     </script>
 
 </dom-module>

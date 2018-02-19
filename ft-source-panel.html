@@ -33,6 +33,7 @@ limitations under the License.
 <link rel="import" href="../paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../polymer/lib/utils/debounce.html">
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="ft-source-panel-settings-behavior.html">
 
 
 <!-- TODO: Retrofit this to use iron-list instead of a dom-repeat template. -->
@@ -67,7 +68,6 @@ This element displays a list of FileThis source resources. Above the list is a h
                 @apply --ft-source-panel;
             }
         </style>
-
 
         <!-- Settings -->
         <ft-global-variable name="ft-source-panel-show-filters" value="{{showFilters}}"></ft-global-variable>
@@ -179,6 +179,8 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             is: 'ft-source-panel',
 
+            behaviors: [FileThis.SourcePanelSettingsBehavior],
+
             listeners:
             {
                 'connect-command': '_onConnectCommand',
@@ -263,63 +265,6 @@ This element displays a list of FileThis source resources. Above the list is a h
                     type: Array,
                     value: []
                 },
-
-                /** The instantiation code. */
-                code: {
-                    type: String,
-                    notify: true,
-                    value: ""
-                },
-
-
-
-
-                /**
-                 * Show a filter popup button.
-                 *
-                 * Note that you can provide the strings "true" and "false" as attribute values.
-                 *
-                 * @type {boolean}
-                 */
-                showFilters:
-                {
-                    type: Object,
-                    notify: true,
-                },
-
-                /** Heading to display when "showHeading" is true. */
-                heading:
-                {
-                    type: String,
-                    notify: true,
-                },
-
-                /**
-                 * Show a heading string.
-                 *
-                 * Note that you can provide the strings "true" and "false" as attribute values.
-                 *
-                 * @type {boolean}
-                 */
-                showHeading:
-                {
-                    type: Object,
-                    notify: true,
-                },
-
-                /**
-                 * Show a button that lets users choose to show the search field.
-                 *
-                 * Note that you can provide the strings "true" and "false" as attribute values.
-                 *
-                 * @type {boolean}
-                 */
-                showSearchField:
-                {
-                    type: Object,
-                    notify: true,
-                },
-
 
             },
 
@@ -441,6 +386,8 @@ This element displays a list of FileThis source resources. Above the list is a h
             _onSettingsPropertyChanged: function()
             {
                 this._showButtonChanged();
+
+                this.fire("settings-property-changed");
             },
 
         });
