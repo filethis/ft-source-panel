@@ -1,0 +1,31 @@
+{
+  "name": "ft-scrolling-behavior",
+  "description": "A behavior that helps with scrolling of elements.",
+  "main": "ft-scrolling-behavior.html",
+  "dependencies": {
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.11",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  },
+  "homepage": "https://github.com/filethis/ft-scrolling-behavior",
+  "version": "0.0.15",
+  "_release": "0.0.15",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.15",
+    "commit": "ea638dfd90667c61d4db9a3c0c320a6d55470e0f"
+  },
+  "_source": "https://github.com/filethis/ft-scrolling-behavior.git",
+  "_target": "^0.0.15",
+  "_originalSource": "filethis/ft-scrolling-behavior"
+}

@@ -1,0 +1,442 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<link rel="import" href="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../iron-input/iron-input.html">
+<link rel="import" href="../iron-label/iron-label.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`<ft-create-connection-dialog>`
+
+An element that accepts username and password to connect to a document source.
+
+@demo
+-->
+<dom-module id="ft-create-connection-dialog">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+                @apply --ft-create-connection-dialog;
+            }
+        </style>
+
+        <paper-dialog id="dialog"
+                      modal
+                      on-iron-overlay-closed="_onClosed"
+                      style="width:630px; padding-left:40px; padding-top:12px; padding-right:40px; padding-bottom:5px;">
+
+            <!-- Center things -->
+            <div class="layout vertical center"
+                 style="width:450px;
+                        padding-left:40px; padding-top:12px; padding-right:40px; padding-bottom:5px;">
+
+                <!-- Prompt -->
+                <iron-label style="font-family:Arial;
+                                    font-size:13px;
+                                    font-style:italic;
+                                    color:#343434;">
+                    Please enter your credentials for:
+                </iron-label>
+
+                <!-- Spacer -->
+                <div style="height:10px;"></div>
+
+                <!-- Source Name -->
+                <div id="_sourceName"
+                     style="font-family:Palatino;
+                            font-size:24px;
+                            color:#343434;">
+                    {{_sourceName}}
+                </div>
+
+                <!-- Spacer -->
+                <div style="height:18px;"></div>
+
+                <!-- Logo Box -->
+                <div class="layout vertical center"
+                     style="width:150px; height:65px;
+                            border:1px solid #DEDEDE;
+                            justify-content:center;">
+
+                    <!-- Logo -->
+                    <img
+                            style="width:auto; max-width:100%;"
+                            src="{{_sourceLogoUrl}}">
+                    </img>
+
+                </div>
+
+                <!-- Optional Note -->
+                <div id="note"
+                     style="font-family:Arial;
+                            font-size:13px;
+                            margin-top:9px;
+                            color:#7F7F7F;
+                            display:none;">
+                    {{_sourceNotes}}
+                </div>
+
+                <!-- Spacer -->
+                <div style="height:38px;"></div>
+
+                <!-- Username -->
+                <div class="layout horizontal center">
+
+                    <!-- Label -->
+                    <div style="width:65px;
+                                text-align:right;
+                                font-family:Arial;
+                                font-size:14px;
+                                font-weight:bold;
+                                color:#343434;">
+                        Username
+                    </div>
+
+                    <!-- Spacer -->
+                    <div style="width:30px;"></div>
+
+                    <!-- Entry field -->
+                    <input id="usernameField"
+                           type="text"
+                           autofocus
+                           on-keyup="_onKeyUp"
+                           value="{{username::input}}"
+                           style="font-family:Arial;
+                                    font-size:15px;
+                                    width:350px; height:28px;
+                                    padding-left:6px; padding-right:6px;
+                                    color:#343434;">
+
+                </div>
+
+                <!-- Spacer -->
+                <div style="height:15px;"></div>
+
+                <!-- Password -->
+                <div class="layout horizontal center">
+
+                    <!-- Label -->
+                    <div style="width:65px;
+                                text-align:right;
+                                font-family:Arial;
+                                font-size:14px;
+                                font-weight:bold;
+                                color:#343434;">
+                        Password
+                    </div>
+
+                    <!-- Spacer -->
+                    <div style="width:30px;"></div>
+
+                    <!-- Entry field -->
+                    <input id="passwordField"
+                           type="password"
+                           on-keyup="_onKeyUp"
+                           value="{{password::input}}"
+                           style="font-family:Arial;
+                                    font-size:15px;
+                                    width:350px; height:28px;
+                                    padding-left:6px; padding-right:6px;
+                                    color:#343434;">
+
+                </div>
+
+                <!-- Spacer -->
+                <div style="height:14px;"></div>
+
+                <!-- Dividing line -->
+                <hr width="100" style="width:100%; height:2px; border-width:0; color:#EEEEEE; background-color:#EEEEEE"/>
+
+                <!-- Spacer -->
+                <div style="height:15px;"></div>
+
+                <!-- Buttons -->
+                <div class="layout horizontal">
+
+                    <!-- Cancel Button -->
+                    <paper-button dialog-dismiss raised
+                                  id="cancelButton"
+                                  style="font-family:Arial"
+                                  on-tap="_onCancelButtonClicked">
+                        Cancel
+                    </paper-button>
+
+                    <!-- Spacer -->
+                    <div style="width:10px;"></div>
+
+                    <!-- Connect Button -->
+                    <paper-button dialog-confirm autofocus raised
+                                  id="connectButton"
+                                  disabled$="{{!isValid}}"
+                                  style="font-family:Arial"
+                                  on-tap="_onConnectButtonClicked">
+                        Connect
+                    </paper-button>
+
+                </div>
+
+                <!-- Spacer -->
+                <div style="height:32px;"></div>
+
+                <!-- Informational Links -->
+                <div class="layout horizontal center"
+                     style="width:100%;">
+
+                    <!-- Visit source site -->
+                    <div class="link"
+                         style="font-family:Arial;
+                                font-size:15px;
+                                color:#3B7FBA;
+                                cursor:pointer;
+                                "
+                         on-tap="_onVisitSourceSiteButtonClicked">
+                        Visit {{_sourceName}} website
+                    </div>
+
+                    <!-- Spacer -->
+                    <div class="flex"></div>
+
+                    <!-- Is this safe? -->
+                    <div class="link"
+                         style="font-family:Arial;
+                                font-size:15px;
+                                color:#3B7FBA;
+                                cursor:pointer;"
+                         hidden$="[[!showIsThisSafeButton]]"
+                         on-tap="_onIsThisSafeButtonClicked">
+                        Is this safe?
+                    </div>
+                </div>
+            </div>
+
+        </paper-dialog>
+
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'ft-create-connection-dialog',
+
+            /**
+             * Fired when the dialog is committed.
+             *
+             * @event commit
+             * @param {Object} detail The selected connection.
+             */
+
+            /**
+             * Fired when the dialog is canceled.
+             *
+             * @event cancel
+             */
+
+            /**
+             * Fired when the "Visit Site" button is clicked.
+             *
+             * @event visit-source-site
+             * @param {Object} detail The source to be visited.
+             */
+
+            /**
+             * Fired when the "Is this safe" button is clicked.
+             *
+             * @event is-this-safe
+             */
+
+            properties: {
+
+                /** Username entered by the user. */
+                username:
+                {
+                    type: String,
+                    value: "",
+                    notify: true
+                },
+
+                /** Password entered by the user. */
+                password:
+                {
+                    type: String,
+                    value: "",
+                    notify: true
+                },
+
+                /** FileThis "source" resource. */
+                source:
+                {
+                    type: Object,
+                    value: null,
+                    notify: true
+                },
+
+                /**
+                 * Show "Is this safe" button at bottom of dialog.
+                 *
+                 * Note that you can provide the strings "true" and "false" as attribute values.
+                 *
+                 * @type {boolean}
+                 */
+                showIsThisSafeButton:
+                {
+                    type: Object,
+                    value: true,
+                    notify: true
+                },
+
+                /** True when the entered values are valid and the dialog can be committed. */
+                isValid:
+                {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
+
+                /** URL for source logo. Computed from the source resource property and bound to UI element. */
+                _sourceLogoUrl:
+                {
+                    type: String,
+                    computed: '_getSourceLogoUrl(source)'
+                },
+
+                /** Name of the source. Computed from the source resource property and bound to UI element. */
+                _sourceName:
+                {
+                    type: String,
+                    computed: '_getSourceName(source)'
+                },
+
+                /** Notes about the source, if any. Computed from the source resource property and bound to UI element. */
+                _sourceNotes:
+                {
+                    type: String,
+                    computed: '_getSourceNotes(source)'
+                }
+            },
+
+            ready: function()
+            {
+                this.username = "";
+                this.password = "";
+                this._validateCredentials();
+                this.$.usernameField.focus();
+            },
+
+            open: function()
+            {
+                var theDialog = this.$.dialog;
+                theDialog.open();
+            },
+
+            _onClosed: function()
+            {
+                // Clear fields for safety
+                this.username = "";
+                this.password = "";
+            },
+
+            _credentialsAreValid: function()
+            {
+                if (this.username.length === 0)
+                    return false;
+                if (this.password.length === 0)
+                    return false;
+                return true;
+            },
+
+            _validateCredentials: function()
+            {
+                this.isValid = this._credentialsAreValid();
+            },
+
+            _onKeyUp: function(event)
+            {
+                this._validateCredentials();
+
+                // TODO: Generalize this
+                if (this.isValid)
+                {
+                    var enterKeyWasHit = (event.keyCode === 13);
+                    if (enterKeyWasHit)
+                    {
+                        this.$.dialog.close();
+                        this._commit();
+                    }
+                }
+            },
+
+            _onCancelButtonClicked: function(event, detail)
+            {
+                this.fire('cancel-command');
+            },
+
+            _onConnectButtonClicked: function(event, detail)
+            {
+                this._commit();
+            },
+
+            _commit: function()
+            {
+                this.fire('create-connection-command', this);
+            },
+
+            _onVisitSourceSiteButtonClicked: function(event, detail)
+            {
+                this.fire('visit-source-site-command', this.source);
+            },
+
+            _onIsThisSafeButtonClicked: function(event, detail)
+            {
+                this.fire('is-this-safe-command');
+            },
+
+            _getSourceLogoUrl: function(source)
+            {
+                if (source === null)
+                    return "";
+                return source.logoUrl;
+            },
+
+            _getSourceName: function(source)
+            {
+                if (source === null)
+                    return "";
+                return source.name;
+            },
+
+            _getSourceNotes: function(source)
+            {
+                if (source === null)
+                    return "";
+                return source.notes;
+            }
+
+        });
+    </script>
+</dom-module>

@@ -1,0 +1,6 @@
+{
+    "lint": {
+        "rules": ["polymer-2-hybrid", "undefined-elements"],
+        "ignoreWarnings": ["multiple-doc-comments"]
+    }
+}

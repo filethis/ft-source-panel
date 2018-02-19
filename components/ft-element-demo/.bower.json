@@ -1,0 +1,48 @@
+{
+  "name": "ft-element-demo",
+  "description": "An element that can be used for the demo fixture for FileThis elements. Has a slot for the element to be demoed and a side bar for configuration options.",
+  "main": "ft-element-demo.html",
+  "dependencies": {
+    "app-storage": "^2.0.2",
+    "ft-accordion-item": "filethis/ft-accordion-item#^0.0.8",
+    "ft-clipboard-behavior": "filethis/ft-clipboard-behavior#^0.0.6",
+    "ft-confirmation-dialog": "filethis/ft-confirmation-dialog#^0.0.20",
+    "ft-error-behavior": "filethis/ft-error-behavior#^0.0.18",
+    "ft-form-panel": "filethis/ft-form-panel#^0.0.3",
+    "ft-http-behavior": "filethis/ft-http-behavior#^0.0.18",
+    "ft-labeled-icon-button": "filethis/ft-labeled-icon-button#^0.0.17",
+    "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^0.0.15",
+    "ft-styler": "filethis/ft-styler#^0.0.8",
+    "ft-url-param-behavior": "filethis/ft-url-param-behavior#^0.0.6",
+    "iron-pages": "PolymerElements/iron-pages#1 - 2",
+    "juicy-ace-editor": "^2.0.4",
+    "paper-button": "PolymerElements/paper-button#1 - 2",
+    "paper-checkbox": "PolymerElements/paper-checkbox#1 - 2",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#1 - 2",
+    "paper-item": "PolymerElements/paper-item#1 - 2",
+    "paper-listbox": "PolymerElements/paper-listbox#1 - 2",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  },
+  "homepage": "https://github.com/filethis/ft-element-demo",
+  "version": "0.0.11",
+  "_release": "0.0.11",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.11",
+    "commit": "dee059446e1e8d61ea0143917225b55eb235a50c"
+  },
+  "_source": "https://github.com/filethis/ft-element-demo.git",
+  "_target": "^0.0.11",
+  "_originalSource": "filethis/ft-element-demo"
+}

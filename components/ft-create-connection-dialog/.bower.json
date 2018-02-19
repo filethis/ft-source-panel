@@ -1,0 +1,35 @@
+{
+  "name": "ft-create-connection-dialog",
+  "description": "An element that accepts username and password to connect to a document source.",
+  "main": "ft-create-connection-dialog.html",
+  "dependencies": {
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.11",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#1 - 2",
+    "iron-input": "PolymerElements/iron-input#1 - 2",
+    "iron-label": "PolymerElements/iron-label#1 - 2",
+    "paper-dialog": "PolymerElements/paper-dialog#1 - 2",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  },
+  "homepage": "https://github.com/filethis/ft-create-connection-dialog",
+  "version": "0.0.24",
+  "_release": "0.0.24",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.24",
+    "commit": "e96a5d180b94a679de922d685ec0347c418a815b"
+  },
+  "_source": "https://github.com/filethis/ft-create-connection-dialog.git",
+  "_target": "^0.0.24",
+  "_originalSource": "filethis/ft-create-connection-dialog"
+}

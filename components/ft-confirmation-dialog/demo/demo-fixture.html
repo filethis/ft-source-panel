@@ -1,0 +1,79 @@
+<!-- ft-confirmation-dialog element demo -->
+
+<!-- Imports -->
+<link rel="import" href="../../ft-element-demo/ft-element-demo.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../ft-confirmation-dialog.html">
+
+
+<!--
+
+An element that provides a configurable confirmation dialog.
+
+@demo
+ -->
+<dom-module id="demo-fixture">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+            }
+        </style>
+
+        <div class="layout vertical center">
+
+            <ft-confirmation-dialog id="dialog"></ft-confirmation-dialog>
+
+            <!-- Alert button -->
+            <paper-button raised on-tap="_alert">Alert</paper-button>
+
+            <div style="height:20px"></div>
+
+            <!-- Confirm button -->
+            <paper-button raised on-tap="_confirm">Confirm</paper-button>
+
+            <div style="height:20px"></div>
+
+            <!-- Fancy button -->
+            <paper-button raised on-tap="_fancy">Fancy</paper-button>
+
+        </div>
+
+
+    </template>
+
+    <script>
+
+        Polymer
+        ({
+            is: 'demo-fixture',
+
+            _alert: function()
+            {
+                this.$.dialog.alert("You are a wonderful human being.");
+            },
+
+            _confirm: function()
+            {
+                this.$.dialog.confirm("Do you want to frobnicate the discombobulator?");
+            },
+
+            // NOTE: Image used here is in the public domain: https://pixabay.com/en/wow-bang-explosion-pow-blast-155268/
+            _fancy: function()
+            {
+                this.$.dialog.alert("You can use _Markdown_ in your dialogs.<br><br>![Amazing!](wow.png)<br><br>```wow() { return \"That is fantastic!\"; " +
+                    "}```<br><br>That's just __great__!");
+            }
+        });
+
+    </script>
+
+</dom-module>
+

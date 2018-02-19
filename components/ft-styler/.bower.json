@@ -1,0 +1,36 @@
+{
+  "name": "ft-styler",
+  "description": "An element that lets designers apply CSS style to FileThis elements.",
+  "main": "ft-styler.html",
+  "dependencies": {
+    "ft-clipboard-behavior": "filethis/ft-clipboard-behavior#^0.0.6",
+    "ft-confirmation-dialog": "filethis/ft-confirmation-dialog#^0.0.20",
+    "ft-labeled-icon-button": "filethis/ft-labeled-icon-button#^0.0.17",
+    "juicy-ace-editor": "^2.0.4",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-label": "PolymerElements/iron-label#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "paper-input": "PolymerElements/paper-input#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  },
+  "homepage": "https://github.com/filethis/ft-styler",
+  "version": "0.0.8",
+  "_release": "0.0.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.8",
+    "commit": "e646d9f92f446c7d5dc757a609851963d35afcf2"
+  },
+  "_source": "https://github.com/filethis/ft-styler.git",
+  "_target": "^0.0.8",
+  "_originalSource": "filethis/ft-styler"
+}

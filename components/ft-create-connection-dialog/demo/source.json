@@ -1,0 +1,16 @@
+{
+    "id": 7,
+    "name": "Comcast",
+    "type": "util",
+    "state": "live",
+    "homePageUrl": "https:\/\/login.comcast.net\/login?forceAuthn=1&continue=%2fSecure%2fHome.aspx&s=ccentral-cima&r=comcast.net",
+    "phone": "(800) 266-2278",
+    "logoPath": "logos\/Logo_Comcast.png",
+    "logo": "Logo_Comcast.png",
+    "logoUrl": "https:\/\/staging.filethis.com\/static\/logos\/72\/Logo_Comcast.png",
+    "note": "",
+    "info": "",
+    "pattern": "",
+    "isNew": false,
+    "isPopular": true
+}

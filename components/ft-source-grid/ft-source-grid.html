@@ -1,0 +1,107 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<link rel="import" href="../ft-source-grid-item/ft-source-grid-item.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../iron-list/iron-list.html">
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`<ft-source-grid>`
+
+This element displays a grid layout of FileThis source resources.
+
+@demo
+-->
+<dom-module id="ft-source-grid">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+                @apply --layout-vertical;
+                @apply --ft-source-grid;
+            }
+        </style>
+
+        <iron-list grid
+                   selection-enabled
+                   id="sourceGrid"
+                   class="flex"
+                   style="background-color:white; "
+                   items="[[sources]]"
+                   selected-item="{{selectedSource}}"
+                   as="source">
+
+            <!-- Source item template -->
+            <template>
+                <ft-source-grid-item
+                        source="[[source]]"
+                        selected="[[selected]]">
+                </ft-source-grid-item>
+            </template>
+        </iron-list>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'ft-source-grid',
+
+            listeners:
+            {
+                'tap': '_onTap'
+            },
+
+            properties: {
+
+                /** The list of source resources to be be displayed. */
+                sources:
+                {
+                    type: Array,
+                    notify: true,
+                    value: []
+                },
+
+                /** The currently-selected source, if any. */
+                selectedSource:
+                {
+                    type: Object,
+                    notify: true,
+                    value: null
+                }
+            },
+
+            _onTap: function()
+            {
+                // if (event.ftComponentName === undefined)
+                //     event.ftComponentName = "ft-source-grid";
+            },
+
+            clearSelection: function()
+            {
+                this.$.sourceGrid.clearSelection();
+            }
+
+        });
+    </script>
+</dom-module>

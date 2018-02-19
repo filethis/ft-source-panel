@@ -1,0 +1,35 @@
+{
+  "name": "ft-source-grid-item",
+  "description": "An element that renders a FileThis source in a grid list.",
+  "main": "ft-source-grid-item.html",
+  "dependencies": {
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.11",
+    "iron-label": "PolymerElements/iron-label#1 - 2",
+    "paper-icon-button": "PolymerElements/paper-icon-button#1 - 2",
+    "paper-tooltip": "PolymerElements/paper-tooltip#1 - 2",
+    "web-animations-js": "web-animations-js#^2.2.0",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  },
+  "homepage": "https://github.com/filethis/ft-source-grid-item",
+  "version": "0.0.20",
+  "_release": "0.0.20",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.20",
+    "commit": "83da85b7d22d1e951273d876d1d44a870c6fade9"
+  },
+  "_source": "https://github.com/filethis/ft-source-grid-item.git",
+  "_target": "^0.0.20",
+  "_originalSource": "filethis/ft-source-grid-item"
+}

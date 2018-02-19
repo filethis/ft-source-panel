@@ -1,0 +1,231 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<link rel="import" href="../ft-confirmation-dialog/ft-confirmation-dialog.html">
+<link rel="import" href="../ft-labeled-icon-button/ft-labeled-icon-button.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-label/iron-label.html">
+<link rel="import" href="../juicy-ace-editor/juicy-ace-editor.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-input/paper-textarea.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="ft-css-editor.html">
+
+
+<!--
+`<ft-styler>`
+
+aaaaaaaaa
+
+@demo
+-->
+<dom-module id="ft-styler">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+                min-width:400px;
+                @apply --layout-vertical;
+            }
+        </style>
+
+        <!-- Header -->
+        <div
+                class="layout horizontal center"
+                style="height:60px; padding-left:12px; padding-right:8px; border-bottom:1px solid #DDD; ">
+
+            <!-- Heading -->
+            <iron-label
+                    hidden$="[[!showHeading]]"
+                    style="font-family:Arial; font-size:14pt; ">
+                Styler
+            </iron-label>
+
+            <div class="flex"></div>
+
+            <!-- Apply -->
+            <ft-labeled-icon-button
+                    id="applyButton"
+                    icon="exit-to-app"
+                    label="Apply"
+                    on-tap="_onApplyButtonClicked">
+            </ft-labeled-icon-button>
+        </div>
+
+        <!-- Editors -->
+        <div
+                class="flex scroll"
+                style="padding-left:8px; padding-right:8px; padding-bottom:12px; ">
+
+            <template is="dom-repeat" items="[[stylables]]" as="stylable">
+                <ft-css-editor
+                        stylable="[[stylable]]">
+                </ft-css-editor>
+            </template>
+        </div>
+
+        <!-- Confirmation dialog -->
+        <ft-confirmation-dialog id="confirmationDialog"></ft-confirmation-dialog>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'ft-styler',
+
+            properties: {
+
+                stylables: {
+                    type: Array,
+                    notify: true,
+                    value: [
+                        {
+                            name: "ft-connect-tabbed",
+                            value: "ft-connect-tabbed:" + "{ color:red; }",
+                            editor: null,
+                            isValid: true
+                        },
+                        {
+                            name:"ft-source-panel",
+                            value: "ft-source-panel:" + "{ color:red; }",
+                            editor: null,
+                            isValid: true
+                        },
+                        {
+                            name:"ft-connection-panel",
+                            value: "ft-connection-panel:" + "{ color:red; }",
+                            editor: null,
+                            isValid: true
+                        },
+                        {
+                            name:"ft-document-panel",
+                            value: "ft-document-panel:" + "{ color:red; }",
+                            editor: null,
+                            isValid: true
+                        }
+                    ]
+                }
+            },
+
+            _onChangeAnnotation: function(event)
+            {
+//                var session = this.$.css.editor.getSession();
+//                var annotations = session.getAnnotations();
+//                this._canApply = (annotations.length === 0);
+            },
+
+            _onApplyButtonClicked: function(event, detail)
+            {
+                var invalidStylables = this._collectInvalidStylables();
+                var someStyleIsInvalid = (invalidStylables.length > 0);
+                if (someStyleIsInvalid)
+                {
+                    // Scroll to the first one
+                    var firstInvalidStylable = invalidStylables[0];
+                    var editor = firstInvalidStylable.editor;
+                    if (editor !== null)
+                        editor.scrollIntoView();
+
+                    // Display dialog to user
+                    message = "The following CSS blocks are invalid and need to be corrected:<br><br>";
+                    invalidStylables.forEach(function(stylable)
+                    {
+                        message += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;" + stylable.name + "&gt;<br>";
+                    });
+                    this.$.confirmationDialog.alert(message);
+                    return;
+                }
+
+                this._applyAllStylables();
+            },
+
+            _applyAllStylables: function()
+            {
+                // Create a parser
+                var parser = new cssjs();
+
+                // For each stylable
+                var stylableCount = this.stylables.length;
+                for (var stylableIndex = 0;
+                     stylableIndex < stylableCount;
+                     stylableIndex++)
+                {
+                    // Parse the stylable
+                    var stylable = this.stylables[stylableIndex];
+                    var css = stylable.value;
+                    var expressions = parser.parseCSS(css);
+
+                    // For each expression in the stylable
+                    var expressionCount = expressions.length;
+                    for (var expressionIndex = 0;
+                         expressionIndex < expressionCount;
+                         expressionIndex++)
+                    {
+                        var expression = expressions[expressionIndex];
+                        var selector = expression.selector;
+                        var rules = expression.rules;
+
+                        var prefixedSelector = "--" + selector;
+
+                        Polymer.updateStyles({prefixedSelector: '#ed0'});
+                    }
+                }
+            },
+
+            _collectInvalidStylables: function()
+            {
+                var invalidStylables = [];
+                var count = this.stylables.length;
+                for (var index = 0;
+                     index < count;
+                     index++)
+                {
+                    var stylable = this.stylables[index];
+                    if (!stylable.isValid)
+                        invalidStylables.push(stylable);
+                }
+                return invalidStylables;
+            },
+
+            _validate: function()
+            {
+                var css = this.css;
+                var results = CSSLint.verify(css);
+                var messages = results.messages;
+                var count = messages.length;
+                var display = "";
+                for (var index = 0; index < count; index++)
+                {
+                    var message = messages[index];
+                    var messageAsString = JSON.stringify(message, null, 4);
+                    display += messageAsString;
+                }
+                this.output = display;
+            }
+
+        });
+
+    </script>
+</dom-module>

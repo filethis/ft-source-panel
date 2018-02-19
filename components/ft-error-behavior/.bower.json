@@ -1,0 +1,33 @@
+{
+  "name": "ft-error-behavior",
+  "description": "A behavior that provides error reporting.",
+  "main": "ft-error-behavior.html",
+  "dependencies": {
+    "ft-confirmation-dialog": "filethis/ft-confirmation-dialog#^0.0.20",
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.11",
+    "marked-element": "PolymerElements/marked-element#1 - 2",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  },
+  "homepage": "https://github.com/filethis/ft-error-behavior",
+  "version": "0.0.18",
+  "_release": "0.0.18",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.18",
+    "commit": "0aa6d0e6378a7f5522bbfe4dece113eb75c1eab9"
+  },
+  "_source": "https://github.com/filethis/ft-error-behavior.git",
+  "_target": "^0.0.18",
+  "_originalSource": "filethis/ft-error-behavior"
+}

@@ -1,0 +1,34 @@
+{
+  "name": "ft-confirmation-dialog",
+  "description": "An element that provides a configurable confirmation dialog.",
+  "main": "ft-confirmation-dialog.html",
+  "dependencies": {
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.11",
+    "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^0.0.15",
+    "marked-element": "PolymerElements/marked-element#1 - 2",
+    "paper-dialog": "PolymerElements/paper-dialog#1 - 2",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  },
+  "homepage": "https://github.com/filethis/ft-confirmation-dialog",
+  "version": "0.0.20",
+  "_release": "0.0.20",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.20",
+    "commit": "23fc183e3a4dd8dc63f64e62af85f5ca5bd68280"
+  },
+  "_source": "https://github.com/filethis/ft-confirmation-dialog.git",
+  "_target": "^0.0.20",
+  "_originalSource": "filethis/ft-confirmation-dialog"
+}

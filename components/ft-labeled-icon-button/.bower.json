@@ -1,0 +1,33 @@
+{
+  "name": "ft-labeled-icon-button",
+  "description": "A square button that has an icon with a small text label below it.",
+  "main": "ft-labeled-icon-button.html",
+  "dependencies": {
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.11",
+    "iron-icon": "PolymerElements/iron-icon#1 - 2",
+    "iron-icons": "PolymerElements/iron-icons#1 - 2",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  },
+  "homepage": "https://github.com/filethis/ft-labeled-icon-button",
+  "version": "0.0.17",
+  "_release": "0.0.17",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.17",
+    "commit": "425f09a17be008790da978f7b4962d331b843649"
+  },
+  "_source": "https://github.com/filethis/ft-labeled-icon-button.git",
+  "_target": "^0.0.17",
+  "_originalSource": "filethis/ft-labeled-icon-button"
+}

@@ -1,0 +1,32 @@
+{
+  "name": "ft-url-param-behavior",
+  "description": "A behavior that lets components use parameters in the page URL.",
+  "main": "ft-url-param-behavior.html",
+  "dependencies": {
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.11",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0",
+    "ft-element-demo": "^0.0.4"
+  },
+  "homepage": "https://github.com/filethis/ft-url-param-behavior",
+  "version": "0.0.6",
+  "_release": "0.0.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.6",
+    "commit": "c81b09e493b0c415ed5cb9d550295c9a1510a240"
+  },
+  "_source": "https://github.com/filethis/ft-url-param-behavior.git",
+  "_target": "^0.0.6",
+  "_originalSource": "filethis/ft-url-param-behavior"
+}

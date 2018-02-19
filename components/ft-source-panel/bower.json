@@ -1,0 +1,39 @@
+{
+  "name": "ft-source-panel",
+  "description": "A panel that displays a list of FileThis sources.",
+  "main": "ft-source-panel.html",
+  "dependencies": {
+    "array-filter": "43081j/array-filter#^2.0.0",
+    "ft-create-connection-dialog": "filethis/ft-create-connection-dialog#^0.0.24",
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.11",
+    "ft-error-behavior": "filethis/ft-error-behavior#^0.0.18",
+    "ft-global-variable": "filethis/ft-global-variable#^0.0.3",
+    "ft-http-behavior": "filethis/ft-http-behavior#^0.0.18",
+    "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^0.0.15",
+    "ft-source-grid": "filethis/ft-source-grid#^0.0.21",
+    "ft-source-grid-item": "filethis/ft-source-grid-item#^0.0.20",
+    "ft-styler": "filethis/ft-styler#^0.0.8",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#1 - 2",
+    "iron-input": "PolymerElements/iron-input#1 - 2",
+    "iron-label": "PolymerElements/iron-label#1 - 2",
+    "paper-checkbox": "PolymerElements/paper-checkbox#1 - 2",
+    "paper-dialog": "PolymerElements/paper-dialog#1 - 2",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#1 - 2",
+    "paper-icon-button": "PolymerElements/paper-icon-button#1 - 2",
+    "paper-item": "PolymerElements/paper-item#1 - 2",
+    "paper-listbox": "PolymerElements/paper-listbox#1 - 2",
+    "paper-menu-button": "PolymerElements/paper-menu-button#1 - 2",
+    "polymer": "Polymer/polymer#1.9 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  }
+}

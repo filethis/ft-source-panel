@@ -1,0 +1,382 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<link rel="import" href="../ft-clipboard-behavior/ft-clipboard-behavior.html">
+<link rel="import" href="../ft-confirmation-dialog/ft-confirmation-dialog.html">
+<link rel="import" href="../ft-labeled-icon-button/ft-labeled-icon-button.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-label/iron-label.html">
+<link rel="import" href="../juicy-ace-editor/juicy-ace-editor.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-input/paper-textarea.html">
+<link rel="import" href="../polymer/lib/utils/debounce.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="ft-css-declaration-editor.html">
+
+
+<!--
+`<ft-styler>`
+
+aaaaaaaaa
+
+@demo
+-->
+<dom-module id="ft-styler">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+                min-width:400px;
+                padding-left:16px;
+                padding-right:16px;
+                @apply --layout-vertical;
+            }
+        </style>
+
+        <!-- Element header -->
+        <div
+                class="layout horizontal center"
+                style="padding-top:10pt; padding-bottom:10pt; ">
+
+            <!-- Heading -->
+            <iron-label
+                    style="font-family:Arial; font-size:14pt; ">
+                CSS
+            </iron-label>
+
+            <div class="flex"></div>
+
+            <!-- Example button -->
+            <ft-labeled-icon-button
+                    id="exampleButton"
+                    icon="dashboard"
+                    label="Sample"
+                    on-tap="_onExampleButtonClicked">
+            </ft-labeled-icon-button>
+
+            <!-- Copy button -->
+            <ft-labeled-icon-button
+                    id="copyCssButton"
+                    icon="content-paste"
+                    label="Copy"
+                    on-tap="_onCopyCssButtonClicked">
+            </ft-labeled-icon-button>
+
+            <!-- Apply -->
+            <ft-labeled-icon-button
+                    id="applyButton"
+                    icon="exit-to-app"
+                    label="Apply"
+                    on-tap="_onApplyButtonClicked">
+            </ft-labeled-icon-button>
+        </div>
+
+        <!-- Generated CSS -->
+        <juicy-ace-editor
+                id="css"
+                readonly
+                style="border:1px solid #DDD; "
+                theme="ace/theme/chrome"
+                mode="ace/mode/text"
+                fontsize="14px"
+                softtabs
+                tabsize="4"></juicy-ace-editor>
+
+        <!-- Declaration header -->
+        <div
+                class="layout horizontal center"
+                style="padding-top:10pt; padding-bottom:5pt; ">
+
+            <!-- Heading -->
+            <iron-label
+                    style="font-family:Arial; font-size:12pt; ">
+                Declarations
+            </iron-label>
+
+            <div class="flex"></div>
+
+            <!-- New button -->
+            <ft-labeled-icon-button
+                    id="newDeclarationButton"
+                    icon="add"
+                    label="New"
+                    on-tap="_onNewDeclarationButtonClicked">
+            </ft-labeled-icon-button>
+        </div>
+
+        <!-- Declaration List -->
+        <div
+                class="scroll"
+                style="padding-bottom:12px; border:1px solid #DDD; ">
+
+            <template is="dom-repeat" items="{{declarations}}" as="declaration">
+                <ft-css-declaration-editor
+                        declaration="[[declaration]]">
+                </ft-css-declaration-editor>
+            </template>
+        </div>
+
+        <!-- Confirmation dialog -->
+        <ft-confirmation-dialog id="confirmationDialog"></ft-confirmation-dialog>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'ft-styler',
+
+            behaviors: [FileThis.ClipboardBehavior],
+
+            observers: [
+                '_onDeclarationsListChanged(declarations.splices)'
+            ],
+
+            listeners:
+            {
+                'delete-declaration-command': '_onDeleteDeclarationCommand',
+                'declaration-changed': '_onDeclarationChanged'
+            },
+
+            properties: {
+
+                name: {
+                    type: String,
+                    notify: true,
+                    value: "ft-thing",
+                    observer: "_onSettingChanged"
+                },
+
+                css: {
+                    type: String,
+                    notify: true
+                },
+
+                target: {
+                    type: Object,
+                    notify: true
+                },
+
+                declarations: {
+                    type: Array,
+                    notify: true,
+                    value: function () {
+                            return [
+                                {
+                                    name: "color",
+                                    value: "red"
+                                },
+                                {
+                                    name: "padding",
+                                    value: "12px"
+                                },
+                                {
+                                    name:"--ft-connection-special",
+                                    value: "foo"
+                                },
+                                {
+                                    name:"--ft-connection-another",
+                                    value: "bar"
+                                },
+                                {
+                                    name:"background-color",
+                                    value: "green"
+                                },
+                                {
+                                    name:"font-family",
+                                    value: "Ariel"
+                                }
+                            ]
+                        }
+                }
+            },
+
+            ready: function()
+            {
+                // Suppress deprecation warning
+                this.$.css.editor.$blockScrolling = Infinity;
+
+                // TODO: The "editor" property is undefined when the ready() method is called. That seems wrong. Fix.
+                this.async(function()
+                {
+                    var editor = this.$.css;
+                    var editorInternal = editor.editor;
+                    var session = editorInternal.getSession();
+
+                    // Disable syntax checking
+                    session.setUseWorker(false);
+
+                    editorInternal.setOptions({
+                        maxLines:Infinity,
+                        minLines:3
+                    });
+                }.bind(this), 100)
+            },
+
+            _onSettingChanged: function()
+            {
+                this._settingChangedDebouncer = Polymer.Debouncer.debounce
+                (
+                    this._settingChangedDebouncer,
+                    Polymer.Async.timeOut.after(60),
+                    this._onSettingChangedDebounced.bind(this)
+                );
+            },
+
+            _onSettingChangedDebounced: function()
+            {
+                this._generateCss();
+            },
+
+            _generateCss: function()
+            {
+                var css = "--" + this.name + ": {";
+                this.declarations.forEach(function(declaration)
+                {
+                    css += "\n    " + declaration.name + ": " + declaration.value + ";";
+                });
+                css += "\n}";
+
+                var editor = this.$.css;
+                var editorInternal = editor.editor;
+                editor.value = css;
+                editorInternal.selection.selectFileStart();
+            },
+
+            _onNewDeclarationButtonClicked: function(event)
+            {
+                var declaration = {
+                    name: "foo",
+                    value: "bar"
+                };
+
+                // Add the declaration
+                var index = this.declarations.indexOf(declaration);
+                this.push('declarations', declaration);
+            },
+
+            _onDeleteDeclarationCommand: function(event)
+            {
+                var declaration = event.detail;
+
+                // Remove the given declaration
+                var index = this.declarations.indexOf(declaration);
+                this.splice('declarations', index, 1);
+            },
+
+            _onApplyButtonClicked: function(event, detail)
+            {
+                // Check for invalid declarations
+                var invalidDeclarations = this._collectInvalidDeclarations();
+                var someDeclarationIsInvalid = (invalidDeclarations.length > 0);
+                if (someDeclarationIsInvalid)
+                {
+                    // Scroll to the first one
+//                    var firstInvalidDeclaration = invalidDeclarations[0];
+//                    var editor = firstInvalidDeclaration.editor;
+//                    if (editor !== null)
+//                        editor.scrollIntoView();
+
+                    // Display dialog to user
+                    message = "The following CSS declarations are invalid and need to be corrected:<br><br>";
+                    invalidDeclarations.forEach(function(declaration)
+                    {
+                        message += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;" + declaration.name + "&gt;<br>";
+                    });
+                    this.$.confirmationDialog.alert(message);
+                    return;
+                }
+
+                this._applyAllDeclarations();
+            },
+
+            _onCopyCssButtonClicked: function(event, detail)
+            {
+                this.copyTextToClipboard(this.css);
+            },
+
+            _onExampleButtonClicked: function(event, detail)
+            {
+            },
+
+            _applyAllDeclarations: function()
+            {
+                // For each declaration
+                var styles = {};
+                this.declarations.forEach(function(declaration)
+                {
+                    // Build css expression for this declaration
+                    var name = declaration.name;
+                    var value = declaration.value;
+
+                    styles[name] = value;
+
+                    // Apply
+//                    if (this.target)
+//                        this.target.updateStyles(css);
+//                    else // apply globally
+//                        Polymer.updateStyles(css);
+                }.bind(this));
+
+                this.target.updateStyles(styles);
+            },
+
+            _collectInvalidDeclarations: function()
+            {
+                var invalidStylables = [];
+                var count = this.declarations.length;
+                for (var index = 0;
+                     index < count;
+                     index++)
+                {
+                    var declaration = this.declarations[index];
+                    if (!this._declarationIsValid(declaration))
+                        invalidStylables.push(declaration);
+                }
+                return invalidStylables;
+            },
+            
+            _declarationIsValid: function(declaration)
+            {
+                return true;
+            },
+
+            // Declarations list changes
+
+            _onDeclarationChanged: function(event)
+            {
+                this._onSettingChanged();
+            },
+
+            _onDeclarationsListChanged: function(changeRecord)
+            {
+                if (!changeRecord)
+                    return;
+                this._onSettingChanged();
+            }
+
+        });
+
+    </script>
+</dom-module>

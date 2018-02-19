@@ -1,0 +1,916 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<link rel="import" href="../app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../ft-clipboard-behavior/ft-clipboard-behavior.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../juicy-ace-editor/juicy-ace-editor.html">
+<link rel="import" href="../ft-accordion-item/ft-accordion-item.html">
+<link rel="import" href="../ft-accordion-item/ft-accordion-item.html">
+<link rel="import" href="../ft-confirmation-dialog/ft-confirmation-dialog.html">
+<link rel="import" href="../ft-error-behavior/ft-error-behavior.html">
+<link rel="import" href="../ft-http-behavior/ft-http-behavior.html">
+<link rel="import" href="../ft-labeled-icon-button/ft-labeled-icon-button.html">
+<link rel="import" href="../ft-styler/ft-styler.html">
+<link rel="import" href="../ft-url-param-behavior/ft-url-param-behavior.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="ft-element-demo-header.html">
+
+<!--
+`<ft-element-demo>`
+
+An element that can be used for the demo fixture for FileThis elements. Has a slot for the element to be demoed and a side bar for configuration options.
+
+@demo
+-->
+
+<dom-module id="ft-element-demo">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+                @apply --layout-vertical;
+                @apply --ft-element-demo;
+            }
+        </style>
+
+        <app-localstorage-document key="configPanelIsOpen" data="{{_configPanelIsOpen}}">
+        </app-localstorage-document>
+
+
+        <ft-element-demo-header
+            name="[[name]]"
+            hidden="[[!showHeader]]"
+        >
+        </ft-element-demo-header>
+
+        <div
+            class="flex layout horizontal"
+        >
+
+            <!-- Config panel -->
+            <ft-accordion-item
+                heading="Config"
+                hidden="[[!showConfig]]"
+                is-open="{{_configPanelIsOpen}}"
+                style="border-right:2px solid #DDD; "
+            >
+                <div slot="content">
+                    <slot name="config">
+                    </slot>
+                </div>
+            </ft-accordion-item>
+
+            <!-- Instance panel -->
+            <div
+                id="instancePanel"
+                class="flex layout vertical"
+            >
+
+                <!-- Instance header -->
+                <div
+                    class="layout vertical"
+                    style="border-bottom:1px solid #DDD; "
+                >
+
+                    <!-- Instance header -->
+                    <div
+                        id="instanceHeader"
+                        class="layout horizontal center"
+                        style="height:60px; padding-left:16px; padding-right:16px; "
+                    >
+
+                        <!-- Heading -->
+                        <iron-label
+                            style="font-family:Arial; font-size:16pt; white-space:nowrap; "
+                        >
+                            Instance
+                        </iron-label>
+
+                        <!-- Divider -->
+                        <div
+                            hidden="[[!_instanceProvidesCode]]"
+                            style="width:23px; height:70%; border-left:1px solid #DDD; margin-left:25px; "
+                        >
+                        </div>
+
+                        <!-- View rendered button -->
+                        <ft-labeled-icon-button
+                            id="viewRenderedButton"
+                            icon="dashboard"
+                            label="Render"
+                            hidden="[[!_instanceProvidesCode]]"
+                            on-tap="_onViewRenderedButtonClicked"
+                        >
+                        </ft-labeled-icon-button>
+
+                        <!-- "or" -->
+                        <iron-label
+                            hidden="[[!_instanceProvidesCode]]"
+                            style="font-family:Arial; font-size:12pt; white-space:nowrap; margin-left:8px; "
+                        >
+                            or
+                        </iron-label>
+
+                        <!-- View code button -->
+                        <ft-labeled-icon-button
+                            id="viewCodeButton"
+                            icon="code"
+                            label="Code"
+                            style="padding-left:8px; "
+                            hidden="[[!_instanceProvidesCode]]"
+                            on-tap="_onViewCodeButtonClicked"
+                        >
+                        </ft-labeled-icon-button>
+
+                        <!-- Divider -->
+                        <div
+                            hidden="[[!_instanceProvidesCode]]"
+                            style="width:23px; height:70%; border-left:1px solid #DDD; margin-left:22px; "
+                        >
+                        </div>
+
+                        <!-- Deployment menu -->
+                        <paper-dropdown-menu
+                            hidden="[[!_showCode]]"
+                            id="deploymentMenu"
+                            label="Deployment"
+                            style="width:120px; "
+                        >
+                            <paper-listbox
+                                class="dropdown-content"
+                                slot="dropdown-content"
+                                selected="{{_selectedDeploymentIndex}}"
+                            >
+                                <template
+                                    is="dom-repeat"
+                                    items="[[_deployments]]"
+                                    as="deployment"
+                                >
+                                    <paper-item>[[deployment]]</paper-item>
+                                </template>
+                            </paper-listbox>
+                        </paper-dropdown-menu>
+
+                        <!-- Viewport size menu -->
+                        <paper-dropdown-menu
+                            id="viewportSizeMenu"
+                            hidden="true"
+                            label="Viewport Size"
+                            style="width:130px; "
+                        >
+                        <!--<paper-dropdown-menu-->
+                            <!--hidden="[[!_showRendered]]"-->
+                            <!--id="viewportSizeMenu"-->
+                            <!--label="Viewport Size"-->
+                            <!--style="width:130px; "-->
+                        <!--&gt;-->
+                            <paper-listbox
+                                class="dropdown-content"
+                                slot="dropdown-content"
+                                selected="{{_selectedViewportSizeIndex}}"
+                            >
+                                <template
+                                    is="dom-repeat"
+                                    items="[[_viewportSizes]]"
+                                    as="viewportSize"
+                                >
+                                    <paper-item>[[viewportSize.name]]</paper-item>
+                                </template>
+                            </paper-listbox>
+                        </paper-dropdown-menu>
+
+                        <div style="width:10px; min-width:20px; "></div>
+
+                        <!-- Size display -->
+                        <div
+                            id="sizeDisplay"
+                            hidden="true"
+                        >
+                        <!--<div-->
+                            <!--id="sizeDisplay"-->
+                            <!--hidden="[[!_showRendered]]"-->
+                        <!--&gt;-->
+                            ([[_viewportWidth]] x [[_viewportHeight]])
+                        </div>
+
+                        <!-- Spacer -->
+                        <div class="flex" style="min-width:30px; "></div>
+
+                    </div>
+                </div>
+
+                <!-- Rendered or code -->
+                <iron-pages
+                    id="renderedOrCode"
+                    class="flex layout vertical"
+                    attr-for-selected="name"
+                    selected="[[_selectedMode]]"
+                >
+
+                    <!-- Rendered -->
+                    <div
+                        id="rendered"
+                        name="rendered"
+                        class="flex scroll"
+                    >
+
+                        <!-- Fake viewport -->
+                        <div id="fakeViewport">
+
+                            <!-- Instance slot -->
+                            <slot
+                                id="instanceSlot"
+                                name="instance"
+                            >
+                            </slot>
+                        </div>
+                    </div>
+
+                    <!-- Code -->
+                    <div
+                        name="code"
+                        class="flex layout vertical"
+                        style="padding:20px; "
+                    >
+                        <!-- Polyfill code header -->
+                        <div class="layout horizontal center">
+
+                            <!-- Heading -->
+                            <iron-label
+                                style="font-family:Arial; font-size:14pt; white-space:nowrap; "
+                            >
+                                Web Components Polyfill Loader
+                            </iron-label>
+
+                            <!-- Instructions -->
+                            <iron-label
+                                class="flex"
+                                style="font-family:Arial; font-size:10pt; margin-left:16px; "
+                            >
+                                Copy and paste this into your website's index.html file.
+                            </iron-label>
+
+                            <!-- Copy code button -->
+                            <ft-labeled-icon-button
+                                icon="content-paste"
+                                label="Copy"
+                                style="margin-left:16px; "
+                                on-click="_onCopyPolyfillCodeButtonClicked"
+                            >
+                            </ft-labeled-icon-button>
+                        </div>
+
+                        <!-- Polyfill code -->
+                        <juicy-ace-editor
+                            id="polyfillCodeEditor"
+                            style="height:100px; border:1px solid #DDD; margin-top:5px; "
+                            readonly
+                            theme="ace/theme/chrome"
+                            mode="ace/mode/html"
+                            fontsize="14px"
+                            softtabs
+                            value="[[polyfillCode]]"
+                            tabsize="4"
+                        >
+                        </juicy-ace-editor>
+
+                        <!-- Page code header -->
+                        <div
+                            class="layout horizontal center"
+                            style="padding-top:10px; "
+                        >
+
+                            <!-- Heading -->
+                            <iron-label
+                                style="font-family:Arial; font-size:14pt; white-space:nowrap; "
+                            >
+                                Page Code
+                            </iron-label>
+
+                            <!-- Instructions -->
+                            <iron-label
+                                class="flex"
+                                style="font-family:Arial; font-size:10pt; margin-left:16px; "
+                            >
+                                Copy and paste this into the appropriate page of your website.
+                            </iron-label>
+
+                            <!-- Copy code button -->
+                            <ft-labeled-icon-button
+                                icon="content-paste"
+                                label="Copy"
+                                style="margin-left:16px; "
+                                on-click="_onCopyPageCodeButtonClicked"
+                            >
+                            </ft-labeled-icon-button>
+                        </div>
+
+                        <!-- Page code -->
+                        <juicy-ace-editor
+                            id="pageCodeEditor"
+                            class="flex scroll"
+                            style="border:1px solid #DDD; margin-top:5px; "
+                            readonly
+                            theme="ace/theme/chrome"
+                            mode="ace/mode/html"
+                            fontsize="14px"
+                            softtabs
+                            value="[[pageCode]]"
+                            tabsize="4"
+                        >
+                        </juicy-ace-editor>
+
+                        <div style="height:12px;"></div>
+
+                        <!-- Substitute fixture values checkbox -->
+                        <paper-checkbox
+                                checked="{{_substituteFixtureValues}}">
+                            Substitute fixture values into instance code (Warning: Contains secrets)
+                        </paper-checkbox>
+                    </div>
+                </iron-pages>
+            </div>
+        </div>
+
+        <!-- Confirmation dialog -->
+        <ft-confirmation-dialog id="confirmationDialog"></ft-confirmation-dialog>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'ft-element-demo',
+
+            behaviors: [
+                FileThis.ErrorBehavior,
+                FileThis.HttpBehavior,
+                Polymer.IronResizableBehavior,
+                FileThis.ClipboardBehavior,
+                FileThis.UrlParamBehavior
+            ],
+
+            listeners:
+            {
+                'iron-resize': '_onIronResizeThis',
+                'internal-settings-changed': '_onInternalSettingsChanged',
+            },
+
+            observers:
+            [
+                "_onCodeDependencyChanged(accountId, token, _substituteFixtureValues, _selectedDeploymentIndex)"
+            ],
+
+            properties: {
+
+                name: {
+                    type: String,
+                    notify: true,
+                    value: "ft-thing"
+                },
+
+                showHeader: {
+                    type: Object,
+                    notify: true,
+                    value: true
+                },
+                
+                accountId: {
+                    type: String
+                },
+
+                token: {
+                    type: String
+                },
+
+                css: {
+                    type: String,
+                    notify: true
+                },
+
+                polyfillCode:
+                {
+                    type: String,
+                    value: "",
+                    observer: "_onPolyfillCodeChanged"
+                },
+
+                pageCode:
+                {
+                    type: String,
+                    value: "",
+                    observer: "_onPageCodeChanged"
+                },
+
+                /**
+                 * Show the configuration sidebar on the left.
+                 *
+                 * Note that you can provide the strings "true" and "false" as attribute values.
+                 *
+                 * @type {boolean}
+                 */
+                showConfig:
+                {
+                    type: Object,
+                    value: false
+                },
+
+                configurations:{
+                    type: Array,
+                },
+
+                _selectedMode: {
+                    type: String,
+                    value: "rendered",
+                    observer: "_selectedModeChanged"
+                },
+
+                _viewportWidth:
+                    {
+                        type: Number
+                    },
+
+                _viewportHeight:
+                    {
+                        type: Number
+                    },
+
+                _isFullSize:
+                    {
+                        type: Boolean,
+                        value: true
+                    },
+
+                _instanceProvidesCode:
+                    {
+                        type: Boolean,
+                        value: false
+                    },
+
+                // Viewport sizes ----------------------------
+
+                _viewportSizes:
+                    {
+                        type: Array,
+                        notify: true,
+                        value: [
+                            {
+                                name: "Full",
+                                width: 0,
+                                height: 0
+                            },
+                            {
+                                name: "Galaxy S5",
+                                width: 360,
+                                height: 640
+                            },
+                            {
+                                name: "Nexus",
+                                width: 412,
+                                height: 732
+                            },
+                            {
+                                name: "iPhone 5",
+                                width: 320,
+                                height: 568
+                            },
+                            {
+                                name: "iPhone 6",
+                                width: 375,
+                                height: 667
+                            },
+                            {
+                                name: "iPhone 6 Plus",
+                                width: 414,
+                                height: 736
+                            },
+                            {
+                                name: "iPad",
+                                width: 768,
+                                height: 1024
+                            },
+                            {
+                                name: "iPad Pro",
+                                width: 1024,
+                                height: 1366
+                            }
+                        ]
+                    },
+
+                _selectedViewportSizeIndex:
+                    {
+                        type: Number,
+                        notify: true,
+                        value: 0,
+                        observer: "_onSelectedViewportSizeIndexChanged"
+                    },
+
+                // Deployments ----------------------------
+
+                _deployments:
+                    {
+                        type: Array,
+                        notify: true,
+                        value: [ "Drop-In", "Production" ]
+                    },
+
+                _selectedDeploymentIndex:
+                    {
+                        type: Number,
+                        notify: true,
+                        value: 0,
+                        observer: "_onSelectedDeploymentIndexChanged"
+                    },
+
+                _substituteFixtureValues: {
+                    type: Boolean,
+                    value: false
+                },
+
+                _showCode: {
+                    type: Boolean
+                },
+
+                _showRendered: {
+                    type: Boolean,
+                    value: false
+                },
+
+                _configPanelIsOpen:
+                {
+                    type: Boolean,
+                    value: true,
+                },
+            },
+
+            ready: function()
+            {
+                //                var instanceSlot = this.$.instanceSlot;
+//                var elementSlotAssignedNodes = instanceSlot.assignedNodes();
+//                var target = elementSlotAssignedNodes[0];
+//                this.$.styler.target = target;
+            },
+
+            _configureEditor: function(editor)
+            {
+                // If already configured this editor
+                if (editor._didConfigure)
+                    return false;
+
+                // If editor's internal editor does not yet exist
+                var editorInternal = editor.editor;
+                if (!editorInternal)
+                    return false;
+
+                // Suppress deprecation warning
+                editorInternal.$blockScrolling = Infinity;
+
+                // Disable syntax checking
+                var session = editorInternal.getSession();
+                session.setUseWorker(false);
+
+                editor._didConfigure = true;
+
+                return true;
+            },
+
+//            ready: function()
+//            {
+//                var instance = this._findElementWithId("panel");
+//                this.$.styler.target = instance;
+//            },
+
+            _onSelectedDeploymentIndexChanged: function()
+            {
+                // Load the code template
+                var base;
+                if (this.getUrlParam("devel"))
+                    base = "../bower_components/ft-element-demo/data";
+                else
+                    base = "https://filethis.github.io/ft-connect-wizard/components/ft-element-demo/data";  // TODO: This is brittle!
+
+                var filename;
+                if (this._selectedDeploymentIndex === 0)  // Drop-In
+                    filename = "code-polyfill-drop-in.html";
+                else // Production
+                    filename = "code-polyfill-production.html";
+
+                var url = base + "/" + filename;
+
+                var options =
+                    {
+                        responseType: "text",
+                        headers:
+                            {
+                                Accept: "text/plain"
+                            }
+                    };
+
+                return this.httpGet(url, options)
+                    .then(function(polyfillCodeTemplate)
+                    {
+                        var polyfillCode = this._makeSubstitutionsInto(polyfillCodeTemplate);
+                        this.polyfillCode = polyfillCode;
+                        var editor = this.$.polyfillCodeEditor.editor;
+                        editor.selection.selectFileStart();
+                    }.bind(this))
+                    .catch(function(error)
+                    {
+                        console.log("Could not load local polyfill code template file: " + url);
+                    }.bind(this));
+            },
+
+            _onInternalSettingsChanged: function(event)
+            {
+                this._updateCode();
+            },
+
+            _onCodeDependencyChanged: function()
+            {
+                this._updateCode();
+            },
+
+            _updateCode: function()
+            {
+                this._updateCodeDebouncer = Polymer.Debouncer.debounce
+                (
+                    this._updateCodeDebouncer,
+                    Polymer.Async.timeOut.after(60),
+                    this._updateCodeDebounced.bind(this)
+                );
+            },
+
+            _updateCodeDebounced: function()
+            {
+                // Load the code template
+                var base;
+                if (this.getUrlParam("devel"))
+                    base = "../bower_components/" + this.name + "/data";
+                else
+                    base = "https://filethis.github.io/" + this.name + "/components/" + this.name + "/data";
+
+                var filename;
+                if (this._selectedDeploymentIndex === 0)  // Drop-In
+                    filename = "code-page-drop-in.html";
+                else // Production
+                    filename = "code-page-production.html";
+
+                var url = base + "/" + filename;
+
+                var options =
+                    {
+                        responseType: "text",
+                        headers:
+                            {
+                                Accept: "text/plain"
+                            }
+                    };
+
+                return this.httpGet(url, options)
+                    .then(function(pageCodeTemplate)
+                    {
+                        var settingsInitializers = this._buildSettingsInitializers();
+                        var settingsImports = this._buildSettingsImports();
+
+                        var pageCode = this._makeSubstitutionsInto(pageCodeTemplate, settingsImports, settingsInitializers);
+                        this.pageCode = pageCode;
+
+                        var editor = this.$.pageCodeEditor.editor;
+                        editor.selection.selectFileStart();
+                    }.bind(this))
+                    .catch(function(error)
+                    {
+                        console.log("Could not load local page code template file: " + url);
+                    }.bind(this));
+            },
+
+            _buildSettingsImports: function()
+            {
+                if (!this.configurations)
+                    return "";
+
+                var code = "";
+                var configurations = this.configurations;
+                var count = configurations.length;
+                for (var index = 0;
+                     index < count;
+                     index++)
+                {
+                    var configuration = configurations[index];
+                    var settingsEditor = configuration.settingsEditor;
+                    if (!settingsEditor)
+                        continue;
+                    code += settingsEditor.generateImports();
+                }
+
+                return code;
+            },
+
+            _buildSettingsInitializers: function()
+            {
+                if (!this.configurations)
+                    return "";
+
+                var code = "";
+                var configurations = this.configurations;
+                var count = configurations.length;
+                for (var index = 0;
+                     index < count;
+                     index++)
+                {
+                    var configuration = configurations[index];
+                    var settingsEditor = configuration.settingsEditor;
+                    if (!settingsEditor)
+                        continue;
+                    code += settingsEditor.generateSettings();
+                }
+
+                return code;
+            },
+
+            _makeSubstitutionsInto: function(template, settingsImports, settingsInitializers)
+            {
+                // TODO: Find a more efficient way to do this
+
+                var code = template;
+                code = code.replace(/{{NAME}}/g, this.name);
+                code = code.replace(/{{SETTINGS_IMPORTS}}/g, settingsImports);
+                if (this._substituteFixtureValues)
+                {
+                    code = code.replace(/{{ACCOUNT_ID}}/g, this.accountId);
+                    code = code.replace(/{{TOKEN}}/g, this.token);
+                }
+                code = code.replace(/{{SETTINGS_INITIALIZERS}}/g, settingsInitializers);
+                return code;
+            },
+
+            _findElementWithId: function(id)
+            {
+                // TODO: There must be a better way to do this...
+                var fakeViewport = this.$.fakeViewport;
+                var children = Polymer.dom(fakeViewport).getEffectiveChildNodes();
+                var count = children.length;
+                for (var index = 0;
+                     index < count;
+                     index++)
+                {
+                    var child = children[index];
+                    if (child.id === id)
+                        return child;
+                }
+                return null;
+            },
+
+            _onCopyPolyfillCodeButtonClicked: function(event, detail)
+            {
+                this.copyTextToClipboard(this.polyfillCode);
+            },
+
+            _onCopyPageCodeButtonClicked: function(event, detail)
+            {
+                this.copyTextToClipboard(this.pageCode);
+            },
+
+            _onPolyfillCodeChanged:function()
+            {
+                // This seems to be the best place to do this.
+                // Can't do in ready() because the internal editor is not yet defined there.
+                if (!this._configureEditor(this.$.polyfillCodeEditor))
+                    return;
+
+                // Deselect text
+                var editor = this.$.polyfillCodeEditor.editor;
+                if (editor !== undefined)
+                    editor.selection.selectFileStart();
+            },
+
+            _onPageCodeChanged:function()
+            {
+                // This seems to be the best place to do this.
+                // Can't do in ready() because the internal editor is not yet defined there.
+                if (!this._configureEditor(this.$.pageCodeEditor))
+                    return;
+
+                var haveCode = !!this.pageCode;
+                this._instanceProvidesCode = haveCode;
+
+                // Deselect text
+                var editor = this.$.pageCodeEditor.editor;
+                if (editor !== undefined)
+                    editor.selection.selectFileStart();
+            },
+
+            _getInstance: function()
+            {
+                var fakeViewport = this.$.fakeViewport;
+                var children = Polymer.dom(fakeViewport).getEffectiveChildNodes();
+                var instance = children[3];  // TODO: Find a better way...
+                return instance;
+            },
+
+            _onIronResizeThis: function(event)
+            {
+                var viewport = this.$.fakeViewport;
+                var width = viewport.offsetWidth;
+                var height = viewport.offsetHeight;
+                if (!!width)
+                   this._viewportWidth = width;
+                if (!!height)
+                   this._viewportHeight = height;
+            },
+
+            _onSelectedViewportSizeIndexChanged: function(to, from)
+            {
+                var index = this._selectedViewportSizeIndex;
+
+                if (index === null)
+                    return;
+
+                // Full size?
+                var isFullSize = (index === 0);
+                this._isFullSize = isFullSize;
+
+                var viewport = this.$.fakeViewport;
+                var rendered = this.$.rendered;
+
+                if (isFullSize)
+                {
+                    // Set full size
+                    viewport.style.width = "100%";
+                    viewport.style.height = "100%";
+
+                    // Border
+                    viewport.style.removeProperty("border");
+                    viewport.style.removeProperty("box-shadow");
+                    rendered.style.border = "1px solid black";
+
+                    // Margin
+                    viewport.style.removeProperty("margin");
+                }
+                else // fixed size
+                {
+                    // Set fixed size
+                    var viewportSize = this._viewportSizes[index];
+                    viewport.style.width = viewportSize.width + "px";
+                    viewport.style.height = viewportSize.height + "px";
+
+                    // Border
+                    viewport.style.border = "1px solid black";
+                    viewport.style.boxShadow = "5px 5px 4px #BBB";
+                    rendered.style.removeProperty("border");
+
+                    // Margin (center within parent)
+                    viewport.style.margin = "auto";
+                    viewport.style.marginTop = "16px";
+                    viewport.style.marginBottom = "16px";
+                }
+
+                // Tell the iron-list to reconstrain itself
+                this.notifyResize();
+            },
+
+            _selectedModeChanged: function(to, from)
+            {
+                this._showCode = (to === "code");
+
+                this._showRendered = (to === "rendered") && this.getUrlParam("devel");
+            },
+
+            _onViewCodeButtonClicked: function(event, detail)
+            {
+                this._selectedMode = "code";
+            },
+
+            _onViewRenderedButtonClicked: function(event, detail)
+            {
+                this._selectedMode = "rendered";
+            }
+
+        });
+
+    </script>
+</dom-module>

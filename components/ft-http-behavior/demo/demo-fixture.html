@@ -1,0 +1,87 @@
+<!-- ft-http-behavior element demo -->
+
+<!-- Imports -->
+<link rel="import" href="../../ft-element-demo/ft-element-demo.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../ft-error-behavior.html">
+<link rel="import" href="../ft-http-behavior.html">
+
+
+<!--
+
+A behavior that provides HTTP requests using Promises.
+
+@demo
+ -->
+<dom-module id="demo-fixture">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+            }
+        </style>
+
+        <!-- GET Success -->
+        <div class="layout vertical center">
+            <paper-button raised on-tap="_getSuccess">GET Success</paper-button>
+        </div>
+
+        <div style="height:20px"></div>
+
+        <!-- GET Failure -->
+        <div class="layout vertical center">
+            <paper-button raised on-tap="_getFailure">GET Failure</paper-button>
+        </div>
+
+    </template>
+
+    <script>
+
+        Polymer
+        ({
+            is: 'demo-fixture',
+
+            behaviors: [
+                FileThis.ErrorBehavior,
+                FileThis.HttpBehavior
+            ],
+
+            _getFailure: function()
+            {
+                this.httpGet("https://filethis.com/foo")
+                    .then(function(result)
+                    {
+                        alert(result);
+                    }.bind(this))
+                    .catch(function(reason)
+                    {
+                        this.handleCaughtError(reason);
+                    }.bind(this));
+            },
+
+            _getSuccess: function()
+            {
+                this.httpGet(window.location)
+                    .then(function(result)
+                    {
+                        alert(result);
+                    }.bind(this))
+                    .catch(function(reason)
+                    {
+                        this.handleCaughtError(reason);
+                    }.bind(this));
+            }
+
+        });
+
+    </script>
+
+</dom-module>
+

@@ -1,0 +1,209 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../ft-scrolling-behavior/ft-scrolling-behavior.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../marked-element/marked-element.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../polymer/polymer.html">
+
+
+<!--
+`<ft-confirmation-dialog>`
+
+An element that provides a configurable alert or confirmation dialog that returns a Promise when invoked.
+
+@demo
+-->
+<dom-module id="ft-confirmation-dialog">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+                @apply --ft-confirmation-dialog;
+            }
+        </style>
+
+        <paper-dialog
+                modal id="dialog"
+                style="width:500px;">
+
+            <!-- Prompt -->
+            <div
+                    id="promptScroller"
+                    style="overflow:auto;">
+                <marked-element
+                        id="prompt"
+                        markdown="[[_prompt]]">
+                    <div class="markdown-html"></div>
+                </marked-element>
+            </div>
+
+            <!-- Buttons -->
+            <div
+                    id="buttons"
+                    class="layout horizontal end-justified">
+
+                <!-- Cancel -->
+                <paper-button
+                        id="cancelButton"
+                        dialog-dismiss
+                        raised>
+                    [[_cancelButtonLabel]]
+                </paper-button>
+
+                <div id="cancelButtonSpacer" style="width:20px"></div>
+
+                <!-- Okay -->
+                <paper-button dialog-confirm raised autofocus>[[_commitButtonLabel]]</paper-button>
+            </div>
+
+        </paper-dialog>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'ft-confirmation-dialog',
+
+            behaviors: [
+                Polymer.IronResizableBehavior,
+                FileThis.ScrollingBehavior
+            ],
+
+            properties: {
+
+                /** A copy of the prompt string given in the _alert()_ or _confirm()_ method call. Bound to the display element.  */
+                _prompt: {
+                    type: String
+                },
+                
+                /** A copy of the commit button label string given in the _alert()_ or _confirm()_ method call. Bound to the button element label.  */
+                _commitButtonLabel: {
+                    type: String,
+                    value: "Okay"
+                },
+                
+                /** A copy of the cancel button label string given in the _confirm()_ method call. Bound to the button element label.  */
+                _cancelButtonLabel: {
+                    type: String,
+                    value: "Cancel"
+                }
+            },
+
+            ready: function()
+            {
+                this._manageScroller(this.$.promptScroller)
+            },
+
+            _calculateScrollerHeight: function(scroller)
+            {
+                var buttonsHeight = this.$.buttons.offsetHeight;
+                return this.clientHeight - buttonsHeight;
+            },
+
+            /**
+             * Display a modal alert dialog with the given prompt text. Does not block.
+             *
+             * @param {String} prompt The text to display in the dialog. Markdown is supported.
+             * @param {String} commitButtonLabel _optional_ The string to use for the button that dismisses the dialog.
+             * @return {Object} A promise that resolves to the string "commit" when the user dismisses the dialog.
+             */
+            alert: function(prompt, commitButtonLabel)
+            {
+                this.$.cancelButton.hidden = true;
+                this.$.cancelButtonSpacer.hidden = true;
+
+                if (!!prompt)
+                    this._prompt = prompt;
+                else
+                    this._prompt = "Alert";
+
+                return this._pose(prompt, commitButtonLabel);
+            },
+
+            /**
+             * Display a modal alert dialog with the given prompt text. Does not block.
+             *
+             * Emits a either a _commit_ or a _cancel_ event when the user dismisses the dialog, depending on which
+             * button they clicked.
+             *
+             * @param {String} prompt The text to display in the dialog. Markdown is supported.
+             * @param {String} commitButtonLabel _optional_ The string to use for the button that commits the dialog.
+             * @param {String} cancelButtonLabel _optional_ The string to use for the button that cancels the dialog.
+             * @return {Object} A promise that resolves to the string "commit" or a "cancel" event when the user
+             * dismisses the dialog, depending on which button they clicked.
+             */
+            confirm: function(prompt, commitButtonLabel, cancelButtonLabel)
+            {
+                this.$.cancelButton.hidden = false;
+                this.$.cancelButtonSpacer.hidden = false;
+
+                if (!!prompt)
+                    this._prompt = prompt;
+                else
+                    this._prompt = "Are you sure you want to do this?";
+
+                if (!!cancelButtonLabel)
+                    this._cancelButtonLabel = cancelButtonLabel;
+                else
+                    this._commitButtonLabel = "Cancel";
+
+                return this._pose(prompt, commitButtonLabel);
+            },
+
+            _pose: function(prompt, commitButtonLabel)
+            {
+                // Override dumb default that disables Escape keyboard equivalent for cancel
+                this.$.dialog.noCancelOnEscKey = false;
+
+                if (!!commitButtonLabel)
+                    this._commitButtonLabel = commitButtonLabel;
+                else
+                    this._commitButtonLabel = "Okay";
+
+                return new Promise(function(resolve, reject)
+                {
+                    this.$.dialog.open();
+
+                    this.doneListener = function doneListener(event)
+                        {
+                            this.$.dialog.removeEventListener("iron-overlay-closed", this.doneListener);
+
+                            var choice;
+                            var closingReason = event.detail;
+                            if (closingReason.canceled || !closingReason.confirmed)  // Huh?
+                                choice = "cancel";
+                            else
+                                choice = "commit";
+
+                            resolve(choice);
+                        }.bind(this);
+
+                    this.$.dialog.addEventListener("iron-overlay-closed", this.doneListener)
+                }.bind(this))
+            }
+
+        });
+    </script>
+</dom-module>

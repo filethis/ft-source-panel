@@ -1,0 +1,48 @@
+<!-- ft-scrolling-behavior element demo -->
+
+<!-- Imports -->
+<link rel="import" href="../../ft-element-demo/ft-element-demo.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../ft-scrolling-behavior.html">
+
+
+<!--
+
+A behavior that helps with scrolling of elements.
+
+@demo
+ -->
+<dom-module id="demo-fixture">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+            }
+        </style>
+
+        <ft-scrolling-behavior></ft-scrolling-behavior>
+
+    </template>
+
+    <script>
+
+        Polymer
+        ({
+            is: 'demo-fixture',
+
+            properties:
+            {
+            }
+
+        });
+
+    </script>
+
+</dom-module>
+

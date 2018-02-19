@@ -1,0 +1,237 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../polymer/polymer.html">
+
+
+<dom-module id="ft-config-panel">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+                padding:16px;
+                @apply --layout-vertical;
+                @apply --ft-config-panel;
+            }
+        </style>
+
+        <!-- Configuration menu -->
+        <paper-dropdown-menu
+            hidden="[[!_showConfigurationMenu]]"
+            id="configurationMenu"
+            label="Web Component"
+            style="width:200px; "
+        >
+            <paper-listbox
+                class="dropdown-content"
+                slot="dropdown-content"
+                selected="{{_selectedConfigurationIndex}}"
+            >
+                <template
+                    is="dom-repeat"
+                    items="[[configurations]]"
+                    as="configuration"
+                >
+                    <paper-item>[[configuration.label]]</paper-item>
+                </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
+
+        <!-- Configuration label -->
+        <div
+            style="font-family:Arial; font-size:14pt; "
+            hidden="[[_showConfigurationMenu]]"
+        >
+            [[_firstConfigurationLabel]]
+        </div>
+
+        <!-- Config panels -->
+        <div
+            id="panels"
+            class="layout vertical"
+            style="margin-top:20px"
+        >
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'ft-config-panel',
+
+            behaviors: [
+                FileThis.SettingsApplierBehavior,
+            ],
+
+            listeners: {
+                'iron-signal-settings-publisher-changed': '_onSettingsPublisherChanged'
+            },
+
+            properties:
+            {
+                configurations:
+                    {
+                        type: Array,
+                        notify: true,
+                        value: [],
+                        observer: "_onConfigurationsChanged"
+                    },
+
+                _selectedConfigurationIndex:
+                    {
+                        type: Number,
+                        notify: true,
+                        value: 0,
+                        observer: "_onSelectedConfigurationIndexChanged"
+                    },
+
+                _selectedConfiguration:
+                    {
+                        type: Object,
+                        value: null,
+                        observer: "_onSelectedConfigurationChanged"
+                    },
+
+                _showConfigurationMenu:
+                    {
+                        type: Boolean,
+                        value: false,
+                    },
+
+                _firstConfigurationLabel:
+                    {
+                        type: String
+                    },
+            },
+
+            _onConfigurationsChanged: function(to, from)
+            {
+                this._showConfigurationMenu = this._shouldShowConfigurationMenu();
+
+                var panels = this.$.panels;
+
+                // Remove all panels
+                for (var child = panels.lastChild;
+                     child !== null;
+                     child = panels.lastChild)
+                {
+                    panels.removeChild(child);
+                }
+
+                // Add new panels
+                var configurations = this.configurations;
+                if (configurations.length === 0)
+                    return;
+                var count = configurations.length;
+                for (var index = 0; index < count; index++)
+                {
+                    var configuration = configurations[index];
+
+                    // Create a parent div to hold the editor
+                    var panel = document.createElement('div');
+                    panel.style.display = "none";
+                    configuration.panel = panel;
+                    this.$.panels.appendChild(panel);
+
+                    // Create the settings editor
+                    var settingsEditor = document.createElement(configuration.settingsEditorName);
+                    configuration.settingsEditor = settingsEditor;
+                    panel.appendChild(settingsEditor);
+                }
+
+                // Flush all changes
+                Polymer.dom.flush();
+
+                this._firstConfigurationLabel = configurations[0].label;
+            },
+
+            _onSettingsPublisherChanged: function(event)
+            {
+                var publisherName = event.detail;
+
+                // Get the editor's settings
+                var configuration = this._findConfigurationWithSettingsEditorNamed(publisherName);
+                if (!configuration)
+                    return;
+                var editor = configuration.settingsEditor;
+                var editorSettings = editor.settings;
+
+                // Find all the settings targets
+                var targetName = configuration.settingsTargetName;
+                var targets = this.findSettingsTargetsNamed(targetName);
+
+                // Apply the editor's settings settings to the targets
+                this.applySettingsToTargets(editorSettings, targets);
+            },
+
+            _findConfigurationWithSettingsEditorNamed: function(name)
+            {
+                var configurations = this.configurations;
+                var count = configurations.length;
+                for (var index = 0; index < count; index++)
+                {
+                    var configuration = configurations[index];
+                    if (configuration.settingsEditorName === name)
+                        return configuration;
+                }
+                return null;
+            },
+
+            _shouldShowConfigurationMenu: function()
+            {
+                if (this.configurations.length <= 1)
+                    return false;
+                return true;
+            },
+
+            _onSelectedConfigurationIndexChanged: function(to, from)
+            {
+                var selectedConfigurationIndex = this._selectedConfigurationIndex;
+                if (selectedConfigurationIndex === null)
+                    return;
+                if (selectedConfigurationIndex === undefined)
+                    return;
+                var configurations = this.configurations;
+                if (configurations.length === 0)
+                    return;
+                var selectedConfiguration = configurations[selectedConfigurationIndex];
+                this._selectedConfiguration = selectedConfiguration;
+            },
+
+            _onSelectedConfigurationChanged: function(to, from)
+            {
+                if (from)
+                    from.panel.style.display = "none";
+                if (to)
+                    to.panel.style.display = "block";
+            },
+
+        })
+
+    </script>
+</dom-module>
