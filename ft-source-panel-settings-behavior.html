@@ -102,30 +102,53 @@ limitations under the License.
             this.fire("internal-settings-changed");
         },
 
+        generateImports: function()
+        {
+            if (!this._hasSettings())
+                return "";
+
+            var imports = "<link rel=\"import\" href=\"../bower_components/ft-source-panel/ft-source-panel-settings.html\">\n";
+            return imports;
+        },
+
         generateSettings: function()
         {
+            if (!this._hasSettings())
+                return "";
+
             var attributes = "";
             if (this.showFilters !== true)
-                attributes += "\n    showFilters=false";
+                attributes += "\n    show-filters=false";
             if (this.showHeading !== true)
-                attributes += "\n    showHeading=false";
+                attributes += "\n    show-heading=false";
             if (this.heading !== "Sites")
                 attributes += "\n    heading='" + this.heading + "'";
             if (this.showSearchField !== true)
-                attributes += "\n    showSearchField=false";
+                attributes += "\n    show-search-field=false";
 
             if (attributes.length === 0)
                 return "";
 
             var settings = "";
 
-            settings += "\n<link rel=\"import\" href=\"../bower_components/ft-source-panel/ft-source-panel-settings.html\">\n";
-
             settings += "\n<ft-source-panel-settings ";
             settings += attributes;
             settings += ">\n</ft-source-panel-settings>\n";
 
             return settings;
+        },
+
+        _hasSettings: function()
+        {
+            if (this.showFilters !== true)
+                return true;
+            if (this.showHeading !== true)
+                return true;
+            if (this.heading !== "Sites")
+                return true;
+            if (this.showSearchField !== true)
+                return true;
+            return false;
         },
     }
 

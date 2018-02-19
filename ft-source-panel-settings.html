@@ -38,6 +38,10 @@ Settings applied to the ft-source-panel.
 
             attached: function()
             {
+                // setTimeout(function()
+                // {
+                //     this._initializeSettings();
+                // }.bind(this), 1000);
                 this.async(this._initializeSettings);
             },
 
