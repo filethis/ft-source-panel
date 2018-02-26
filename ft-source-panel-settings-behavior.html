@@ -118,13 +118,13 @@ limitations under the License.
 
             var attributes = "";
             if (this.showFilters !== true)
-                attributes += "\n    show-filters=false";
+                attributes += '\n    show-filters="false"';
             if (this.showHeading !== true)
-                attributes += "\n    show-heading=false";
+                attributes += '\n    show-heading="false"';
             if (this.heading !== "Sites")
-                attributes += "\n    heading='" + this.heading + "'";
+                attributes += '\n    heading="' + this.heading + '"';
             if (this.showSearchField !== true)
-                attributes += "\n    show-search-field=false";
+                attributes += '\n    show-search-field="false"';
 
             if (attributes.length === 0)
                 return "";

@@ -57,6 +57,47 @@ bower-reinstall-packages: bower-clean-packages bower-install-packages  ## Clean 
 bower-reinstall-packages-prod: bower-clean-packages bower-install-packages-prod  ## Clean and reinstall all bower packages.
 
 
+# Distribution -----------------------------------------------------------------------------------
+
+.PHONY: clean-dist
+clean-dist:  ## Clean application or component drop-in
+	@rm -rf ./build/;
+
+.PHONY: build-dist
+build-dist:  ## Build application or component drop-in
+	@polymer build;
+
+
+# Drop-In -----------------------------------------------------------------------------------
+
+.PHONY: release-dropin
+release-dropin:  ## Release a component drop-in
+	@aws s3 sync ./build/dropin s3://connect.filethis.com/${NAME}/v${VERSION}/dropin/;
+
+
+# Docs -----------------------------------------------------------------------------------
+
+.PHONY: release-docs
+release-docs:  ## Release docs to our bucket
+	@echo Not yet implemented. Move documentation from GitHub to our bucket under a "/docs" subfolder.;
+
+.PHONY: open-docs-new
+open-docs-new:  ## Open URL of application documentation published on GitHub Pages
+	@echo Not yet implemented. Move documentation from GitHub to our bucket under a "/docs" subfolder.;
+
+.PHONY: url-docs-new
+url-docs-new:  ## Print URL of application documentation published on GitHub Pages
+	@echo Not yet implemented. Move documentation from GitHub to our bucket under a "/docs" subfolder.;
+
+
+# Demo -----------------------------------------------------------------------------------
+
+.PHONY: release-demo
+release-demo:  ## Release demo to our bucket
+	@echo Not yet implemented. Move demo app from GitHub to our bucket under a "/demo" subfolder.;
+
+
+
 # Testing -----------------------------------------------------------------------------------
 
 .PHONY: test-all
@@ -94,7 +135,7 @@ url-repo:  ## Print URL of project GitHub repository page
 	@echo https://github.com/${GITHUB_USER}/${NAME}
 
 
-# Release -----------------------------------------------------------------------------------
+# Source -----------------------------------------------------------------------------------
 
 .PHONY: bower-info
 bower-info:  ## Print information about published Bower package
@@ -129,17 +170,12 @@ bump-version:  ## Increment the patch version number.
 	python ../../bin/set-version-everywhere.py  ${NAME} $$NEW_VERSION ../..; \
 	echo Set version in all projects that depend on this one
 
-.PHONY: release
-release: set-version-everywhere git-add-fast git-commit-fast git-push git-tag-version-and-push bower-register publish-github-pages ## Release version of project.
-	@echo Released version ${VERSION} of \"${NAME}\" project
-
-.PHONY: release-cdn
-release-cdn: set-version-everywhere bower-reinstall-packages-prod cdnify git-add-fast git-commit-fast git-push git-tag-version-and-push ## Release version of project.
+.PHONY: release-source
+release-source: set-version-everywhere git-add-fast git-commit-fast git-push git-tag-version-and-push bower-register publish-github-pages ## Release version of project.
 	@echo Released version ${VERSION} of \"${NAME}\" project
 
 
 # Git -----------------------------------------------------------------------------------
-
 
 .PHONY: git-add
 git-add:  ## Add all git changes, interactively
@@ -178,22 +214,6 @@ git-status:  ## Print git status
 
 .PHONY: lint
 lint: polymerlint eslint ## Run all linters on project files
-
-
-# cdnify -----------------------------------------------------------------------------------
-
-.PHONY: cdnify
-cdnify:  ## cdnify
-	python ../../bin/cdnify.py \
-		--local-base-dir="./bower_components" \
-		--new-base-url="https://rawgit.com/filethis/${NAME}/v${VERSION}/bower_components/";
-
-.PHONY: cdnify-dry-run
-cdnify-dry-run:  ## cdnify-dry-run
-	python ../../bin/cdnify.py \
-		--dry-run \
-		--local-base-dir="./bower_components" \
-		--new-base-url="https://rawgit.com/filethis/${NAME}/v${VERSION}/bower_components/";
 
 
 # Help -----------------------------------------------------------------------------------
