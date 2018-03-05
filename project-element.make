@@ -37,6 +37,10 @@ project-validate-eslint:  ## Run ESLint tool over project source files
 
 # Browse
 
+.PHONY: project-browse
+project-browse:  ## Open locally-served element demo in browser
+	@open http:localhost:${LOCAL_PORT}/components/${NAME}/demo/;
+
 .PHONY: project-browse-demo-browsersync
 project-browse-demo-browsersync:  ## Run BrowserSync, proxying against an already-running local server
 	@if lsof -i tcp:${LOCAL_PORT} > /dev/null; then \
@@ -78,7 +82,7 @@ artifact-publish-dropin: artifact-publish-dropin-versioned artifact-publish-drop
 
 .PHONY: artifact-publish-dropin-versioned
 artifact-publish-dropin-versioned:  ## Release versioned element dropin
-	@aws s3 sync ./build/dropin s3://connect.filethis.com/${NAME}/v${VERSION}/dropin/;
+	@aws s3 sync ./build/dropin s3://connect.filethis.com/${NAME}/${VERSION}/dropin/;
 
 .PHONY: artifact-publish-dropin-latest
 artifact-publish-dropin-latest:  ## Release latest element dropin
@@ -87,6 +91,10 @@ artifact-publish-dropin-latest:  ## Release latest element dropin
 .PHONY: artifact-invalidate-dropin-latest
 artifact-invalidate-dropin-latest:  ## Invalidate CDN distribution of latest element dropin
 	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/dropin/*"; fi
+
+.PHONY: invalidate
+invalidate: artifact-invalidate-dropin-latest  ## Shortcut for artifact-invalidate-dropin-latest
+	@echo Invalidated;
 
 
 # Publish demo
@@ -97,7 +105,7 @@ artifact-publish-demo: artifact-publish-demo-versioned artifact-publish-demo-lat
 
 .PHONY: artifact-publish-demo-versioned
 artifact-publish-demo-versioned:  ## Release versioned element demo
-	@aws s3 sync ./build/demo s3://connect.filethis.com/${NAME}/v${VERSION}/demo/;
+	@aws s3 sync ./build/demo s3://connect.filethis.com/${NAME}/${VERSION}/demo/;
 
 .PHONY: artifact-publish-demo-latest
 artifact-publish-demo-latest:  ## Release latest element demo
@@ -120,6 +128,10 @@ artifact-publish-demo-github-pages:  # Internal target: Create element docs and 
 	rm -rf ./github-pages-tmp; \
 	echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://${GITHUB_USER}.github.io/${NAME}
 
+.PHONY: publish
+publish: artifact-publish-dropin  ## Shortcut for artifact-publish-dropin
+	@echo Published;
+
 
 # Publications -----------------------------------------------------------------------------------
 
@@ -128,7 +140,7 @@ artifact-publish-demo-github-pages:  # Internal target: Create element docs and 
 
 .PHONY: publication-browse-demo-versioned
 publication-browse-demo-versioned:  ## Open the published, versioned demo in browser
-	@open https://connect.filethis.com/${NAME}/v${VERSION}/demo/index.html;
+	@open https://connect.filethis.com/${NAME}/${VERSION}/demo/index.html;
 
 .PHONY: publication-browse-demo-latest
 publication-browse-demo-latest:  ## Open the published, latest demo in browser
@@ -143,7 +155,7 @@ publication-browse-demo-github-pages:  ## Open URL of demo published on GitHub P
 
 .PHONY: publication-url-demo-versioned
 publication-url-demo-versioned:  ## Print the published, versioned demo url
-	@echo https://connect.filethis.com/${NAME}/v${VERSION}/demo/index.html;
+	@echo https://connect.filethis.com/${NAME}/${VERSION}/demo/index.html;
 
 .PHONY: publication-url-demo-latest
 publication-url-demo-latest:  ## Print the published, latest demo url

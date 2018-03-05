@@ -47,7 +47,6 @@ This element defines a source grid example that allows experimentation with conf
 
         <ft-element-demo
             name="ft-source-panel"
-            code="[[code]]"
             show-config="true"
             style="width:100%; height:100%; "
         >
@@ -64,7 +63,6 @@ This element defines a source grid example that allows experimentation with conf
                 slot="instance"
                 id="panel"
                 style="width:100%; height:100%; "
-                code="{{code}}"
             >
            </ft-source-panel>
 
@@ -83,12 +81,6 @@ This element defines a source grid example that allows experimentation with conf
                 _base: {
                     type: Object,
                     value: this,
-                },
-
-                code:
-                {
-                    type: String,
-                    value: ""
                 },
             },
 

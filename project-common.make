@@ -38,23 +38,20 @@ project-init-github:  ## Initialize GitHub project
 	git push -u origin master
 
 
+
 # Serve
 
 .PHONY: project-serve-polymer
-project-serve-polymer:  ## Serve project locally using the Polymer server
+project-serve-polymer:  ## Serve element demo locally using the Polymer server
 	@echo http:localhost:${LOCAL_PORT}; \
 	polymer serve --port ${LOCAL_PORT}
 
 .PHONY: serve
 serve: project-serve-polymer  ## Shortcut for project-serve-polymer
-	@echo Serving...;
+	@echo Done;
 
 
 # Browse
-
-.PHONY: project-browse
-project-browse:  ## Open locally-served app or element demo in browser
-	@open http:localhost:${LOCAL_PORT};
 
 .PHONY: browse
 browse: project-browse  ## Shortcut for project-browse
@@ -110,7 +107,7 @@ artifact-publish-docs: artifact-publish-docs-versioned artifact-publish-docs-lat
 
 .PHONY: artifact-publish-docs-versioned
 artifact-publish-docs-versioned:  ## Release versioned element docs
-	@aws s3 sync ./build/docs s3://connect.filethis.com/${NAME}/v${VERSION}/docs/;
+	@aws s3 sync ./build/docs s3://connect.filethis.com/${NAME}/${VERSION}/docs/;
 
 .PHONY: artifact-publish-docs-latest
 artifact-publish-docs-latest:  ## Release latest element docs
@@ -128,7 +125,7 @@ artifact-invalidate-docs-latest:  ## Invalidate CDN distribution of latest eleme
 
 .PHONY: publication-browse-docs-versioned
 publication-browse-docs-versioned:  ## Open the published, versioned docs in browser
-	@open https://connect.filethis.com/${NAME}/v${VERSION}/docs/index.html;
+	@open https://connect.filethis.com/${NAME}/${VERSION}/docs/index.html;
 
 .PHONY: publication-browse-docs-latest
 publication-browse-docs-latest:  ## Open the published, latest docs in browser
@@ -139,7 +136,7 @@ publication-browse-docs-latest:  ## Open the published, latest docs in browser
 
 .PHONY: publication-url-docs-versioned
 publication-url-docs-versioned:  ## Print the published, versioned docs url
-	@echo https://connect.filethis.com/${NAME}/v${VERSION}/docs/index.html;
+	@echo https://connect.filethis.com/${NAME}/${VERSION}/docs/index.html;
 
 .PHONY: publication-url-docs-latest
 publication-url-docs-latest:  ## Print the published, latest docs url
