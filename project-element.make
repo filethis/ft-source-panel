@@ -35,6 +35,13 @@ project-validate-eslint:  ## Run ESLint tool over project source files
 	@eslint --ext .html,.js ./;
 
 
+# Serve
+
+.PHONY: serve
+serve: project-serve-polymer  ## Shortcut for project-serve-polymer
+	@echo Done;
+
+
 # Browse
 
 .PHONY: project-browse

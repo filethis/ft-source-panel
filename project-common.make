@@ -46,10 +46,6 @@ project-serve-polymer:  ## Serve element demo locally using the Polymer server
 	@echo http:localhost:${LOCAL_PORT}; \
 	polymer serve --port ${LOCAL_PORT}
 
-.PHONY: serve
-serve: project-serve-polymer  ## Shortcut for project-serve-polymer
-	@echo Done;
-
 
 # Browse
 

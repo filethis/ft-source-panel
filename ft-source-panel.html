@@ -54,18 +54,42 @@ This element displays a list of FileThis source resources. Above the list is a h
 
         <style>
             :host {
-                display:block;
-                overflow:hidden;
+                display: block;
+                overflow: hidden;
                 @apply --layout-vertical;
-
                 --paper-button-raised-keyboard-focus: {
                     font-weight: normal;
                 };
                 --paper-button-flat-keyboard-focus: {
                     font-weight: normal;
                 };
-
                 @apply --ft-source-panel;
+            }
+            .header {
+                height: 60px;
+                padding-left: 16px;
+                padding-right: 16px;
+                border-bottom: 1px solid #DDD;
+                @apply --ft-source-panel-header;
+            }
+            .heading {
+                font-family: Arial;
+                font-size: 14pt;
+                @apply --ft-source-panel-heading;
+            }
+            .filter-button {
+                width: 110px;
+                height: 32px;
+                font-size: 14px;
+                background-color: white;
+                text-transform:  none;
+                border: 1px solid #DDD;
+                @apply --ft-source-panel-filter-button;
+            }
+            .search-field {
+                margin-left: 8px;
+                width: 120px;
+                @apply --ft-source-panel-search-field;
             }
         </style>
 
@@ -77,31 +101,33 @@ This element displays a list of FileThis source resources. Above the list is a h
 
         <!-- Search and sort bar -->
         <div
-                id="searchAndSortBar"
-                class="layout horizontal center"
-                style="height:60px; padding-left:16px; padding-right:16px; border-bottom:1px solid #DDD; "
-                hidden$="[[!_showHeader]]">
-
+            id="header"
+            class="header layout horizontal center"
+            hidden$="[[!_showHeader]]"
+        >
             <!-- Heading -->
             <iron-label
-                    hidden$="[[!showHeading]]"
-                    style="font-family:Arial; font-size:14pt; ">
+                id="heading"
+                class="heading"
+                hidden$="[[!showHeading]]"
+            >
                 [[heading]]
             </iron-label>
 
             <div class="flex"></div>
 
             <!-- Filter -->
-            <paper-menu-button
-                    hidden$="[[!showFilters]]">
+            <paper-menu-button hidden$="[[!showFilters]]">
 
                 <!-- Button -->
                 <paper-button
-                        slot="dropdown-trigger"
-                        style="width:110px; height:32px; font-size:14px; background-color:white; text-transform: none; border:1px solid #DDD; ">
+                    slot="dropdown-trigger"
+                    class="filter-button"
+                >
                     <div
-                            class="layout horizontal center"
-                            style="width:100%">
+                        class="layout horizontal center"
+                        style="width:100%"
+                    >
                         <iron-icon icon="arrow-drop-down"></iron-icon>
                         <span>[[selectedFilter.name]]</span>
                     </div>
@@ -109,16 +135,19 @@ This element displays a list of FileThis source resources. Above the list is a h
 
                 <!-- Dropdown -->
                 <paper-listbox
-                        slot="dropdown-content"
-                        attr-for-selected="id"
-                        selected="{{selectedFilterId}}">
+                    slot="dropdown-content"
+                    attr-for-selected="id"
+                    selected="{{selectedFilterId}}"
+                >
                     <template
-                            is="dom-repeat"
-                            items="[[filters]]"
-                            as="filter">
+                        is="dom-repeat"
+                        items="[[filters]]"
+                        as="filter"
+                    >
                         <paper-item
-                                id="[[filter.id]]"
-                                style="font-size:14px; ">
+                            id="[[filter.id]]"
+                            style="font-size:14px; "
+                        >
                             [[filter.name]]
                         </paper-item>
                     </template>
@@ -128,21 +157,23 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             <!-- Search -->
             <paper-input
-                    id="searchPatternField"
-                    autofocus
-                    label="Search"
-                    style="margin-left:8px; width:120px; "
-                    hidden$="[[!showSearchField]]"
-                    value="{{_searchPattern}}">
+                id="searchField"
+                class="search-field"
+                autofocus
+                label="Search"
+                hidden$="[[!showSearchField]]"
+                value="{{_searchPattern}}"
+            >
                 <!--<iron-icon icon="search" slot="prefix"></iron-icon>-->
                 <!--<div slot="prefix" style="width:5px; "></div>-->
                 <paper-icon-button
-                        slot="suffix"
-                        on-tap="_clearSearchPattern"
-                        hidden$="[[!_haveSearchPattern]]"
-                        icon="clear"
-                        alt="clear"
-                        title="clear">
+                    slot="suffix"
+                    on-tap="_clearSearchPattern"
+                    hidden$="[[!_haveSearchPattern]]"
+                    icon="clear"
+                    alt="clear"
+                    title="clear"
+                >
                 </paper-icon-button>
             </paper-input>
 
@@ -150,26 +181,29 @@ This element displays a list of FileThis source resources. Above the list is a h
 
         <!-- Source Grid -->
         <ft-source-grid
-                id="sourceGrid"
-                class="flex"
-                sources="[[_sourcesFilteredAndSorted]]"
-                selected-source="{{selectedSource}}">
+            id="sourceGrid"
+            class="flex"
+            sources="[[_sourcesFilteredAndSorted]]"
+            selected-source="{{selectedSource}}"
+        >
         </ft-source-grid>
 
         <!-- Connect Dialog -->
         <ft-create-connection-dialog
-                id="createConnectionDialog"
-                on-cancel="_onCreateConnectionDialogClosed"
-                on-commit="_onCreateConnectionDialogClosed">
+            id="createConnectionDialog"
+            on-cancel="_onCreateConnectionDialogClosed"
+            on-commit="_onCreateConnectionDialogClosed"
+        >
         </ft-create-connection-dialog>
 
         <!-- Filtered source list -->
         <array-filter
-                id="arrayFilter"
-                items="{{sources}}"
-                filtered="{{_sourcesFilteredAndSorted}}"
-                filter="_filter"
-                sort="_sorter">
+            id="arrayFilter"
+            items="{{sources}}"
+            filtered="{{_sourcesFilteredAndSorted}}"
+            filter="_filter"
+            sort="_sorter"
+        >
         </array-filter>
 
     </template>
