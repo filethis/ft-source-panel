@@ -73,7 +73,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 @apply --ft-source-panel-header;
             }
             .heading {
-                font-family: Arial;
+                font-family: Arial, Helvetica, sans-serif;
                 font-size: 14pt;
                 @apply --ft-source-panel-heading;
             }
@@ -82,7 +82,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 height: 32px;
                 font-size: 14px;
                 background-color: white;
-                text-transform:  none;
+                text-transform: none;
                 border: 1px solid #DDD;
                 @apply --ft-source-panel-filter-button;
             }
@@ -339,8 +339,11 @@ This element displays a list of FileThis source resources. Above the list is a h
             _onSourcesChanged: function()
             {
                 // TODO: Is this still necessary?
-                // Hack so that contents always get clipped, initially
-                this.$.sourceGrid.fire('resize')
+                // Hack so that contents always get clipped, initially.
+                setTimeout(function()
+                {
+                    this.$.sourceGrid.fire('resize')
+                }.bind(this), 1)
             },
 
             _onTap: function(event)
