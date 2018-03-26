@@ -21,7 +21,9 @@ SHELL := /bin/bash
 include project-common.make
 
 
-# Project -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Project
+#------------------------------------------------------------------------------
 
 
 # Validate
@@ -78,7 +80,9 @@ project-browse-demo-browsersync-test:  ## Run BrowserSync for tests
 		--index "${NAME}_test.html";
 
 
-# Artifacts -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Artifacts
+#------------------------------------------------------------------------------
 
 
 # Publish dropin
@@ -89,15 +93,15 @@ artifact-publish-dropin: artifact-publish-dropin-versioned artifact-publish-drop
 
 .PHONY: artifact-publish-dropin-versioned
 artifact-publish-dropin-versioned:  ## Release versioned element dropin
-	@aws s3 sync ./build/dropin s3://connect.filethis.com/${NAME}/${VERSION}/dropin/;
+	@aws-vault exec filethis-production -- aws s3 sync ./build/dropin s3://connect.filethis.com/${NAME}/${VERSION}/dropin/;
 
 .PHONY: artifact-publish-dropin-latest
 artifact-publish-dropin-latest:  ## Release latest element dropin
-	@aws s3 sync ./build/dropin s3://connect.filethis.com/${NAME}/latest/dropin/;
+	@aws-vault exec filethis-production -- aws s3 sync ./build/dropin s3://connect.filethis.com/${NAME}/latest/dropin/;
 
 .PHONY: artifact-invalidate-dropin-latest
 artifact-invalidate-dropin-latest:  ## Invalidate CDN distribution of latest element dropin
-	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/dropin/*"; fi
+	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec filethis-production -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/dropin/*"; fi
 
 .PHONY: invalidate
 invalidate: artifact-invalidate-dropin-latest  ## Shortcut for artifact-invalidate-dropin-latest
@@ -112,11 +116,11 @@ artifact-publish-demo: artifact-publish-demo-versioned artifact-publish-demo-lat
 
 .PHONY: artifact-publish-demo-versioned
 artifact-publish-demo-versioned:  ## Release versioned element demo
-	@aws s3 sync ./build/demo s3://connect.filethis.com/${NAME}/${VERSION}/demo/;
+	@aws-vault exec filethis-production -- aws s3 sync ./build/demo s3://connect.filethis.com/${NAME}/${VERSION}/demo/;
 
 .PHONY: artifact-publish-demo-latest
 artifact-publish-demo-latest:  ## Release latest element demo
-	@aws s3 sync ./build/demo s3://connect.filethis.com/${NAME}/latest/demo/;
+	@aws-vault exec filethis-production -- aws s3 sync ./build/demo s3://connect.filethis.com/${NAME}/latest/demo/;
 
 .PHONY: artifact-invalidate-demo-latest
 artifact-invalidate-demo-latest:  ## Invalidate CDN distribution of latest element demo
@@ -140,7 +144,9 @@ publish: artifact-publish-dropin  ## Shortcut for artifact-publish-dropin
 	@echo Published;
 
 
-# Publications -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Publications
+#------------------------------------------------------------------------------
 
 
 # Browse published demo
@@ -187,7 +193,9 @@ publication-url-docs-github-pages:  ## Print URL of docs published on GitHub Pag
 	@echo https://${GITHUB_USER}.github.io/${NAME}/components/${NAME}/;
 
 
-# Bower -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Bower
+#------------------------------------------------------------------------------
 
 .PHONY: bower-register
 bower-register:  # Internal target: Register element in public Bower registry. Usually invoked as part of a release via 'release' target.

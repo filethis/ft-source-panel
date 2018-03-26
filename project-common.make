@@ -17,7 +17,9 @@
 SHELL := /bin/bash
 
 
-# Project -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Project
+#------------------------------------------------------------------------------
 
 
 # Initialize
@@ -73,7 +75,9 @@ project-test-safari:  ## Run tests on Safari only
 	@polymer test -l safari
 
 
-# Artifacts -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Artifacts
+#------------------------------------------------------------------------------
 
 
 # Build
@@ -103,18 +107,20 @@ artifact-publish-docs: artifact-publish-docs-versioned artifact-publish-docs-lat
 
 .PHONY: artifact-publish-docs-versioned
 artifact-publish-docs-versioned:  ## Release versioned element docs
-	@aws s3 sync ./build/docs s3://connect.filethis.com/${NAME}/${VERSION}/docs/;
+	@aws-vault exec filethis-production -- aws s3 sync ./build/docs s3://connect.filethis.com/${NAME}/${VERSION}/docs/;
 
 .PHONY: artifact-publish-docs-latest
 artifact-publish-docs-latest:  ## Release latest element docs
-	@aws s3 sync ./build/docs s3://connect.filethis.com/${NAME}/latest/docs/
+	@aws-vault exec filethis-production -- aws s3 sync ./build/docs s3://connect.filethis.com/${NAME}/latest/docs/
 
 .PHONY: artifact-invalidate-docs-latest
 artifact-invalidate-docs-latest:  ## Invalidate CDN distribution of latest element docs
 	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/docs/*"; fi
 
 
-# Publications -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Publications
+#------------------------------------------------------------------------------
 
 
 # Browse published docs
@@ -139,7 +145,9 @@ publication-url-docs-latest:  ## Print the published, latest docs url
 	@echo https://connect.filethis.com/${NAME}/latest/docs/index.html;
 
 
-# Git -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Git
+#------------------------------------------------------------------------------
 
 .PHONY: git-add
 git-add:  ## Add all git changes, interactively
@@ -174,7 +182,9 @@ git-status:  ## Print git status
 	@git status -s
 
 
-# GitHub -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# GitHub
+#------------------------------------------------------------------------------
 
 .PHONY: github-browse-repo
 github-browse-repo:  ## Open URL of project GitHub repository page
@@ -185,7 +195,9 @@ github-url-repo:  ## Print URL of project GitHub repository page
 	@echo https://github.com/${GITHUB_USER}/${NAME}
 
 
-# Bower -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Bower
+#------------------------------------------------------------------------------
 
 .PHONY: bower-info
 bower-info:  ## Print information about published Bower package
@@ -214,7 +226,9 @@ bower-reinstall-packages: bower-clean-packages bower-install-packages  ## Clean 
 bower-reinstall-packages-prod: bower-clean-packages bower-install-packages-prod  ## Clean and reinstall all bower packages.
 
 
-# Source -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Source
+#------------------------------------------------------------------------------
 
 .PHONY: source-find-version-everywhere
 source-find-version-everywhere:  ## Find and print versions of this project in use by all peer projects
@@ -249,7 +263,9 @@ source-release: source-set-version-everywhere git-add-fast git-commit-fast git-p
 	@echo Released version ${VERSION} of \"${NAME}\" project
 
 
-# Help -----------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Help
+#------------------------------------------------------------------------------
 
 .PHONY: help
 help:  ## Print Makefile usage. See: https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
