@@ -33,12 +33,12 @@ limitations under the License.
                 overflow: hidden;
                 @apply --ft-source-identifier;
             }
-            .dialog {
+            #dialog {
                 width: 600px;
                 height: 520px;
                 @apply --ft-source-identifier-dialog;
             }
-            .content {
+            #content {
                 margin: 0;
                 padding: 0;
                 background-color: white;
@@ -46,14 +46,14 @@ limitations under the License.
                 height: 100%;
                 @apply --ft-source-identifier-dialog;
             }
-            .heading {
+            #heading {
                 margin-top: 12px;
                 font-family:Arial, Helvetica, sans-serif;
                 font-size: 12pt;
                 white-space:nowrap;
                 @apply --ft-source-identifier-heading;
             }
-            .thumbnail {
+            #thumbnail {
                 width: 512px;
                 border: 1px solid black;
                 box-shadow:5px 5px 4px #BBB;
@@ -61,39 +61,50 @@ limitations under the License.
                 padding:10px;
                 @apply --ft-source-identifier-thumbnail;
             }
-            .button {
+            #button {
                 @apply --ft-source-identifier-button;
             }
-            .footer {
+            #footer {
                 margin-top: 10px;
                 @apply --ft-source-identifier-footer;
             }
         </style>
 
         <paper-dialog
-            modal id="dialog"
-            class="dialog"
+            modal
+            id="dialog"
         >
             <!-- Content -->
             <!-- The paper-dialog parent is evil, injecting a margin into its children. -->
-            <div class="content layout vertical center">
+            <div
+                id="content"
+                class="layout vertical center">
 
                 <!-- Heading -->
-                <iron-label class="heading">
+                <iron-label id="heading">
                     The home page of [[_sourceName]] looks like this:
                 </iron-label>
 
                 <!-- Thumbnail -->
                 <img
-                    class="thumbnail"
+                    id="thumbnail"
                     src="[[_thumbnailUrl]]"
                 >
 
                 <!-- Footer -->
-                <div class="footer layout horizontal center">
+                <div
+                    id="footer"
+                    class="layout horizontal center">
 
                     <!-- Done button-->
-                    <paper-button button dialog-confirm raised autofocus>OK</paper-button>
+                    <paper-button
+                        id="button"
+                        dialog-confirm
+                        raised
+                        autofocus
+                    >
+                        OK
+                    </paper-button>
                 </div>
             </div>
 

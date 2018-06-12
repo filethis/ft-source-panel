@@ -107,11 +107,11 @@ artifact-publish-docs: artifact-publish-docs-versioned artifact-publish-docs-lat
 
 .PHONY: artifact-publish-docs-versioned
 artifact-publish-docs-versioned:  ## Release versioned element docs
-	@aws-vault exec filethis-production -- aws s3 sync ./build/docs s3://connect.filethis.com/${NAME}/${VERSION}/docs/;
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/docs s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/docs/;
 
 .PHONY: artifact-publish-docs-latest
 artifact-publish-docs-latest:  ## Release latest element docs
-	@aws-vault exec filethis-production -- aws s3 sync ./build/docs s3://connect.filethis.com/${NAME}/latest/docs/
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/docs s3://${PUBLICATION_DOMAIN}/${NAME}/latest/docs/
 
 .PHONY: artifact-invalidate-docs-latest
 artifact-invalidate-docs-latest:  ## Invalidate CDN distribution of latest element docs
@@ -127,22 +127,22 @@ artifact-invalidate-docs-latest:  ## Invalidate CDN distribution of latest eleme
 
 .PHONY: publication-browse-docs-versioned
 publication-browse-docs-versioned:  ## Open the published, versioned docs in browser
-	@open https://connect.filethis.com/${NAME}/${VERSION}/docs/index.html;
+	@open https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/docs/index.html;
 
 .PHONY: publication-browse-docs-latest
 publication-browse-docs-latest:  ## Open the published, latest docs in browser
-	@open https://connect.filethis.com/${NAME}/latest/docs/index.html;
+	@open https://${PUBLICATION_DOMAIN}/${NAME}/latest/docs/index.html;
 
 
 # Print URL of published docs
 
 .PHONY: publication-url-docs-versioned
 publication-url-docs-versioned:  ## Print the published, versioned docs url
-	@echo https://connect.filethis.com/${NAME}/${VERSION}/docs/index.html;
+	@echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/docs/index.html;
 
 .PHONY: publication-url-docs-latest
 publication-url-docs-latest:  ## Print the published, latest docs url
-	@echo https://connect.filethis.com/${NAME}/latest/docs/index.html;
+	@echo https://${PUBLICATION_DOMAIN}/${NAME}/latest/docs/index.html;
 
 
 #------------------------------------------------------------------------------

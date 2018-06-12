@@ -93,15 +93,15 @@ artifact-publish-dropin: artifact-publish-dropin-versioned artifact-publish-drop
 
 .PHONY: artifact-publish-dropin-versioned
 artifact-publish-dropin-versioned:  ## Release versioned element dropin
-	@aws-vault exec filethis-production -- aws s3 sync ./build/dropin s3://connect.filethis.com/${NAME}/${VERSION}/dropin/;
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/dropin s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dropin/;
 
 .PHONY: artifact-publish-dropin-latest
 artifact-publish-dropin-latest:  ## Release latest element dropin
-	@aws-vault exec filethis-production -- aws s3 sync ./build/dropin s3://connect.filethis.com/${NAME}/latest/dropin/;
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/dropin s3://${PUBLICATION_DOMAIN}/${NAME}/latest/dropin/;
 
 .PHONY: artifact-invalidate-dropin-latest
 artifact-invalidate-dropin-latest:  ## Invalidate CDN distribution of latest element dropin
-	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec filethis-production -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/dropin/*"; fi
+	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/dropin/*"; fi
 
 .PHONY: invalidate
 invalidate: artifact-invalidate-dropin-latest  ## Shortcut for artifact-invalidate-dropin-latest
@@ -116,11 +116,11 @@ artifact-publish-demo: artifact-publish-demo-versioned artifact-publish-demo-lat
 
 .PHONY: artifact-publish-demo-versioned
 artifact-publish-demo-versioned:  ## Release versioned element demo
-	@aws-vault exec filethis-production -- aws s3 sync ./build/demo s3://connect.filethis.com/${NAME}/${VERSION}/demo/;
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/demo s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/demo/;
 
 .PHONY: artifact-publish-demo-latest
 artifact-publish-demo-latest:  ## Release latest element demo
-	@aws-vault exec filethis-production -- aws s3 sync ./build/demo s3://connect.filethis.com/${NAME}/latest/demo/;
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/demo s3://${PUBLICATION_DOMAIN}/${NAME}/latest/demo/;
 
 .PHONY: artifact-invalidate-demo-latest
 artifact-invalidate-demo-latest:  ## Invalidate CDN distribution of latest element demo
@@ -153,11 +153,11 @@ publish: artifact-publish-dropin  ## Shortcut for artifact-publish-dropin
 
 .PHONY: publication-browse-demo-versioned
 publication-browse-demo-versioned:  ## Open the published, versioned demo in browser
-	@open https://connect.filethis.com/${NAME}/${VERSION}/demo/index.html;
+	@open https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/demo/index.html;
 
 .PHONY: publication-browse-demo-latest
 publication-browse-demo-latest:  ## Open the published, latest demo in browser
-	@open https://connect.filethis.com/${NAME}/latest/demo/index.html;
+	@open https://${PUBLICATION_DOMAIN}/${NAME}/latest/demo/index.html;
 
 .PHONY: publication-browse-demo-github-pages
 publication-browse-demo-github-pages:  ## Open URL of demo published on GitHub Pages
@@ -168,11 +168,11 @@ publication-browse-demo-github-pages:  ## Open URL of demo published on GitHub P
 
 .PHONY: publication-url-demo-versioned
 publication-url-demo-versioned:  ## Print the published, versioned demo url
-	@echo https://connect.filethis.com/${NAME}/${VERSION}/demo/index.html;
+	@echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/demo/index.html;
 
 .PHONY: publication-url-demo-latest
 publication-url-demo-latest:  ## Print the published, latest demo url
-	@echo https://connect.filethis.com/${NAME}/latest/demo/index.html;
+	@echo https://${PUBLICATION_DOMAIN}/${NAME}/latest/demo/index.html;
 
 .PHONY: publication-url-demo-github-pages
 publication-url-demo-github-pages:  ## Print URL of demo published on GitHub Pages
