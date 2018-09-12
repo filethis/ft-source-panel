@@ -21,8 +21,9 @@ limitations under the License.
 <link rel="import" href="../../ft-element-demo/ft-element-demo.html">
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../ft-source-panel-settings.html">
 <link rel="import" href="../ft-source-panel.html">
+<link rel="import" href="../ft-source-panel-settings.html">
+<link rel="import" href="../ft-source-panel-settings-behavior.html">
 <link rel="import" href="ft-source-panel-settings-editor.html">
 
 
@@ -45,6 +46,13 @@ This element defines a source grid example that allows experimentation with conf
             }
         </style>
 
+        <!-- Set a couple settings -->
+        <!--<ft-source-panel-settings-->
+            <!--ft-source-panel-heading="Please choose a site"-->
+            <!--ft-source-panel-show-heading=false-->
+        <!--&gt;-->
+        <!--</ft-source-panel-settings>-->
+
         <ft-element-demo
             name="ft-source-panel"
             show-config="true"
@@ -55,6 +63,10 @@ This element defines a source grid example that allows experimentation with conf
                 id="settings"
                 slot="config"
                 style="padding:20px; "
+                ft-source-panel-show-filters="{{ftSourcePanelShowFilters}}"
+                ft-source-panel-heading="{{ftSourcePanelHeading}}"
+                ft-source-panel-show-heading="{{ftSourcePanelShowHeading}}"
+                ft-source-panel-show-search-field="{{ftSourcePanelShowSearchField}}"
             >
             </ft-source-panel-settings-editor>
 
@@ -63,6 +75,10 @@ This element defines a source grid example that allows experimentation with conf
                 slot="instance"
                 id="panel"
                 style="width:100%; height: 100%; "
+                ft-source-panel-show-filters="{{ftSourcePanelShowFilters}}"
+                ft-source-panel-heading="{{ftSourcePanelHeading}}"
+                ft-source-panel-show-heading="{{ftSourcePanelShowHeading}}"
+                ft-source-panel-show-search-field="{{ftSourcePanelShowSearchField}}"
             >
            </ft-source-panel>
 
@@ -84,32 +100,6 @@ This element defines a source grid example that allows experimentation with conf
                 },
             },
 
-            _onSet: function(event)
-            {
-                var detail = event.detail;
-                var path = detail.path;
-                var value = detail.value;
-                console.log("SET: " + path + " = " + value.toString());
-            },
-
-            _onSubscribe: function(event)
-            {
-                var detail = event.detail;
-                var path = detail.path;
-                var element = detail.element;
-                var elementId = element.id;
-                console.log("SUBSCRIBE: " + elementId + " to " + path);
-            },
-
-            _onUnsubscribe: function(event)
-            {
-                var detail = event.detail;
-                var path = detail.path;
-                var element = detail.element;
-                var elementId = element.id;
-                console.log("UNSUBSCRIBE: " + elementId + " to " + path);
-            },
-
             ready: function()
             {
                 var path = "fake-sources.json";
@@ -127,7 +117,7 @@ This element defines a source grid example that allows experimentation with conf
                     }
                 }.bind(this);
                 xmlHttpRequest.send();
-            }
+            },
 
         });
 

@@ -16,7 +16,6 @@ limitations under the License.
 
 
 <!-- Imports -->
-<link rel="import" href="../../ft-global-variable/ft-global-variable.html">
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../paper-input/paper-input.html">
@@ -54,19 +53,13 @@ This element defines a source grid example that allows experimentation with conf
         </style>
 
         <!-- Settings -->
-        <ft-global-variable name="ft-source-panel-show-filters" value="{{showFilters}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-heading" value="{{heading}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-show-heading" value="{{showHeading}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-show-search-field" value="{{showSearchField}}"></ft-global-variable>
-
-        <!-- Settings -->
-        <paper-checkbox checked="{{showHeading}}">
+        <paper-checkbox checked="{{ftSourcePanelShowHeading}}">
             Show Heading
         </paper-checkbox>
 
         <paper-input
             id="headingField"
-            value="{{heading}}"
+            value="{{ftSourcePanelHeading}}"
             label="Heading:"
             style="width:200px;"
         >
@@ -74,11 +67,11 @@ This element defines a source grid example that allows experimentation with conf
 
         <div style="height:20px"></div>
 
-        <paper-checkbox checked="{{showFilters}}">
+        <paper-checkbox checked="{{ftSourcePanelShowFilters}}">
             Show Filters
         </paper-checkbox>
 
-        <paper-checkbox checked="{{showSearchField}}">
+        <paper-checkbox checked="{{ftSourcePanelShowSearchField}}">
             Show Search Field
         </paper-checkbox>
 

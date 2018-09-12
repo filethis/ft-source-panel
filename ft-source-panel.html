@@ -17,8 +17,8 @@ limitations under the License.
 
 <link rel="import" href="../array-filter/array-filter.html">
 <link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
-<link rel="import" href="../ft-global-variable/ft-global-variable.html">
 <link rel="import" href="../ft-source-grid/ft-source-grid.html">
+<link rel="import" href="../ft-source-grid-item/ft-source-grid-item-settings-behavior.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
@@ -92,12 +92,6 @@ This element displays a list of FileThis source resources. Above the list is a h
             }
         </style>
 
-        <!-- Settings -->
-        <ft-global-variable name="ft-source-panel-show-filters" value="{{showFilters}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-heading" value="{{heading}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-show-heading" value="{{showHeading}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-show-search-field" value="{{showSearchField}}"></ft-global-variable>
-
         <!-- Search and sort bar -->
         <div
             id="header"
@@ -107,15 +101,15 @@ This element displays a list of FileThis source resources. Above the list is a h
             <!-- Heading -->
             <iron-label
                 id="heading"
-                hidden$="[[!showHeading]]"
+                hidden$="[[!ftSourcePanelShowHeading]]"
             >
-                [[heading]]
+                [[ftSourcePanelHeading]]
             </iron-label>
 
             <div class="flex"></div>
 
             <!-- Filter -->
-            <paper-menu-button hidden$="[[!showFilters]]">
+            <paper-menu-button hidden$="[[!ftSourcePanelShowFilters]]">
 
                 <!-- Button -->
                 <paper-button
@@ -158,7 +152,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 id="searchField"
                 autofocus
                 label="Search"
-                hidden$="[[!showSearchField]]"
+                hidden$="[[!ftSourcePanelShowSearchField]]"
                 value="{{_searchPattern}}"
             >
                 <!--<iron-icon icon="search" slot="prefix"></iron-icon>-->
@@ -182,6 +176,7 @@ This element displays a list of FileThis source resources. Above the list is a h
             class="flex"
             sources="[[_sourcesFilteredAndSorted]]"
             selected-source="{{selectedSource}}"
+            ft-source-grid-item-show-identify-button="{{ftSourceGridItemShowIdentifyButton}}"
         >
         </ft-source-grid>
 
@@ -210,7 +205,10 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             is: 'ft-source-panel',
 
-            behaviors: [FileThis.SourcePanelSettingsBehavior],
+            behaviors: [
+                FileThis.SourcePanelSettingsBehavior,
+                FileThis.SourceGridItemSettingsBehavior,
+            ],
 
             listeners:
             {
@@ -220,7 +218,7 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             observers:
             [
-                "_onSettingsPropertyChanged(showFilters, heading, showHeading, showSearchField)",
+                "_onSettingsPropertyChanged(ftSourcePanelShowFilters, ftSourcePanelHeading, ftSourcePanelShowHeading, ftSourcePanelShowSearchField)",
             ],
 
             properties: {
@@ -395,17 +393,17 @@ This element displays a list of FileThis source resources. Above the list is a h
             {
                 this._showHeader = this._canShowHeader();
 
-                if (!this.showSearchField)
+                if (!this.ftSourcePanelShowSearchField)
                     this._clearSearchPattern();
             },
 
             _canShowHeader: function()
             {
-                if (this.showHeading)
+                if (this.ftSourcePanelShowHeading)
                     return true;
-                if (this.showFilters)
+                if (this.ftSourcePanelShowFilters)
                     return true;
-                if (this.showSearchField)
+                if (this.ftSourcePanelShowSearchField)
                     return true;
                 return false;
             },

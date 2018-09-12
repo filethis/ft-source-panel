@@ -7,7 +7,6 @@
     "ft-create-connection-dialog": "filethis/ft-create-connection-dialog#^1.0.26",
     "ft-element-demo": "filethis/ft-element-demo#^1.0.13",
     "ft-error-behavior": "filethis/ft-error-behavior#^1.0.20",
-    "ft-global-variable": "filethis/ft-global-variable#^1.0.5",
     "ft-http-behavior": "filethis/ft-http-behavior#^1.0.20",
     "ft-source-grid": "filethis/ft-source-grid#^1.0.23",
     "ft-source-grid-item": "filethis/ft-source-grid-item#^1.0.22",

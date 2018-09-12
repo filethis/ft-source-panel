@@ -259,9 +259,9 @@ source-bump-version:  ## Increment the patch version number.
 	echo Set version in all projects that depend on this one
 
 .PHONY: source-release
-source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push git-tag-version-and-push  ## Release source version of project.
+source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push  ## Release source version of project.
 	@echo Released version ${VERSION} of \"${NAME}\" project
-#source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push git-tag-version-and-push bower-register publish-github-pages  ## Release source version of project.
+#source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push bower-register publish-github-pages  ## Release source version of project.
 #	@echo Released version ${VERSION} of \"${NAME}\" project
 
 

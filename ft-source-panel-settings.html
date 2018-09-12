@@ -1,5 +1,5 @@
 <!--
-Copyright 2018 FileThis, Inc.
+Copyright 2017 FileThis, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,45 +15,40 @@ limitations under the License.
 -->
 
 
-<link rel="import" href="../ft-global-variable/ft-global-variable.html">
+<!-- Imports -->
+<link rel="import" href="../iron-meta/iron-meta.html">
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="ft-source-panel-settings-behavior.html">
 
 
-<!--
-`<ft-source-panel-settings>`
-
-Settings applied to the ft-source-panel.
-
-@demo
--->
 <dom-module id="ft-source-panel-settings">
 
     <script>
-        Polymer({
 
+        Polymer
+        ({
             is: 'ft-source-panel-settings',
 
-            behaviors: [FileThis.SourcePanelSettingsBehavior],
+            behaviors: [
+                FileThis.SourcePanelSettingsBehavior,
+            ],
 
-            attached: function()
+            ready: function()
             {
-                // setTimeout(function()
-                // {
-                //     this._initializeSettings();
-                // }.bind(this), 1000);
-                this.async(this._initializeSettings);
+                this._storeSettings();
             },
 
-            _initializeSettings: function()
+            _storeSettings: function()
             {
-                window.FileThis.FtGlobalVariables.propagateValue("ft-source-panel-show-filters", this.showFilters);
-                window.FileThis.FtGlobalVariables.propagateValue("ft-source-panel-heading", this.heading);
-                window.FileThis.FtGlobalVariables.propagateValue("ft-source-panel-show-heading", this.showHeading);
-                window.FileThis.FtGlobalVariables.propagateValue("ft-source-panel-show-search-field", this.showSearchField);
+                new Polymer.IronMeta({type: "setting", key: "ft-source-panel-show-filters", value: this.ftSourcePanelShowFilters});
+                new Polymer.IronMeta({type: "setting", key: "ft-source-panel-heading", value: this.ftSourcePanelHeading});
+                new Polymer.IronMeta({type: "setting", key: "ft-source-panel-show-heading", value: this.ftSourcePanelShowHeading});
+                new Polymer.IronMeta({type: "setting", key: "ft-source-panel-show-search-field", value: this.ftSourcePanelShowSearchField});
             },
+
         });
 
     </script>
 
 </dom-module>
+

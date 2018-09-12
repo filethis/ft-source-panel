@@ -17,7 +17,6 @@ limitations under the License.
 
 <link rel="import" href="../polymer/polymer.html">
 
-<ft-source-panel-settings></ft-source-panel-settings>
 <script>
 
     // Make sure the "FileThis" namespace exists
@@ -34,7 +33,7 @@ limitations under the License.
     FileThis.SourcePanelSettingsBehavior = {
 
         observers:[
-            '_onInternalSettingsChanged(showFilters, heading, showHeading, showSearchField)',
+            '_onInternalSettingsChanged(ftSourcePanelShowFilters, ftSourcePanelHeading, ftSourcePanelShowHeading, ftSourcePanelShowSearchField)',
         ],
 
         properties: {
@@ -46,16 +45,15 @@ limitations under the License.
              *
              * @type {boolean}
              */
-            showFilters:
+            ftSourcePanelShowFilters:
             {
                 type: Object,
                 value: true,
                 notify: true,
-                observer: "_onShowFiltersChanged",
             },
 
             /** Heading to display when "showHeading" is true. */
-            heading:
+            ftSourcePanelHeading:
             {
                 type: String,
                 value: "Sites",
@@ -69,7 +67,7 @@ limitations under the License.
              *
              * @type {boolean}
              */
-            showHeading:
+            ftSourcePanelShowHeading:
             {
                 type: Object,
                 value: true,
@@ -83,7 +81,7 @@ limitations under the License.
              *
              * @type {boolean}
              */
-            showSearchField:
+            ftSourcePanelShowSearchField:
             {
                 type: Object,
                 value: true,
@@ -92,9 +90,25 @@ limitations under the License.
 
         },
 
-        _onShowFiltersChanged: function(to, from)
+        ready: function()
         {
-            var foo = "bar";
+            this._applySettings();
+        },
+
+        _applySettings: function()
+        {
+            this._applySettingToProperty("ft-source-panel-show-filters", "ftSourcePanelShowFilters");
+            this._applySettingToProperty("ft-source-panel-heading", "ftSourcePanelHeading");
+            this._applySettingToProperty("ft-source-panel-show-heading", "ftSourcePanelShowHeading");
+            this._applySettingToProperty("ft-source-panel-show-search-field", "ftSourcePanelShowSearchField");
+        },
+
+        _applySettingToProperty: function(settingName, propertyName)
+        {
+            var meta = new Polymer.IronMeta({type: "setting", key: settingName});
+            var value = meta.value;
+            if (value !== undefined)
+                this.set(propertyName, value);
         },
 
         _onInternalSettingsChanged: function(to)
@@ -102,51 +116,43 @@ limitations under the License.
             this.fire("internal-settings-changed");
         },
 
-        generateImports: function()
+        generateSettingsElement: function()
         {
             if (!this._hasSettings())
                 return "";
 
-            var imports = "<link rel=\"import\" href=\"../bower_components/ft-source-panel/ft-source-panel-settings.html\">\n";
-            return imports;
-        },
+            var settings = "\n<ft-source-panel-settings";
 
-        generateSettings: function()
-        {
-            if (!this._hasSettings())
-                return "";
+            // Keep alphabetized
+            if (this.ftSourcePanelHeading !== "Sites")
+                settings += this._buildSettingAttribute("ft-source-panel-heading", this.ftSourcePanelHeading);
+            if (this.ftSourcePanelShowFilters !== true)
+                settings += this._buildSettingAttribute("ft-source-panel-show-filters", "false");
+            if (this.ftSourcePanelShowHeading !== true)
+                settings += this._buildSettingAttribute("ft-source-panel-show-heading", "false");
+            if (this.ftSourcePanelShowSearchField !== true)
+                settings += this._buildSettingAttribute("ft-source-panel-show-search-field", "false");
 
-            var attributes = "";
-            if (this.showFilters !== true)
-                attributes += '\n    show-filters="false"';
-            if (this.showHeading !== true)
-                attributes += '\n    show-heading="false"';
-            if (this.heading !== "Sites")
-                attributes += '\n    heading="' + this.heading + '"';
-            if (this.showSearchField !== true)
-                attributes += '\n    show-search-field="false"';
-
-            if (attributes.length === 0)
-                return "";
-
-            var settings = "";
-
-            settings += "\n<ft-source-panel-settings ";
-            settings += attributes;
-            settings += ">\n</ft-source-panel-settings>\n";
+            settings += ">\n</ft-source-panel-settings\n";
 
             return settings;
         },
 
+        // TODO: Factor out from here and copies in other classes
+        _buildSettingAttribute: function(propertyName, propertyValue)
+        {
+            return '\n    ' + propertyName + '="' + propertyValue + '"';
+        },
+
         _hasSettings: function()
         {
-            if (this.showFilters !== true)
+            if (this.ftSourcePanelShowFilters !== true)
                 return true;
-            if (this.showHeading !== true)
+            if (this.ftSourcePanelShowHeading !== true)
                 return true;
-            if (this.heading !== "Sites")
+            if (this.ftSourcePanelHeading !== "Sites")
                 return true;
-            if (this.showSearchField !== true)
+            if (this.ftSourcePanelShowSearchField !== true)
                 return true;
             return false;
         },
