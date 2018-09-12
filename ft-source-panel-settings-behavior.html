@@ -90,9 +90,12 @@ limitations under the License.
 
         },
 
-        ready: function()
+        attached: function()
         {
-            this._applySettings();
+            this.async(function()
+            {
+                this._applySettings();
+            });
         },
 
         _applySettings: function()
@@ -121,7 +124,7 @@ limitations under the License.
             if (!this._hasSettings())
                 return "";
 
-            var settings = "\n<ft-source-panel-settings";
+            var settings = "<ft-source-panel-settings";
 
             // Keep alphabetized
             if (this.ftSourcePanelHeading !== "Sites")
@@ -133,7 +136,7 @@ limitations under the License.
             if (this.ftSourcePanelShowSearchField !== true)
                 settings += this._buildSettingAttribute("ft-source-panel-show-search-field", "false");
 
-            settings += ">\n</ft-source-panel-settings\n";
+            settings += ">\n</ft-source-panel-settings>\n";
 
             return settings;
         },
