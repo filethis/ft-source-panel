@@ -34,6 +34,7 @@ limitations under the License.
 <link rel="import" href="../polymer/lib/utils/debounce.html">
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="ft-source-panel-settings-behavior.html">
+<link rel="import" href="../app-storage/app-localstorage/app-localstorage-document.html">
 
 
 <!-- TODO: Retrofit this to use iron-list instead of a dom-repeat template. -->
@@ -91,6 +92,18 @@ This element displays a list of FileThis source resources. Above the list is a h
                 @apply --ft-source-panel-search-field;
             }
         </style>
+
+        <app-localstorage-document key="ftSourcePanelShowFilters" data="{{ftSourcePanelShowFilters}}">
+        </app-localstorage-document>
+
+        <app-localstorage-document key="ftSourcePanelHeading" data="{{ftSourcePanelHeading}}">
+        </app-localstorage-document>
+
+        <app-localstorage-document key="ftSourcePanelShowHeading" data="{{ftSourcePanelShowHeading}}">
+        </app-localstorage-document>
+
+        <app-localstorage-document key="ftSourcePanelShowSearchField" data="{{ftSourcePanelShowSearchField}}">
+        </app-localstorage-document>
 
         <!-- Search and sort bar -->
         <div

@@ -94,16 +94,11 @@ limitations under the License.
         {
             this.async(function()
             {
-                this._applySettings();
+                this._applySettingToProperty("ft-source-panel-show-filters", "ftSourcePanelShowFilters");
+                this._applySettingToProperty("ft-source-panel-heading", "ftSourcePanelHeading");
+                this._applySettingToProperty("ft-source-panel-show-heading", "ftSourcePanelShowHeading");
+                this._applySettingToProperty("ft-source-panel-show-search-field", "ftSourcePanelShowSearchField");
             });
-        },
-
-        _applySettings: function()
-        {
-            this._applySettingToProperty("ft-source-panel-show-filters", "ftSourcePanelShowFilters");
-            this._applySettingToProperty("ft-source-panel-heading", "ftSourcePanelHeading");
-            this._applySettingToProperty("ft-source-panel-show-heading", "ftSourcePanelShowHeading");
-            this._applySettingToProperty("ft-source-panel-show-search-field", "ftSourcePanelShowSearchField");
         },
 
         _applySettingToProperty: function(settingName, propertyName)
