@@ -116,7 +116,7 @@ limitations under the License.
 
         generateSettingsElement: function()
         {
-            if (!this._hasSettings())
+            if (!this.hasSettings())
                 return "";
 
             var settings = "<ft-source-panel-settings";
@@ -142,7 +142,7 @@ limitations under the License.
             return '\n    ' + propertyName + '="' + propertyValue + '"';
         },
 
-        _hasSettings: function()
+        hasSettings: function()
         {
             if (this.ftSourcePanelShowFilters !== true)
                 return true;
@@ -153,6 +153,14 @@ limitations under the License.
             if (this.ftSourcePanelShowSearchField !== true)
                 return true;
             return false;
+        },
+
+        revertToDefaults: function()
+        {
+            this.ftSourcePanelShowFilters = true;
+            this.ftSourcePanelShowHeading = true;
+            this.ftSourcePanelHeading = "Sites";
+            this.ftSourcePanelShowSearchField = true;
         },
     }
 
