@@ -114,32 +114,32 @@ limitations under the License.
             this.fire("internal-settings-changed");
         },
 
-        generateSettingsElement: function()
+        generateSettingsElement: function(indent)
         {
             if (!this.hasSettings())
                 return "";
 
-            var settings = "<ft-source-panel-settings";
+            var settings = indent + "<ft-source-panel-settings";
 
             // Keep alphabetized
             if (this.ftSourcePanelHeading !== "Sites")
-                settings += this._buildSettingAttribute("ft-source-panel-heading", this.ftSourcePanelHeading);
+                settings += this._buildSettingAttribute("ft-source-panel-heading", this.ftSourcePanelHeading, indent);
             if (this.ftSourcePanelShowFilters !== true)
-                settings += this._buildSettingAttribute("ft-source-panel-show-filters", "false");
+                settings += this._buildSettingAttribute("ft-source-panel-show-filters", "false", indent);
             if (this.ftSourcePanelShowHeading !== true)
-                settings += this._buildSettingAttribute("ft-source-panel-show-heading", "false");
+                settings += this._buildSettingAttribute("ft-source-panel-show-heading", "false", indent);
             if (this.ftSourcePanelShowSearchField !== true)
-                settings += this._buildSettingAttribute("ft-source-panel-show-search-field", "false");
+                settings += this._buildSettingAttribute("ft-source-panel-show-search-field", "false", indent);
 
-            settings += ">\n</ft-source-panel-settings>\n";
+            settings += ">\n" + indent + "</ft-source-panel-settings>\n";
 
             return settings;
         },
 
         // TODO: Factor out from here and copies in other classes
-        _buildSettingAttribute: function(propertyName, propertyValue)
+        _buildSettingAttribute: function(propertyName, propertyValue, indent)
         {
-            return '\n    ' + propertyName + '="' + propertyValue + '"';
+            return '\n' + indent + '    ' + propertyName + '="' + propertyValue + '"';
         },
 
         hasSettings: function()
