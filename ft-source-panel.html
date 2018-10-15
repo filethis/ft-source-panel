@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../ft-create-connection-dialog/ft-create-connection-dialog.html">
 <link rel="import" href="../ft-source-grid/ft-source-grid.html">
 <link rel="import" href="../ft-source-grid-item/ft-source-grid-item-settings-behavior.html">
+<link rel="import" href="../ft-source-panel/ft-source-panel-settings-behavior.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
@@ -33,8 +34,6 @@ limitations under the License.
 <link rel="import" href="../paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../polymer/lib/utils/debounce.html">
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="ft-source-panel-settings-behavior.html">
-<link rel="import" href="../app-storage/app-localstorage/app-localstorage-document.html">
 
 
 <!-- TODO: Retrofit this to use iron-list instead of a dom-repeat template. -->
@@ -92,18 +91,6 @@ This element displays a list of FileThis source resources. Above the list is a h
                 @apply --ft-source-panel-search-field;
             }
         </style>
-
-        <app-localstorage-document key="ftSourcePanelShowFilters" data="{{ftSourcePanelShowFilters}}">
-        </app-localstorage-document>
-
-        <app-localstorage-document key="ftSourcePanelHeading" data="{{ftSourcePanelHeading}}">
-        </app-localstorage-document>
-
-        <app-localstorage-document key="ftSourcePanelShowHeading" data="{{ftSourcePanelShowHeading}}">
-        </app-localstorage-document>
-
-        <app-localstorage-document key="ftSourcePanelShowSearchField" data="{{ftSourcePanelShowSearchField}}">
-        </app-localstorage-document>
 
         <!-- Search and sort bar -->
         <div
