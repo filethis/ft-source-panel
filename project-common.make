@@ -266,12 +266,12 @@ source-release: source-set-version-everywhere git-add-fast git-commit-fast git-p
 
 
 #------------------------------------------------------------------------------
-# CDN
+# Release
 #------------------------------------------------------------------------------
 
-.PHONY: cdn-build
-cdn-build:  ## Build CDN-publishable version
-	@python ../../bin/collect.py --project-name=${NAME} --src-dir-path=./ --dst-dir-path=../../cdn/
+.PHONY: release-build
+release-build:  ## Build CDN-publishable release
+	@python ../../bin/release.py --project-name=${NAME} --src-dir-path=./ --dst-dir-path=../../build/
 
 
 #------------------------------------------------------------------------------

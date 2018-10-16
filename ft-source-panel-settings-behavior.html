@@ -114,6 +114,16 @@ limitations under the License.
             this.fire("internal-settings-changed");
         },
 
+        generateSettingsImport: function(indent)
+        {
+            if (!this.hasSettings())
+                return "";
+
+            var theImport = indent + "<link rel=\"import\" href=\"https://connect.filethis.com/{{RELEASE_VERSION}}/ft-source-panel/ft-source-panel-settings.html\">\n";
+
+            return theImport;
+        },
+
         generateSettingsElement: function(indent)
         {
             if (!this.hasSettings())
