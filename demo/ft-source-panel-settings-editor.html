@@ -17,6 +17,7 @@ limitations under the License.
 
 <!-- Imports -->
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../juicy-ace-editor/juicy-ace-editor.html">
 <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../paper-input/paper-input.html">
 <link rel="import" href="../../polymer/polymer.html">
@@ -60,10 +61,49 @@ This element defines a source grid example that allows experimentation with conf
         <paper-input
             id="headingField"
             value="{{ftSourcePanelHeading}}"
-            label="Heading:"
+            label="Heading"
             style="width:200px;"
         >
         </paper-input>
+
+        <!-- Filters -->
+        <div
+            class="layout horizontal center"
+            style="margin-top: 14px; "
+        >
+
+            <div
+                class="flex"
+                style="
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12pt;
+            "
+            >
+                Filters:
+            </div>
+            <paper-button
+                id="applyFiltersButton"
+                raised
+                on-tap="_onApplyFiltersButtonTapped"
+                style="width: 55px; height: 16px; font-size: 9pt; "
+            >
+                Apply
+            </paper-button>
+
+        </div>
+
+        <juicy-ace-editor
+            id="filtersField"
+            class="scroll"
+            style="width: 370px; height: 165px; border:1px solid #DDD; margin-top: 5px; "
+            theme="ace/theme/chrome"
+            mode="ace/mode/json"
+            fontsize="14px"
+            softtabs
+            value="[[ftSourcePanelFilters]]"
+            tabsize="4"
+        >
+        </juicy-ace-editor>
 
         <div style="height:20px"></div>
 
@@ -84,6 +124,12 @@ This element defines a source grid example that allows experimentation with conf
             is: 'ft-source-panel-settings-editor',
 
             behaviors: [FileThis.SourcePanelSettingsBehavior],
+
+            _onApplyFiltersButtonTapped: function(event)
+            {
+                var editor = this.$.filtersField;
+                this.ftSourcePanelFilters = editor.value;
+            },
 
         });
 

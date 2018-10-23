@@ -78,7 +78,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 @apply --ft-source-panel-heading;
             }
             #filterButton {
-                width: 110px;
+                width: 150px;
                 height: 32px;
                 font-size: 14px;
                 background-color: white;
@@ -133,7 +133,7 @@ This element displays a list of FileThis source resources. Above the list is a h
                 >
                     <template
                         is="dom-repeat"
-                        items="[[filters]]"
+                        items="[[_filters]]"
                         as="filter"
                     >
                         <paper-item
@@ -213,12 +213,13 @@ This element displays a list of FileThis source resources. Above the list is a h
             listeners:
             {
                 'connect-command': '_onConnectCommand',
-                'tap': '_onTap'
+                'tap': '_onTap',
+                'ft-source-panel-filters-changed-in-behavior': '_onFtSourcePanelFiltersChangedInBehavior',
             },
 
             observers:
             [
-                "_onSettingsPropertyChanged(ftSourcePanelShowFilters, ftSourcePanelHeading, ftSourcePanelShowHeading, ftSourcePanelShowSearchField)",
+                "_onSettingsPropertyChanged(ftSourcePanelFilters, ftSourcePanelShowFilters, ftSourcePanelHeading, ftSourcePanelShowHeading, ftSourcePanelShowSearchField)",
             ],
 
             properties: {
@@ -239,17 +240,9 @@ This element displays a list of FileThis source resources. Above the list is a h
                     value: null
                 },
 
-                /** The list of filters that can be applied to the source list. */
-                filters: {
+                _filters: {
                     type: Array,
                     value: [
-                        {id:"all", name:"All"},
-                        {id:"banking", name:"Banking"},
-                        {id:"favorites", name:"Favorites"},
-                        {id:"financial", name:"Financial"},
-                        {id:"payroll", name:"Payroll"},
-                        {id:"tax", name:"Tax"},
-                        {id:"utilities", name:"Utilities"}
                     ],
                     observer: "_onFiltersChanged"
                 },
@@ -299,13 +292,13 @@ This element displays a list of FileThis source resources. Above the list is a h
 
             _onFiltersChanged: function(to, from)
             {
-                if (this.filters.length === 0)
+                if (this._filters.length === 0)
                 {
                     this.selectedFilterId = null;
                     return;
                 }
 
-                var firstFilter = this.filters[0];
+                var firstFilter = this._filters[0];
                 this.selectedFilterId = firstFilter.id;
             },
 
@@ -319,11 +312,19 @@ This element displays a list of FileThis source resources. Above the list is a h
                     return;
                 }
 
-                this.filters.forEach(function(filter)
+                this._filters.forEach(function(filter)
                 {
                     if (filter.id === selectedFilterId)
                         this.selectedFilter = filter;
                 }.bind(this))
+            },
+
+            _onFtSourcePanelFiltersChangedInBehavior: function()
+            {
+                var filters = JSON.parse(this.ftSourcePanelFilters);
+                if (!filters)
+                    filters = [];
+                this._filters = filters;
             },
 
             _clearSearchPattern: function()

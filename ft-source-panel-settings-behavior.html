@@ -33,7 +33,7 @@ limitations under the License.
     FileThis.SourcePanelSettingsBehavior = {
 
         observers:[
-            '_onInternalSettingsChanged(ftSourcePanelShowFilters, ftSourcePanelHeading, ftSourcePanelShowHeading, ftSourcePanelShowSearchField)',
+            '_onInternalSettingsChanged(ftSourcePanelFilters, ftSourcePanelShowFilters, ftSourcePanelHeading, ftSourcePanelShowHeading, ftSourcePanelShowSearchField)',
         ],
 
         properties: {
@@ -52,13 +52,44 @@ limitations under the License.
                 notify: true,
             },
 
+            /** JSON expression that indicates which filters to display to the user. */
+            ftSourcePanelFilters:
+                {
+                    type: String,
+                    value: "[\n" +
+                        "\t{\"id\":\"all\", \"name\":\"All\"},\n" +
+                        "\t{\"id\":\"banking\", \"name\":\"Banking\"},\n" +
+                        "\t{\"id\":\"favorites\", \"name\":\"Favorites\"},\n" +
+                        "\t{\"id\":\"financial\", \"name\":\"Financial\"},\n" +
+                        "\t{\"id\":\"payroll\", \"name\":\"Payroll\"},\n" +
+                        "\t{\"id\":\"tax\", \"name\":\"Tax\"},\n" +
+                        "\t{\"id\":\"utilities\", \"name\":\"Utilities\"}\n" +
+                        "]",
+                    notify: true,
+                    observer: "_onFtSourcePanelFiltersChanged",
+                },
+
+            ftSourcePanelFiltersDefault:
+                {
+                    type: String,
+                    value: "[\n" +
+                        "\t{\"id\":\"all\", \"name\":\"All\"},\n" +
+                        "\t{\"id\":\"banking\", \"name\":\"Banking\"},\n" +
+                        "\t{\"id\":\"favorites\", \"name\":\"Favorites\"},\n" +
+                        "\t{\"id\":\"financial\", \"name\":\"Financial\"},\n" +
+                        "\t{\"id\":\"payroll\", \"name\":\"Payroll\"},\n" +
+                        "\t{\"id\":\"tax\", \"name\":\"Tax\"},\n" +
+                        "\t{\"id\":\"utilities\", \"name\":\"Utilities\"}\n" +
+                        "]",
+                },
+
             /** Heading to display when "showHeading" is true. */
             ftSourcePanelHeading:
-            {
-                type: String,
-                value: "Sites",
-                notify: true,
-            },
+                {
+                    type: String,
+                    value: "Sites",
+                    notify: true,
+                },
 
             /**
              * Show a heading string.
@@ -94,6 +125,7 @@ limitations under the License.
         {
             this.async(function()
             {
+                this._applySettingToProperty("ft-source-panel-filters", "ftSourcePanelFilters");
                 this._applySettingToProperty("ft-source-panel-show-filters", "ftSourcePanelShowFilters");
                 this._applySettingToProperty("ft-source-panel-heading", "ftSourcePanelHeading");
                 this._applySettingToProperty("ft-source-panel-show-heading", "ftSourcePanelShowHeading");
@@ -134,6 +166,11 @@ limitations under the License.
             // Keep alphabetized
             if (this.ftSourcePanelHeading !== "Sites")
                 settings += this._buildSettingAttribute("ft-source-panel-heading", this.ftSourcePanelHeading, indent);
+            if (this.ftSourcePanelFilters !== this.ftSourcePanelFiltersDefault)
+            {
+                var adjusted = this._indentAndEscapeQuotes(indent, this.ftSourcePanelFilters);
+                settings += this._buildSettingAttribute("ft-source-panel-filters", adjusted, indent);
+            }
             if (this.ftSourcePanelShowFilters !== true)
                 settings += this._buildSettingAttribute("ft-source-panel-show-filters", "false", indent);
             if (this.ftSourcePanelShowHeading !== true)
@@ -152,8 +189,24 @@ limitations under the License.
             return '\n' + indent + '    ' + propertyName + '="' + propertyValue + '"';
         },
 
+        _indentAndEscapeQuotes: function(indent, expression)
+        {
+            var deeperIndent = "\t" + indent;
+            var result = "";
+            var lines = expression.split("\n");
+            for (var index = 0; index < lines.length; index++)
+            {
+                var line = lines[index];
+                line = line.replace(/"/g, "\\\"");
+                result += "\n" + deeperIndent + line;
+            }
+            return result;
+        },
+
         hasSettings: function()
         {
+            if (this.ftSourcePanelFilters !== this.ftSourcePanelFiltersDefault)
+                return true;
             if (this.ftSourcePanelShowFilters !== true)
                 return true;
             if (this.ftSourcePanelShowHeading !== true)
@@ -167,10 +220,16 @@ limitations under the License.
 
         revertToDefaults: function()
         {
+            this.ftSourcePanelFilters = this.ftSourcePanelFiltersDefault;
             this.ftSourcePanelShowFilters = true;
             this.ftSourcePanelShowHeading = true;
             this.ftSourcePanelHeading = "Sites";
             this.ftSourcePanelShowSearchField = true;
+        },
+
+        _onFtSourcePanelFiltersChanged: function(to, from)
+        {
+            this.fire("ft-source-panel-filters-changed-in-behavior");
         },
     }
 
