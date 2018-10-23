@@ -56,15 +56,15 @@ limitations under the License.
             ftSourcePanelFilters:
                 {
                     type: String,
-                    value: "[\n" +
-                        "\t{\"id\":\"all\", \"name\":\"All\"},\n" +
-                        "\t{\"id\":\"banking\", \"name\":\"Banking\"},\n" +
-                        "\t{\"id\":\"favorites\", \"name\":\"Favorites\"},\n" +
-                        "\t{\"id\":\"financial\", \"name\":\"Financial\"},\n" +
-                        "\t{\"id\":\"payroll\", \"name\":\"Payroll\"},\n" +
-                        "\t{\"id\":\"tax\", \"name\":\"Tax\"},\n" +
-                        "\t{\"id\":\"utilities\", \"name\":\"Utilities\"}\n" +
-                        "]",
+                    value: '[\n' +
+                        '\t{"id":"all", "name":"All"},\n' +
+                        '\t{"id":"banking", "name":"Banking"},\n' +
+                        '\t{"id":"favorites", "name":"Favorites"},\n' +
+                        '\t{"id":"financial", "name":"Financial"},\n' +
+                        '\t{"id":"payroll", "name":"Payroll"},\n' +
+                        '\t{"id":"tax", "name":"Tax"},\n' +
+                        '\t{"id":"utilities", "name":"Utilities"}\n' +
+                        ']',
                     notify: true,
                     observer: "_onFtSourcePanelFiltersChanged",
                 },
@@ -72,15 +72,15 @@ limitations under the License.
             ftSourcePanelFiltersDefault:
                 {
                     type: String,
-                    value: "[\n" +
-                        "\t{\"id\":\"all\", \"name\":\"All\"},\n" +
-                        "\t{\"id\":\"banking\", \"name\":\"Banking\"},\n" +
-                        "\t{\"id\":\"favorites\", \"name\":\"Favorites\"},\n" +
-                        "\t{\"id\":\"financial\", \"name\":\"Financial\"},\n" +
-                        "\t{\"id\":\"payroll\", \"name\":\"Payroll\"},\n" +
-                        "\t{\"id\":\"tax\", \"name\":\"Tax\"},\n" +
-                        "\t{\"id\":\"utilities\", \"name\":\"Utilities\"}\n" +
-                        "]",
+                    value: '[\n' +
+                        '\t{"id":"all", "name":"All"},\n' +
+                        '\t{"id":"banking", "name":"Banking"},\n' +
+                        '\t{"id":"favorites", "name":"Favorites"},\n' +
+                        '\t{"id":"financial", "name":"Financial"},\n' +
+                        '\t{"id":"payroll", "name":"Payroll"},\n' +
+                        '\t{"id":"tax", "name":"Tax"},\n' +
+                        '\t{"id":"utilities", "name":"Utilities"}\n' +
+                        ']',
                 },
 
             /** Heading to display when "showHeading" is true. */
@@ -168,8 +168,8 @@ limitations under the License.
                 settings += this._buildSettingAttribute("ft-source-panel-heading", this.ftSourcePanelHeading, indent);
             if (this.ftSourcePanelFilters !== this.ftSourcePanelFiltersDefault)
             {
-                var adjusted = this._indentAndEscapeQuotes(indent, this.ftSourcePanelFilters);
-                settings += this._buildSettingAttribute("ft-source-panel-filters", adjusted, indent);
+                var adjusted = this._indentLines(indent, this.ftSourcePanelFilters);
+                settings += this._buildSettingAttributeSingleQuoted("ft-source-panel-filters", adjusted, indent);
             }
             if (this.ftSourcePanelShowFilters !== true)
                 settings += this._buildSettingAttribute("ft-source-panel-show-filters", "false", indent);
@@ -188,8 +188,12 @@ limitations under the License.
         {
             return '\n' + indent + '    ' + propertyName + '="' + propertyValue + '"';
         },
+        _buildSettingAttributeSingleQuoted: function(propertyName, propertyValue, indent)
+        {
+            return '\n' + indent + '    ' + propertyName + "='" + propertyValue + "'";
+        },
 
-        _indentAndEscapeQuotes: function(indent, expression)
+        _indentLines: function(indent, expression)
         {
             var deeperIndent = "\t" + indent;
             var result = "";
@@ -197,7 +201,6 @@ limitations under the License.
             for (var index = 0; index < lines.length; index++)
             {
                 var line = lines[index];
-                line = line.replace(/"/g, "\\\"");
                 result += "\n" + deeperIndent + line;
             }
             return result;
