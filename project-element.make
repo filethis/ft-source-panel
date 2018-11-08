@@ -81,6 +81,32 @@ project-browse-demo-browsersync-test:  ## Run BrowserSync for tests
 
 
 #------------------------------------------------------------------------------
+# Distribution
+#------------------------------------------------------------------------------
+
+
+.PHONY: dist-publish
+dist-publish: dist-publish-versioned dist-publish-latest  ## Release both the versioned and latest element dropin
+	@echo Pubished both versioned and latest element dropin
+
+.PHONY: dist-publish-versioned
+dist-publish-versioned:  ## Release versioned element dropin
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./dist s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/;
+
+.PHONY: dist-publish-latest
+dist-publish-latest:  ## Release latest element dropin
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./dist s3://${PUBLICATION_DOMAIN}/${NAME}/latest/;
+
+.PHONY: dist-invalidate-latest
+dist-invalidate-latest:  ## Invalidate CDN distribution of latest element dropin
+	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/*"; fi
+
+.PHONY: invalidate
+invalidate: dist-invalidate-latest  ## Shortcut for dist-invalidate-latest
+	@echo Invalidated;
+
+
+#------------------------------------------------------------------------------
 # Artifacts
 #------------------------------------------------------------------------------
 
@@ -102,10 +128,6 @@ artifact-publish-dropin-latest:  ## Release latest element dropin
 .PHONY: artifact-invalidate-dropin-latest
 artifact-invalidate-dropin-latest:  ## Invalidate CDN distribution of latest element dropin
 	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/dropin/*"; fi
-
-.PHONY: invalidate
-invalidate: artifact-invalidate-dropin-latest  ## Shortcut for artifact-invalidate-dropin-latest
-	@echo Invalidated;
 
 
 # Publish demo

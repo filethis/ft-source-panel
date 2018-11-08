@@ -76,27 +76,122 @@ project-test-safari:  ## Run tests on Safari only
 
 
 #------------------------------------------------------------------------------
-# Artifacts
+# Distribution
 #------------------------------------------------------------------------------
+
+
+.PHONY: dist-clean
+dist-clean:  ## Clean distribution
+	@rm -rf ./build/; \
+	rm -rf ./dist/;
 
 
 # Build
 
-.PHONY: artifacts-clean
-artifacts-clean:  ## Clean artifacts
-	@rm -rf ./build/;
+# polymer-bundler: https://github.com/Polymer/tools/tree/master/packages/bundler
+# crisper: https://github.com/PolymerLabs/crisper
+# babel: https://babeljs.io/
+# uglifyjs: https://github.com/mishoo/UglifyJS2
+# WebPack: https://webpack.js.org/
 
-.PHONY: artifacts-build
-artifacts-build:  ## Build artifacts
-	polymer build;
+.PHONY: dist-build
+dist-build:  ## Build distribution
+	@mkdir ./build/; \
+	mkdir ./dist/; \
+	echo Dependencies...; \
+	rsync -rP \
+	    --exclude=bower_components \
+	    --exclude=build \
+	    --exclude=dist \
+	    --exclude=test \
+	    ./ ./build; \
+	[ -z "${SRC_DIR}" ] && rsync -rP --copy-links ../bower_components ./build; \
+    pushd ./build > /dev/null; \
+	echo Vulcanizing...; \
+	polymer-bundler \
+	    ${SRC_DIR}${NAME}.html \
+	    --rewrite-urls-in-templates \
+	    --inline-scripts \
+	    --inline-css \
+	    --out-file ${NAME}.vulcanized.html; \
+	echo Splitting...; \
+	crisper \
+	    --source ${NAME}.vulcanized.html \
+	    --html ${NAME}.split.html \
+	    --js ${NAME}.js; \
+	echo Transpiling...; \
+	babel \
+	    ${NAME}.js \
+	    --out-file ${NAME}.es5.js; \
+	echo Minifying...; \
+	cp \
+	    ${NAME}.es5.js \
+	    ${NAME}.minified.js; \
+    popd > /dev/null; \
+	echo Distribution...; \
+	[ ! -z "${SRC_DIR}" ] && mkdir ./dist/${SRC_DIR}; \
+    cp ./build/${NAME}.split.html ./dist/${SRC_DIR}${NAME}.html; \
+    cp ./build/${NAME}.minified.js ./dist/${SRC_DIR}${NAME}.js; \
+    cp index.html ./dist/index.html;
+
+
+#	polymer-bundler \
+#	    ${NAME}.html \
+#	    --rewrite-urls-in-templates \
+#	    --inline-scripts \
+#	    --inline-css \
+#	    --exclude ../ \
+#	    --out-file ./build/${NAME}.vulcanized.html; \
+
+#	polymer-bundler \
+#	    ${NAME}.html \
+#	    --rewrite-urls-in-templates \
+#	    --inline-scripts \
+#	    --inline-css \
+#	    --out-file ./build/${NAME}.vulcanized.html; \
+
+#	echo Transpiling...; \
+#	babel \
+#	    ${NAME}.js \
+#	    --presets /usr/local/lib/node_modules/babel-preset-es2015 \
+#	    --out-file ${NAME}.es5.js; \
+
+#	echo Transpiling...; \
+#	cp \
+#	    ${NAME}.js \
+#	    ${NAME}.es5.js; \
+
+#	echo Minifying...; \
+#	uglifyjs \
+#	    ${NAME}.es5.js \
+#	    --compress \
+#	    --output ${NAME}.minified.js; \
+
+#	echo Minifying...; \
+#	cp \
+#	    ${NAME}.es5.js \
+#	    ${NAME}.minified.js; \
+
+
+#.PHONY: dist-build
+#dist-build:  ## Build distribution
+#	polymer build;
+
+.PHONY: dist-merge
+dist-merge:  ## Merge distribution into parent
+	@python ../../bin/merge.py --project-name=${NAME} --src-dir-path=./dist --dst-dir-path=../../dist/
 
 .PHONY: clean
-clean: artifacts-clean  ## Shortcut for artifacts-clean
-	@echo Cleaned artifacts;
+clean: dist-clean  ## Shortcut for dist-clean
+	@echo Cleaned distribution;
 
 .PHONY: build
-build: artifacts-build  ## Shortcut for artifacts-build
-	@echo Built artifacts;
+build: dist-build  ## Shortcut for dist-build
+	@echo Built distribution;
+
+.PHONY: merge
+merge: dist-merge  ## Shortcut for dist-merge
+	@echo Merged distribution;
 
 
 # Publish docs
@@ -263,15 +358,6 @@ source-release: source-set-version-everywhere git-add-fast git-commit-fast git-p
 	@echo Released version ${VERSION} of \"${NAME}\" project
 #source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push bower-register publish-github-pages  ## Release source version of project.
 #	@echo Released version ${VERSION} of \"${NAME}\" project
-
-
-#------------------------------------------------------------------------------
-# Release
-#------------------------------------------------------------------------------
-
-.PHONY: release-build
-release-build:  ## Build CDN-publishable release
-	@python ../../bin/release.py --project-name=${NAME} --src-dir-path=./ --dst-dir-path=../../build/
 
 
 #------------------------------------------------------------------------------
