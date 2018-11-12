@@ -85,6 +85,82 @@ project-browse-demo-browsersync-test:  ## Run BrowserSync for tests
 #------------------------------------------------------------------------------
 
 
+# Build
+
+# polymer-bundler: https://github.com/Polymer/tools/tree/master/packages/bundler
+# crisper: https://github.com/PolymerLabs/crisper
+# babel: https://babeljs.io/
+# uglifyjs: https://github.com/mishoo/UglifyJS2
+# WebPack: https://webpack.js.org/
+
+.PHONY: dist-build
+dist-build:  ## Build distribution
+	@mkdir ./build/; \
+	mkdir ./dist/; \
+	echo Dependencies...; \
+    mkdir ./build/${NAME}; \
+    rsync -rPq \
+        --exclude=bower_components \
+        --exclude=build \
+        --exclude=dist \
+        --exclude=test \
+        --exclude=.git \
+        ./ ./build/${NAME}; \
+    pushd ./bower_components > /dev/null; \
+    for d in *; do \
+        mkdir ../build/$$d; \
+        rsync -rPq \
+            --exclude=bower_components \
+            --exclude=build \
+            --exclude=dist \
+            --exclude=test \
+            --exclude=.git \
+            $$d/* ../build/$$d/; \
+    done; \
+    popd > /dev/null; \
+	echo Vulcanizing...; \
+	polymer-bundler \
+	    --in-file ./build/${NAME}/${NAME}.html \
+	    --rewrite-urls-in-templates \
+	    --inline-scripts \
+	    --inline-css \
+	    --out-file ./build/${NAME}/${NAME}.vulcanized.html; \
+    pushd ./build/${NAME} > /dev/null; \
+	echo Splitting...; \
+	crisper \
+	    --source ${NAME}.vulcanized.html \
+	    --html ${NAME}.split.html \
+	    --js ${NAME}.js; \
+	echo Transpiling...; \
+	babel \
+	    ${NAME}.js \
+	    --out-file ${NAME}.es5.js; \
+	echo Minifying...; \
+	cp \
+	    ${NAME}.es5.js \
+	    ${NAME}.minified.js; \
+    popd > /dev/null; \
+	echo Distribution...; \
+    cp ./build/${NAME}/${NAME}.split.html ./dist/${NAME}.html; \
+    cp ./build/${NAME}/${NAME}.minified.js ./dist/${NAME}.js;
+
+
+#	echo Minifying...; \
+#	uglifyjs \
+#	    ${NAME}.es5.js \
+#	    --compress \
+#	    --output ${NAME}.minified.js; \
+
+#	echo Minifying...; \
+#	cp \
+#	    ${NAME}.es5.js \
+#	    ${NAME}.minified.js; \
+
+
+#.PHONY: dist-build
+#dist-build:  ## Build distribution
+#	polymer build;
+
 .PHONY: dist-publish
 dist-publish: dist-publish-versioned dist-publish-latest  ## Release both the versioned and latest element dropin
 	@echo Pubished both versioned and latest element dropin
