@@ -37,13 +37,6 @@ project-validate-eslint:  ## Run ESLint tool over project source files
 	@eslint --ext .html,.js ./;
 
 
-# Serve
-
-.PHONY: serve
-serve: project-serve-polymer  ## Shortcut for project-serve-polymer
-	@echo Done;
-
-
 # Browse
 
 .PHONY: project-browse
@@ -83,9 +76,6 @@ project-browse-demo-browsersync-test:  ## Run BrowserSync for tests
 #------------------------------------------------------------------------------
 # Distribution
 #------------------------------------------------------------------------------
-
-
-# Build
 
 # polymer-bundler: https://github.com/Polymer/tools/tree/master/packages/bundler
 # crisper: https://github.com/PolymerLabs/crisper
@@ -177,10 +167,6 @@ dist-publish-latest:  ## Release latest element dropin
 dist-invalidate-latest:  ## Invalidate CDN distribution of latest element dropin
 	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/*"; fi
 
-.PHONY: invalidate
-invalidate: dist-invalidate-latest  ## Shortcut for dist-invalidate-latest
-	@echo Invalidated;
-
 
 #------------------------------------------------------------------------------
 # Artifacts
@@ -237,10 +223,6 @@ artifact-publish-demo-github-pages:  # Internal target: Create element docs and 
 	rm -rf ./github-pages-tmp; \
 	echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://${GITHUB_USER}.github.io/${NAME}
 
-.PHONY: publish
-publish: artifact-publish-dropin  ## Shortcut for artifact-publish-dropin
-	@echo Published;
-
 
 #------------------------------------------------------------------------------
 # Publications
@@ -289,6 +271,23 @@ publication-browse-docs-github-pages:  ## Open URL of application documentation 
 .PHONY: publication-url-docs-github-pages
 publication-url-docs-github-pages:  ## Print URL of docs published on GitHub Pages
 	@echo https://${GITHUB_USER}.github.io/${NAME}/components/${NAME}/;
+
+
+#------------------------------------------------------------------------------
+# Shortcuts
+#------------------------------------------------------------------------------
+
+.PHONY: serve
+serve: project-serve-polymer  ## Shortcut for project-serve-polymer
+	@echo Done;
+
+.PHONY: publish
+publish: artifact-publish-dropin  ## Shortcut for artifact-publish-dropin
+	@echo Published;
+
+.PHONY: invalidate
+invalidate: dist-invalidate-latest  ## Shortcut for dist-invalidate-latest
+	@echo Invalidated;
 
 
 #------------------------------------------------------------------------------

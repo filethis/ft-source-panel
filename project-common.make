@@ -49,13 +49,6 @@ project-serve-polymer:  ## Serve element demo locally using the Polymer server
 	polymer serve --port ${LOCAL_PORT}
 
 
-# Browse
-
-.PHONY: browse
-browse: project-browse  ## Shortcut for project-browse
-	@echo Browser opened;
-
-
 # Test
 
 .PHONY: project-test-all
@@ -88,18 +81,6 @@ dist-clean:  ## Clean distribution
 .PHONY: dist-merge
 dist-merge:  ## Merge distribution into parent
 	@python ../../bin/merge.py --project-name=${NAME} --src-dir-path=./dist --dst-dir-path=../../dist/
-
-.PHONY: clean
-clean: dist-clean  ## Shortcut for dist-clean
-	@echo Cleaned distribution;
-
-.PHONY: build
-build: dist-build  ## Shortcut for dist-build
-	@echo Built distribution;
-
-.PHONY: merge
-merge: dist-merge  ## Shortcut for dist-merge
-	@echo Merged distribution;
 
 
 # Publish docs
@@ -266,6 +247,36 @@ source-release: source-set-version-everywhere git-add-fast git-commit-fast git-p
 	@echo Released version ${VERSION} of \"${NAME}\" project
 #source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push bower-register publish-github-pages  ## Release source version of project.
 #	@echo Released version ${VERSION} of \"${NAME}\" project
+
+
+#------------------------------------------------------------------------------
+# Shortcuts
+#------------------------------------------------------------------------------
+
+
+.PHONY: clean
+clean: dist-clean  ## Shortcut for dist-clean
+	@echo Cleaned distribution;
+
+.PHONY: build
+build: dist-build  ## Shortcut for dist-build
+	@echo Built distribution;
+
+.PHONY: merge
+merge: dist-merge  ## Shortcut for dist-merge
+	@echo Merged distribution;
+
+.PHONY: browse
+browse: project-browse  ## Shortcut for project-browse
+	@echo Browser opened;
+
+.PHONY: publish-versioned
+publish-versioned: dist-publish-versioned  ## Shortcut for dist-publish-versioned
+	@echo Browser opened;
+
+.PHONY: publish-latest
+publish-latest: dist-publish-latest  ## Shortcut for dist-publish-latest
+	@echo Browser opened;
 
 
 #------------------------------------------------------------------------------
