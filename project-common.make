@@ -250,6 +250,15 @@ source-release: source-set-version-everywhere git-add-fast git-commit-fast git-p
 
 
 #------------------------------------------------------------------------------
+# Modularizer (For migration from Polymer version 2 to version 3
+#------------------------------------------------------------------------------
+
+.PHONY: modularize
+modularize:  # Convert from from Polymer version 2 to version 3
+	@modulizer --import-style name --out .
+
+
+#------------------------------------------------------------------------------
 # Shortcuts
 #------------------------------------------------------------------------------
 
