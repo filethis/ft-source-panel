@@ -46,7 +46,7 @@ project-init-github:  ## Initialize GitHub project
 .PHONY: project-serve-polymer
 project-serve-polymer:  ## Serve element demo locally using the Polymer server
 	@echo http:localhost:${LOCAL_PORT}; \
-	polymer serve --port ${LOCAL_PORT}
+	polymer serve --open --port ${LOCAL_PORT}
 
 
 # Test
@@ -78,9 +78,41 @@ dist-clean:  ## Clean distribution
 	@rm -rf ./build/; \
 	rm -rf ./dist/;
 
+
+.PHONY: dist-build
+dist-build:  ## Build distribution
+	@NODE_OPTIONS="--max-old-space-size=8192" polymer build;
+
+
 .PHONY: dist-merge
 dist-merge:  ## Merge distribution into parent
 	@python ../../bin/merge.py --project-name=${NAME} --src-dir-path=./dist --dst-dir-path=../../dist/
+
+
+.PHONY: dist-publish-versioned-prod
+dist-publish-versioned-prod:  ## Release versioned prod application
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/prod s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/; \
+	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/index.html;
+
+.PHONY: dist-publish-versioned-debug
+dist-publish-versioned-debug:  ## Release versioned debug application
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/debug s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debug/; \
+	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debug/index.html;
+
+.PHONY: dist-publish-versioned-dev
+dist-publish-versioned-dev:  ## Release versioned prod application
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/dev s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/; \
+	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/index.html;
+
+
+#.PHONY: dist-publish-latest
+#dist-publish-latest:  ## Release latest application
+#	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./dist s3://${PUBLICATION_DOMAIN}/${NAME}/latest/; \
+#	echo https://${PUBLICATION_DOMAIN}/${NAME}/latest/index.html;
+
+#.PHONY: dist-invalidate-latest
+#dist-invalidate-latest:  ## Invalidate CDN distribution of latest application
+#	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/*"; fi
 
 
 # Publish docs
@@ -165,6 +197,18 @@ git-pull:  ## Pull from Git repository
 git-status:  ## Print git status
 	@git status -s
 
+.PHONY: git-checkout-master
+git-checkout-master:  ## Check out master branch
+	@git checkout master
+
+.PHONY: git-checkout-branch
+git-checkout-branch:  ## Check out master branch
+	@git checkout topic
+
+.PHONY: git-create-branch
+git-create-branch:  ## Create and check out branch
+	@git checkout -b topic
+
 
 #------------------------------------------------------------------------------
 # GitHub
@@ -177,6 +221,15 @@ github-browse-repo:  ## Open URL of project GitHub repository page
 .PHONY: github-url-repo
 github-url-repo:  ## Print URL of project GitHub repository page
 	@echo https://github.com/${GITHUB_USER}/${NAME}
+
+
+#------------------------------------------------------------------------------
+# NPM
+#------------------------------------------------------------------------------
+
+.PHONY: npm-install-packages
+npm-install-packages:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
+	@npm install
 
 
 #------------------------------------------------------------------------------
@@ -265,27 +318,49 @@ modularize:  # Convert from from Polymer version 2 to version 3
 
 .PHONY: clean
 clean: dist-clean  ## Shortcut for dist-clean
-	@echo Cleaned distribution;
+	@echo clean;
+
 
 .PHONY: build
 build: dist-build  ## Shortcut for dist-build
-	@echo Built distribution;
+	@echo build;
+
+
+.PHONY: project-serve
+project-serve: project-serve-polymer  ## Shortcut for project-serve-polymer
+	@echo project-serve;
+
+.PHONY: dist-serve
+dist-serve: dist-serve-debug  ## Shortcut for dist-serve-debug
+	@echo dist-serve;
+
+.PHONY: serve
+serve: project-serve  ## Shortcut for project-serve
+	@echo serve;
+
 
 .PHONY: merge
 merge: dist-merge  ## Shortcut for dist-merge
-	@echo Merged distribution;
+	@echo merge;
+
 
 .PHONY: browse
 browse: project-browse  ## Shortcut for project-browse
-	@echo Browser opened;
+	@echo browse;
 
-.PHONY: publish-versioned
-publish-versioned: dist-publish-versioned  ## Shortcut for dist-publish-versioned
-	@echo Browser opened;
 
-.PHONY: publish-latest
-publish-latest: dist-publish-latest  ## Shortcut for dist-publish-latest
-	@echo Browser opened;
+.PHONY: publish
+publish: dist-publish-versioned-debug  ## Shortcut for dist-publish-versioned-debug
+	@echo publish;
+
+
+#.PHONY: publish-latest
+#publish-latest: dist-publish-latest  ## Shortcut for dist-publish-latest
+#	@echo publish-latest;
+
+#.PHONY: invalidate
+#invalidate: dist-invalidate-latest  ## Shortcut for dist-invalidate-latest
+#	@echo invalidate;
 
 
 #------------------------------------------------------------------------------

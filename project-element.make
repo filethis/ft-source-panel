@@ -83,8 +83,8 @@ project-browse-demo-browsersync-test:  ## Run BrowserSync for tests
 # uglifyjs: https://github.com/mishoo/UglifyJS2
 # WebPack: https://webpack.js.org/
 
-.PHONY: dist-build
-dist-build:  ## Build distribution
+.PHONY: dist-build-custom
+dist-build-custom:  ## Build distribution
 	@mkdir ./build/; \
 	mkdir ./dist/; \
 	echo Dependencies...; \
@@ -145,27 +145,6 @@ dist-build:  ## Build distribution
 #	cp \
 #	    ${NAME}.es5.js \
 #	    ${NAME}.minified.js; \
-
-
-#.PHONY: dist-build
-#dist-build:  ## Build distribution
-#	polymer build;
-
-.PHONY: dist-publish
-dist-publish: dist-publish-versioned dist-publish-latest  ## Release both the versioned and latest element dropin
-	@echo Pubished both versioned and latest element dropin
-
-.PHONY: dist-publish-versioned
-dist-publish-versioned:  ## Release versioned element dropin
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./dist s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/;
-
-.PHONY: dist-publish-latest
-dist-publish-latest:  ## Release latest element dropin
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./dist s3://${PUBLICATION_DOMAIN}/${NAME}/latest/;
-
-.PHONY: dist-invalidate-latest
-dist-invalidate-latest:  ## Invalidate CDN distribution of latest element dropin
-	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/*"; fi
 
 
 #------------------------------------------------------------------------------
@@ -277,17 +256,9 @@ publication-url-docs-github-pages:  ## Print URL of docs published on GitHub Pag
 # Shortcuts
 #------------------------------------------------------------------------------
 
-.PHONY: serve
-serve: project-serve-polymer  ## Shortcut for project-serve-polymer
-	@echo Done;
-
 .PHONY: publish
 publish: artifact-publish-dropin  ## Shortcut for artifact-publish-dropin
 	@echo Published;
-
-.PHONY: invalidate
-invalidate: dist-invalidate-latest  ## Shortcut for dist-invalidate-latest
-	@echo Invalidated;
 
 
 #------------------------------------------------------------------------------
