@@ -89,24 +89,24 @@ dist-merge:  ## Merge distribution into parent
 	@python ../../bin/merge.py --project-name=${NAME} --src-dir-path=./dist --dst-dir-path=../../dist/
 
 
-.PHONY: dist-publish-versioned-prod
-dist-publish-versioned-prod:  ## Release versioned prod application
+.PHONY: dist-deploy-prod
+dist-deploy-prod:  ## Release versioned prod application
 	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/prod s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/; \
 	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/index.html;
 
-.PHONY: dist-publish-versioned-debug
-dist-publish-versioned-debug:  ## Release versioned debug application
+.PHONY: dist-deploy-debug
+dist-deploy-debug:  ## Release versioned debug application
 	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/debug s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debug/; \
 	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debug/index.html;
 
-.PHONY: dist-publish-versioned-dev
-dist-publish-versioned-dev:  ## Release versioned prod application
+.PHONY: dist-deploy-dev
+dist-deploy-dev:  ## Release versioned prod application
 	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/dev s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/; \
 	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/index.html;
 
 
-#.PHONY: dist-publish-latest
-#dist-publish-latest:  ## Release latest application
+#.PHONY: dist-deploy-latest
+#dist-deploy-latest:  ## Release latest application
 #	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./dist s3://${PUBLICATION_DOMAIN}/${NAME}/latest/; \
 #	echo https://${PUBLICATION_DOMAIN}/${NAME}/latest/index.html;
 
@@ -350,13 +350,13 @@ browse: project-browse  ## Shortcut for project-browse
 
 
 .PHONY: publish
-publish: dist-publish-versioned-debug  ## Shortcut for dist-publish-versioned-debug
+publish: dist-deploy-debug  ## Shortcut for dist-deploy-debug
 	@echo publish;
 
 
-#.PHONY: publish-latest
-#publish-latest: dist-publish-latest  ## Shortcut for dist-publish-latest
-#	@echo publish-latest;
+#.PHONY: deploy-latest
+#deploy-latest: dist-deploy-latest  ## Shortcut for dist-deploy-latest
+#	@echo deploy-latest;
 
 #.PHONY: invalidate
 #invalidate: dist-invalidate-latest  ## Shortcut for dist-invalidate-latest
