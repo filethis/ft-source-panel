@@ -40,125 +40,124 @@ project-init-github:  ## Initialize GitHub project
 	git push -u origin master
 
 
+#------------------------------------------------------------------------------
+# Source
+#------------------------------------------------------------------------------
 
 # Serve
 
-.PHONY: project-serve-polymer
-project-serve-polymer:  ## Serve element demo locally using the Polymer server
+.PHONY: source-serve-polymer
+source-serve-polymer:  ## Serve application or element demo locally using the Polymer server
 	@echo http:localhost:${LOCAL_PORT}; \
 	polymer serve --open --port ${LOCAL_PORT}
 
+.PHONY: source-serve
+source-serve: source-serve-polymer  ## Shortcut for source-serve-polymer
+	@echo source-serve;
 
 # Test
 
-.PHONY: project-test-all
-project-test-all:  ## Run tests on all browsers
+.PHONY: source-test-all
+source-test-all:  ## Run tests on all browsers
 	@polymer test
 
-.PHONY: project-test-chrome
-project-test-chrome:  ## Run tests on Chrome only
+.PHONY: source-test-chrome
+source-test-chrome:  ## Run tests on Chrome only
 	@polymer test -l chrome
 
-.PHONY: project-test-firefox
-project-test-firefox:  ## Run tests on Firefox only
+.PHONY: source-test-firefox
+source-test-firefox:  ## Run tests on Firefox only
 	@polymer test -l firefox
 
-.PHONY: project-test-safari
-project-test-safari:  ## Run tests on Safari only
+.PHONY: source-test-safari
+source-test-safari:  ## Run tests on Safari only
 	@polymer test -l safari
+
+.PHONY: source-find-version-everywhere
+source-find-version-everywhere:  ## Find and print versions of this project in use by all peer projects
+	@echo Current: ${VERSION}; \
+	find ../.. -name bower.json -print | xargs grep "${GITHUB_USER}/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+" || echo Not used;
+
+# Other
+
+.PHONY: source-set-version-everywhere
+source-set-version-everywhere:
+	python ../../bin/set-version-everywhere.py ${NAME} ${VERSION} ../..; \
+	echo Set version in all projects that depend on this one
+
+.PHONY: source-git-tag-version-and-push
+source-git-tag-version-and-push:  ## Tag with current version and push tags to remote for the git project. Usually invoked as part of a release via 'release' target.
+	@if [[ $$(git tag --list v${VERSION}) ]]; then \
+		echo Tag v${VERSION} already applied; \
+	else \
+		git tag -a v${VERSION} -m '${VERSION}'; \
+	fi; \
+	git push --tags;
+
+.PHONY: source-bump-version
+source-bump-version:  ## Increment the patch version number.
+	@NEW_VERSION=`../../bin/increment_version.sh -p ${VERSION}`; \
+	COMMAND=s/VERSION=[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/VERSION=$$NEW_VERSION/g; \
+	sed -i .bak $$COMMAND ./Makefile && rm ./Makefile.bak; \
+	echo "Bumped ${VERSION} ---> $$NEW_VERSION"; \
+	python ../../bin/set-version-everywhere.py  ${NAME} $$NEW_VERSION ../..; \
+	echo Set version in all projects that depend on this one
+
+.PHONY: source-release
+source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push  ## Release source version of project.
+	@echo Released version ${VERSION} of \"${NAME}\" project
+#source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push bower-register publish-github-pages  ## Release source version of project.
+#	@echo Released version ${VERSION} of \"${NAME}\" project
 
 
 #------------------------------------------------------------------------------
 # Distribution
 #------------------------------------------------------------------------------
 
+# Clean
 
 .PHONY: dist-clean
-dist-clean:  ## Clean distribution
-	@rm -rf ./build/; \
-	rm -rf ./dist/;
+dist-clean:  ## Clean all distribution builds
+	@rm -rf ./build;
 
+# Build
 
 .PHONY: dist-build
-dist-build:  ## Build distribution
+dist-build:  ## Build all distributions
 	@NODE_OPTIONS="--max-old-space-size=8192" polymer build;
 
+# Merge
 
 .PHONY: dist-merge
 dist-merge:  ## Merge distribution into parent
 	@python ../../bin/merge.py --project-name=${NAME} --src-dir-path=./dist --dst-dir-path=../../dist/
 
+# Deploy
+
+.PHONY: dist-deploy-dev
+dist-deploy-dev:  ## Deploy versioned dev distribution to CDN
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/dev s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/; \
+	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/index.html;
 
 .PHONY: dist-deploy-prod
-dist-deploy-prod:  ## Release versioned prod application
+dist-deploy-prod:  ## Deploy versioned prod distribution to CDN
 	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/prod s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/; \
 	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/index.html;
 
 .PHONY: dist-deploy-debug
-dist-deploy-debug:  ## Release versioned debug application
+dist-deploy-debug:  ## Deploy versioned debug distribution to CDN
 	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/debug s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debug/; \
 	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debug/index.html;
 
-.PHONY: dist-deploy-dev
-dist-deploy-dev:  ## Release versioned prod application
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/dev s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/; \
-	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/index.html;
+.PHONY: dist-deploy
+dist-deploy: dist-deploy-prod dist-deploy-debug dist-deploy-dev  ## Shortcut for: dist-deploy-prod dist-deploy-debug dist-deploy-dev
+	@echo dist-deploy;
 
+# Invalidate
 
-#.PHONY: dist-deploy-latest
-#dist-deploy-latest:  ## Release latest application
-#	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./dist s3://${PUBLICATION_DOMAIN}/${NAME}/latest/; \
-#	echo https://${PUBLICATION_DOMAIN}/${NAME}/latest/index.html;
-
-#.PHONY: dist-invalidate-latest
-#dist-invalidate-latest:  ## Invalidate CDN distribution of latest application
-#	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/*"; fi
-
-
-# Publish docs
-
-.PHONY: artifact-publish-docs
-artifact-publish-docs: artifact-publish-docs-versioned artifact-publish-docs-latest  ## Release both the versioned and latest element docs
-	@echo Pubished both versioned and latest element docs
-
-.PHONY: artifact-publish-docs-versioned
-artifact-publish-docs-versioned:  ## Release versioned element docs
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/docs s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/docs/;
-
-.PHONY: artifact-publish-docs-latest
-artifact-publish-docs-latest:  ## Release latest element docs
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/docs s3://${PUBLICATION_DOMAIN}/${NAME}/latest/docs/
-
-.PHONY: artifact-invalidate-docs-latest
-artifact-invalidate-docs-latest:  ## Invalidate CDN distribution of latest element docs
-	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/docs/*"; fi
-
-
-#------------------------------------------------------------------------------
-# Publications
-#------------------------------------------------------------------------------
-
-
-# Browse published docs
-
-.PHONY: publication-browse-docs-versioned
-publication-browse-docs-versioned:  ## Open the published, versioned docs in browser
-	@open https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/docs/index.html;
-
-.PHONY: publication-browse-docs-latest
-publication-browse-docs-latest:  ## Open the published, latest docs in browser
-	@open https://${PUBLICATION_DOMAIN}/${NAME}/latest/docs/index.html;
-
-
-# Print URL of published docs
-
-.PHONY: publication-url-docs-versioned
-publication-url-docs-versioned:  ## Print the published, versioned docs url
-	@echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/docs/index.html;
-
-.PHONY: publication-url-docs-latest
-publication-url-docs-latest:  ## Print the published, latest docs url
-	@echo https://${PUBLICATION_DOMAIN}/${NAME}/latest/docs/index.html;
+.PHONY: dist-invalidate
+dist-invalidate-dev:  ## Invalidate all versioned distributions on CDN
+	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/${VERSION}/*"; fi
 
 
 #------------------------------------------------------------------------------
@@ -264,45 +263,6 @@ bower-reinstall-packages-prod: bower-clean-packages bower-install-packages-prod 
 
 
 #------------------------------------------------------------------------------
-# Source
-#------------------------------------------------------------------------------
-
-.PHONY: source-find-version-everywhere
-source-find-version-everywhere:  ## Find and print versions of this project in use by all peer projects
-	@echo Current: ${VERSION}; \
-	find ../.. -name bower.json -print | xargs grep "${GITHUB_USER}/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+" || echo Not used;
-
-.PHONY: source-set-version-everywhere
-source-set-version-everywhere:
-	python ../../bin/set-version-everywhere.py ${NAME} ${VERSION} ../..; \
-	echo Set version in all projects that depend on this one
-
-.PHONY: source-git-tag-version-and-push
-source-git-tag-version-and-push:  ## Tag with current version and push tags to remote for the git project. Usually invoked as part of a release via 'release' target.
-	@if [[ $$(git tag --list v${VERSION}) ]]; then \
-		echo Tag v${VERSION} already applied; \
-	else \
-		git tag -a v${VERSION} -m '${VERSION}'; \
-	fi; \
-	git push --tags;
-
-.PHONY: source-bump-version
-source-bump-version:  ## Increment the patch version number.
-	@NEW_VERSION=`../../bin/increment_version.sh -p ${VERSION}`; \
-	COMMAND=s/VERSION=[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*/VERSION=$$NEW_VERSION/g; \
-	sed -i .bak $$COMMAND ./Makefile && rm ./Makefile.bak; \
-	echo "Bumped ${VERSION} ---> $$NEW_VERSION"; \
-	python ../../bin/set-version-everywhere.py  ${NAME} $$NEW_VERSION ../..; \
-	echo Set version in all projects that depend on this one
-
-.PHONY: source-release
-source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push  ## Release source version of project.
-	@echo Released version ${VERSION} of \"${NAME}\" project
-#source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push bower-register publish-github-pages  ## Release source version of project.
-#	@echo Released version ${VERSION} of \"${NAME}\" project
-
-
-#------------------------------------------------------------------------------
 # Modularizer (For migration from Polymer version 2 to version 3
 #------------------------------------------------------------------------------
 
@@ -315,52 +275,34 @@ modularize:  # Convert from from Polymer version 2 to version 3
 # Shortcuts
 #------------------------------------------------------------------------------
 
+.PHONY: serve
+serve: source-serve  ## Shortcut for source-serve
+	@echo serve;
+
+.PHONY: browse
+browse: source-browse  ## Shortcut for source-browse
+	@echo browse;
 
 .PHONY: clean
 clean: dist-clean  ## Shortcut for dist-clean
 	@echo clean;
 
-
 .PHONY: build
 build: dist-build  ## Shortcut for dist-build
 	@echo build;
-
-
-.PHONY: project-serve
-project-serve: project-serve-polymer  ## Shortcut for project-serve-polymer
-	@echo project-serve;
-
-.PHONY: dist-serve
-dist-serve: dist-serve-debug  ## Shortcut for dist-serve-debug
-	@echo dist-serve;
-
-.PHONY: serve
-serve: project-serve  ## Shortcut for project-serve
-	@echo serve;
-
 
 .PHONY: merge
 merge: dist-merge  ## Shortcut for dist-merge
 	@echo merge;
 
+.PHONY: deploy
+deploy: dist-deploy  ## Shortcut for dist-deploy
+	@echo deploy;
 
-.PHONY: browse
-browse: project-browse  ## Shortcut for project-browse
-	@echo browse;
+.PHONY: invalidate
+invalidate: dist-invalidate  ## Shortcut for dist-invalidate
+	@echo invalidate;
 
-
-.PHONY: publish
-publish: dist-deploy-debug  ## Shortcut for dist-deploy-debug
-	@echo publish;
-
-
-#.PHONY: deploy-latest
-#deploy-latest: dist-deploy-latest  ## Shortcut for dist-deploy-latest
-#	@echo deploy-latest;
-
-#.PHONY: invalidate
-#invalidate: dist-invalidate-latest  ## Shortcut for dist-invalidate-latest
-#	@echo invalidate;
 
 
 #------------------------------------------------------------------------------

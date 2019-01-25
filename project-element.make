@@ -22,29 +22,37 @@ include project-common.make
 
 
 #------------------------------------------------------------------------------
-# Project
+# Source
 #------------------------------------------------------------------------------
-
 
 # Validate
 
-.PHONY: project-validate-polymerlint
-project-validate-polymerlint:  ## Run Polymer linter over project source files
-	@polymer lint --input ${NAME}.html;
+.PHONY: source-validate-polymerlint
+source-validate-polymerlint:  ## Run Polymer linter over project source files
+	@echo polymer lint; \
+	polymer lint --input ${NAME}.html || true;
 
-.PHONY: project-validate-eslint
-project-validate-eslint:  ## Run ESLint tool over project source files
-	@eslint --ext .html,.js ./;
+.PHONY: source-validate-eslint
+source-validate-eslint:  ## Run ESLint tool over project source files
+	@echo eslint; \
+    eslint --ext .html,.js ./ || true;
 
+.PHONY: source-validate
+source-validate: source-validate-polymerlint source-validate-eslint ## Shortcut for source-validate-polymerlint and source-validate-eslint
+	@echo source-validate;
+
+# Serve
+
+# TODO: Add for demo app so is similar to what project-application.make provides?
 
 # Browse
 
-.PHONY: project-browse
-project-browse:  ## Open locally-served element demo in browser
+.PHONY: source-browse
+source-browse:  ## Open locally-served element demo in browser
 	@open http:localhost:${LOCAL_PORT}/components/${NAME}/demo/;
 
-.PHONY: project-browse-demo-browsersync
-project-browse-demo-browsersync:  ## Run BrowserSync, proxying against an already-running local server
+.PHONY: source-browse-demo-browsersync
+source-browse-demo-browsersync:  ## Run BrowserSync, proxying against an already-running local server
 	@if lsof -i tcp:${LOCAL_PORT} > /dev/null; then \
 		echo Found running Polymer server; \
 	else \
@@ -57,8 +65,8 @@ project-browse-demo-browsersync:  ## Run BrowserSync, proxying against an alread
 		--port ${LOCAL_PORT} \
 		--startPath "/components/${NAME}/demo/";
 
-.PHONY: project-browse-demo-browsersync-test
-project-browse-demo-browsersync-test:  ## Run BrowserSync for tests
+.PHONY: source-browse-demo-browsersync-test
+source-browse-demo-browsersync-test:  ## Run BrowserSync for tests
 	@if lsof -i tcp:${LOCAL_PORT} > /dev/null; then \
 		echo Found running Polymer server; \
 	else \
@@ -77,12 +85,40 @@ project-browse-demo-browsersync-test:  ## Run BrowserSync for tests
 # Distribution
 #------------------------------------------------------------------------------
 
+# Serve
+
+.PHONY: dist-serve-dev
+dist-serve-dev:  ## Serve dev demo in local build directory using "polymer serve". Useful to check before releasing.
+	@echo http:localhost:${LOCAL_PORT}; \
+	echo Not yet implemented. Serve the demo app for element;
+
+.PHONY: dist-serve-prod
+dist-serve-prod:  ## Serve production demo in local build directory using "polymer serve". Useful to check before releasing.
+	@echo http:localhost:${LOCAL_PORT}; \
+	echo Not yet implemented. Serve the demo app for element;
+
+.PHONY: dist-serve-debug
+dist-serve-debug:  ## Serve debug demo in local build directory using "polymer serve". Useful to check before releasing.
+	@echo http:localhost:${LOCAL_PORT}; \
+	echo Not yet implemented. Serve the demo app for element;
+
+.PHONY: dist-serve-custom
+dist-serve-custom:  ## Serve demo in local build directory using Python 2.7. Useful to check before releasing.
+	@echo http:localhost:${LOCAL_PORT}; \
+	echo Not yet implemented. Serve the demo app for element;
+
+.PHONY: dist-serve
+dist-serve: dist-serve-dev  ## Shortcut for dist-serve-dev
+	@echo dist-serve;
+
+# Build
+
 # polymer-bundler: https://github.com/Polymer/tools/tree/master/packages/bundler
 # crisper: https://github.com/PolymerLabs/crisper
 # babel: https://babeljs.io/
 # uglifyjs: https://github.com/mishoo/UglifyJS2
 # WebPack: https://webpack.js.org/
-
+# NOTE: If use this again, it will need to be fit into the new dist and build folder structure
 .PHONY: dist-build-custom
 dist-build-custom:  ## Build distribution
 	@mkdir ./build/; \
@@ -134,7 +170,6 @@ dist-build-custom:  ## Build distribution
     cp ./build/${NAME}/${NAME}.split.html ./dist/${NAME}.html; \
     cp ./build/${NAME}/${NAME}.minified.js ./dist/${NAME}.js;
 
-
 #	echo Minifying...; \
 #	uglifyjs \
 #	    ${NAME}.es5.js \
@@ -148,117 +183,53 @@ dist-build-custom:  ## Build distribution
 
 
 #------------------------------------------------------------------------------
-# Artifacts
-#------------------------------------------------------------------------------
-
-
-# Publish dropin
-
-.PHONY: artifact-publish-dropin
-artifact-publish-dropin: artifact-publish-dropin-versioned artifact-publish-dropin-latest  ## Release both the versioned and latest element dropin
-	@echo Pubished both versioned and latest element dropin
-
-.PHONY: artifact-publish-dropin-versioned
-artifact-publish-dropin-versioned:  ## Release versioned element dropin
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/dropin s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dropin/;
-
-.PHONY: artifact-publish-dropin-latest
-artifact-publish-dropin-latest:  ## Release latest element dropin
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/dropin s3://${PUBLICATION_DOMAIN}/${NAME}/latest/dropin/;
-
-.PHONY: artifact-invalidate-dropin-latest
-artifact-invalidate-dropin-latest:  ## Invalidate CDN distribution of latest element dropin
-	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/dropin/*"; fi
-
-
-# Publish demo
-
-.PHONY: artifact-publish-demo
-artifact-publish-demo: artifact-publish-demo-versioned artifact-publish-demo-latest  ## Release both the versioned and latest element demo
-	@echo Pubished both versioned and latest element demo
-
-.PHONY: artifact-publish-demo-versioned
-artifact-publish-demo-versioned:  ## Release versioned element demo
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/demo s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/demo/;
-
-.PHONY: artifact-publish-demo-latest
-artifact-publish-demo-latest:  ## Release latest element demo
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/demo s3://${PUBLICATION_DOMAIN}/${NAME}/latest/demo/;
-
-.PHONY: artifact-invalidate-demo-latest
-artifact-invalidate-demo-latest:  ## Invalidate CDN distribution of latest element demo
-	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/latest/demo/*"; fi
-
-.PHONY: artifact-publish-demo-github-pages
-artifact-publish-demo-github-pages:  # Internal target: Create element docs and publish on GitHub. Usually invoked as part of a release via 'release' target.
-	@set -e; \
-	rm -rf ./github-pages-tmp; \
-	mkdir -p github-pages-tmp; \
-	cd ./github-pages-tmp; \
-	git gc; \
-	gp.sh ${GITHUB_USER} ${NAME}; \
-	git gc; \
-	cd ../; \
-	rm -rf ./github-pages-tmp; \
-	echo Published version ${VERSION} of \"${NAME}\" element docs and demo to GitHub Pages at https://${GITHUB_USER}.github.io/${NAME}
-
-
-#------------------------------------------------------------------------------
 # Publications
 #------------------------------------------------------------------------------
 
+# Browse
 
-# Browse published demo
+.PHONY: publication-browse-dev
+publication-browse-dev:  ## Open the published dev element demo
+	@open https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/demo/index.html;
 
-.PHONY: publication-browse-demo-versioned
-publication-browse-demo-versioned:  ## Open the published, versioned demo in browser
+.PHONY: publication-browse-prod
+publication-browse-prod:  ## Open the published prod element demo
 	@open https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/demo/index.html;
 
-.PHONY: publication-browse-demo-latest
-publication-browse-demo-latest:  ## Open the published, latest demo in browser
-	@open https://${PUBLICATION_DOMAIN}/${NAME}/latest/demo/index.html;
+.PHONY: publication-browse-debug
+publication-browse-debug:  ## Open the published debug element demo
+	@open https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debugdemo//index.html;
 
-.PHONY: publication-browse-demo-github-pages
-publication-browse-demo-github-pages:  ## Open URL of demo published on GitHub Pages
-	@open https://${GITHUB_USER}.github.io/${NAME}/;
+# URL
 
+.PHONY: publication-url-dev
+publication-url-dev:  ## Print URL of the published dev element demo
+	@echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/demo/index.html;
 
-# Print URL of published demo
-
-.PHONY: publication-url-demo-versioned
-publication-url-demo-versioned:  ## Print the published, versioned demo url
+.PHONY: publication-url-prod
+publication-url-prod:  ## Print URL of the published prod element demo
 	@echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/demo/index.html;
 
-.PHONY: publication-url-demo-latest
-publication-url-demo-latest:  ## Print the published, latest demo url
-	@echo https://${PUBLICATION_DOMAIN}/${NAME}/latest/demo/index.html;
-
-.PHONY: publication-url-demo-github-pages
-publication-url-demo-github-pages:  ## Print URL of demo published on GitHub Pages
-	@echo https://${GITHUB_USER}.github.io/${NAME}/components/${NAME}/demo;
+.PHONY: publication-url-debug
+publication-url-debug:  ## Print URL of the published debug element demo
+	@echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debug/demo/index.html;
 
 
-# Browse published docs
+#------------------------------------------------------------------------------
+# Other
+#------------------------------------------------------------------------------
 
-.PHONY: publication-browse-docs-github-pages
-publication-browse-docs-github-pages:  ## Open URL of application documentation published on GitHub Pages
-	@open https://${GITHUB_USER}.github.io/${NAME}/components/${NAME}/;
-
-
-# Print URL of published docs
-
-.PHONY: publication-url-docs-github-pages
-publication-url-docs-github-pages:  ## Print URL of docs published on GitHub Pages
-	@echo https://${GITHUB_USER}.github.io/${NAME}/components/${NAME}/;
+.PHONY: update-polymerjson
+update-polymerjson:  ## Internal. Used when polymer.json templates have changed.
+	@pushd ../../ > /dev/null; \
+	NAME=${NAME} ./bin/moustache ./project-templates/element/polymer.json ./elements/${NAME}/polymer.json; \
+	popd > /dev/null; \
+	echo Updated polymer.json;
 
 
 #------------------------------------------------------------------------------
 # Shortcuts
 #------------------------------------------------------------------------------
-
-.PHONY: publish
-publish: artifact-publish-dropin  ## Shortcut for artifact-publish-dropin
-	@echo Published;
 
 
 #------------------------------------------------------------------------------
