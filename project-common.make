@@ -49,7 +49,7 @@ project-init-github:  ## Initialize GitHub project
 .PHONY: source-serve-polymer
 source-serve-polymer:  ## Serve application or element demo locally using the Polymer server
 	@echo http:localhost:${LOCAL_PORT}; \
-	polymer serve --open --port ${LOCAL_PORT}
+	polymer serve --compile never --open --port ${LOCAL_PORT}
 
 .PHONY: source-serve
 source-serve: source-serve-polymer  ## Shortcut for source-serve-polymer
@@ -274,6 +274,10 @@ modularize:  # Convert from from Polymer version 2 to version 3
 #------------------------------------------------------------------------------
 # Shortcuts
 #------------------------------------------------------------------------------
+
+.PHONY: lint
+lint: source-lint-polymerlint  ## Shortcut for source-lint-polymerlint
+	@echo lint;
 
 .PHONY: serve
 serve: source-serve  ## Shortcut for source-serve

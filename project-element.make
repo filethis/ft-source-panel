@@ -25,21 +25,21 @@ include project-common.make
 # Source
 #------------------------------------------------------------------------------
 
-# Validate
+# Lint
 
-.PHONY: source-validate-polymerlint
-source-validate-polymerlint:  ## Run Polymer linter over project source files
+.PHONY: source-lint-polymerlint
+source-lint-polymerlint:  ## Run Polymer linter over project source files
 	@echo polymer lint; \
 	polymer lint --input ${NAME}.html || true;
 
-.PHONY: source-validate-eslint
-source-validate-eslint:  ## Run ESLint tool over project source files
+.PHONY: source-lint-eslint
+source-lint-eslint:  ## Run ESLint tool over project source files
 	@echo eslint; \
     eslint --ext .html,.js ./ || true;
 
-.PHONY: source-validate
-source-validate: source-validate-polymerlint source-validate-eslint ## Shortcut for source-validate-polymerlint and source-validate-eslint
-	@echo source-validate;
+.PHONY: source-lint
+source-lint: source-lint-polymerlint source-lint-eslint ## Shortcut for source-lint-polymerlint and source-lint-eslint
+	@echo source-lint;
 
 # Serve
 

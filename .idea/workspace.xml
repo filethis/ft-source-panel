@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cbebf3fa-89d0-4151-83a1-b8c2fb7a0755" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-common.make" beforeDir="false" afterPath="$PROJECT_DIR$/project-common.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-element.make" beforeDir="false" afterPath="$PROJECT_DIR$/project-element.make" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bower.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ft-source-panel.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="422">
+              <caret line="29" column="58" lean-forward="true" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/bower_components/ace-builds/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/app-layout/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/app-storage/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/async/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/chai/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/font-roboto/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-a11y-announcer/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-a11y-keys-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-a11y-keys/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-ajax/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-autogrow-textarea/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-behaviors/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-checked-element-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-demo-helpers/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-dropdown/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-fit-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-flex-layout/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-form-element-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-icon/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-icons/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-iconset-svg/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-input/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-label/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-location/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-media-query/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-menu-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-meta/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-overlay-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-pages/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-resizable-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-scroll-target-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-selector/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-validatable-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/juicy-ace-editor/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/marked-element/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/marked/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/neon-animation/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-behaviors/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-button/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-checkbox/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-dialog-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-dialog/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-dropdown-menu/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-icon-button/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-input/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-item/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-listbox/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-menu-button/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-ripple/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-styles/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-tooltip/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/polymer/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/prism-element/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/prism/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/shadycss/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/sinon-chai/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/test-fixture/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/web-component-tester/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/webcomponentsjs/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/app-layout/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/app-layout/templates/getting-started/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/app-layout/templates/landing-page/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/app-layout/templates/pesto/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/app-layout/templates/publishing/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/app-layout/templates/shrine/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/app-layout/templates/test-drive/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/font-roboto/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-a11y-announcer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-a11y-keys-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-a11y-keys/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-ajax/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-autogrow-textarea/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-behaviors/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-checked-element-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-component-page/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-demo-helpers/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-doc-viewer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-dropdown/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-fit-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-flex-layout/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-form-element-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-icon/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-icons/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-icons/util/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-iconset-svg/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-input/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-label/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-location/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-media-query/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-menu-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-meta/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-overlay-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-resizable-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-scroll-target-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-selector/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-test-helpers/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/iron-validatable-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/marked-element/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/neon-animation/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-behaviors/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-checkbox/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-dialog-behavior/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-dialog/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-dropdown-menu/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-icon-button/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-input/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-item/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-listbox/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-menu-button/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-ripple/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-styles/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/paper-toast/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/polymer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/prism-element/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/sinonjs/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@polymer/test-fixture/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@webcomponents/shadycss/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/@webcomponents/webcomponentsjs/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/accessibility-developer-tools/lib/closure-library/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/accessibility-developer-tools/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/ansi-regex/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/ansi-styles/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/assertion-error/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/async/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/balanced-match/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/brace-expansion/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/browser-stdout/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/chai/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/chalk/node_modules/supports-color/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/chalk/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/clipboard/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/commander/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/concat-map/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/debug/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/deep-eql/node_modules/type-detect/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/deep-eql/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/delegate/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/diff/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/escape-string-regexp/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/formatio/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/fs.realpath/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/glob/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/good-listener/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/graceful-readlink/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/growl/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/has-ansi/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/has-flag/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/he/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/inflight/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/inherits/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/json3/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash._baseassign/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash._basecopy/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash._basecreate/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash._getnative/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash._isiterateecall/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash.create/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash.isarguments/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash.isarray/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash.keys/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lolex/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/marked/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/minimatch/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/minimist/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mkdirp/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mocha/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/ms/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/once/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/path-is-absolute/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/prismjs/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/samsam/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/select/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/sinon-chai/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/sinon/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/stacky/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/strip-ansi/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/supports-color/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/tiny-emitter/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/type-detect/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/util/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/wct-browser-legacy/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/wct-browser-legacy/test/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/wrappy/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
+    <option name="height" value="1014" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ft-source-panel" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ft-source-panel" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="/usr/local/lib/node_modules/eslint" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cbebf3fa-89d0-4151-83a1-b8c2fb7a0755" name="Default Changelist" comment="" />
+      <created>1575508714319</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1575508714319</updated>
+      <workItem from="1575508715863" duration="107000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="107000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1920" height="1012" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="UI Designer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24973376" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Maven Projects" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/bower.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ft-source-panel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="29" column="58" lean-forward="true" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
