@@ -241,3 +241,12 @@ bower-register:  # Internal target: Register element in public Bower registry. U
 	@bower register --config.interactive=false ${NAME} git@github.com:${GITHUB_USER}/${NAME}.git || echo Going on...
 
 
+#------------------------------------------------------------------------------
+# modularize
+#------------------------------------------------------------------------------
+
+.PHONY: modularize
+modularize:  # Upgrade code to Polymer version 3.
+	@bower cache clean && bower install; \
+	modulizer --npm-name filethis/${NAME} --npm-version filethis/${VERSION} --import-style name --out .;
+
