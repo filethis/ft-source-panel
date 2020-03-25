@@ -23,14 +23,25 @@ limitations under the License.
 
         <title>ft-source-panel demo</title>
 
-        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+        <script src="../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
-        <link rel="import" href="../../polymer/polymer.html">
-        <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-        <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-        <link rel="import" href="demo-fixture.html">
+        <script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
+        <script type="module" src="../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
+        <script type="module" src="../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
+        <script type="module" src="./demo-fixture.js"></script>
 
-        <style is="custom-style" include="demo-pages-shared-styles">
+        <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<style is="custom-style" include="demo-pages-shared-styles">
             body {
                 background-color: #FAFAFA;
             }
@@ -38,13 +49,21 @@ limitations under the License.
                 height: 100%;
                 margin:0;
             }
-        </style>
+        </style>`;
+
+document.head.appendChild($_documentContainer.content);
+</script>
     </head>
 
     <body>
-        <demo-fixture
-                style="height:100%; ">
-        </demo-fixture>
+        <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<demo-fixture style="height:100%; ">
+        </demo-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
     </body>
 
 </html>
