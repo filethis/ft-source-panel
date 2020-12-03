@@ -242,11 +242,11 @@ bower-register:  # Internal target: Register element in public Bower registry. U
 
 
 #------------------------------------------------------------------------------
-# modularize
+# modulize
 #------------------------------------------------------------------------------
 
-.PHONY: modularize
-modularize:  # Upgrade code to Polymer version 3.
+.PHONY: modulize
+modulize:  # Upgrade code to Polymer version 3.
 	@bower cache clean && bower install; \
 	modulizer --npm-name filethis/${NAME} --npm-version filethis/${VERSION} --import-style name --out .;
 

@@ -252,7 +252,7 @@ bower-install-packages-prod:  ## Install all Bower packages specified in bower.j
 
 .PHONY: bower-clean-packages
 bower-clean-packages:  ## Clean all installed bower packages.
-	@cd ./bower_components; \
+	@cd ./bower_components && \
 	find . -mindepth 1 -maxdepth 1 -exec rm -rf {} +;
 
 .PHONY: bower-reinstall-packages
