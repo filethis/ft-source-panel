@@ -1,7 +1,7 @@
 {
   "description": "A panel that displays a list of FileThis sources.",
-  "name": "filethis/ft-source-panel",
-  "version": "filethis/1.0.30",
+  "name": "ft-source-panel",
+  "version": "1.0.30",
   "resolutions": {
     "inherits": "2.0.3",
     "samsam": "1.1.3",
