@@ -1,8 +1,0 @@
-{
-    "plugins": [
-        "html"
-    ],
-    "parserOptions": {
-        "ecmaVersion": 5
-    }
-}
