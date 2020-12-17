@@ -1,0 +1,37 @@
+{
+  "version": "v1",
+  "packages": {
+    "ft-create-connection-dialog": {
+      "signature": "cad792a68436cd27efabeb905c31f6cc",
+      "file": true
+    },
+    "ft-element-demo": {
+      "signature": "b246107b96990bfddd35a67af1d387b5",
+      "file": true
+    },
+    "ft-error-behavior": {
+      "signature": "1b335d84711be52d0d40e327e3c1e76a",
+      "file": true
+    },
+    "ft-http-behavior": {
+      "signature": "43ccf0b053cd81cc1edefea84505c2ef",
+      "file": true
+    },
+    "ft-source-grid": {
+      "signature": "58280ad2da03c5a6eb281a182af0e82f",
+      "file": true
+    },
+    "ft-source-grid-item": {
+      "signature": "e081a04ef879700269eb8b2b412f1260",
+      "file": true
+    },
+    "ft-styler": {
+      "signature": "41aeb219849163e8388131783a893a1b",
+      "file": true
+    },
+    "ft-confirmation-dialog": {
+      "signature": "67e8a0df66a69ab6b858b258ced2a11c",
+      "file": true
+    }
+  }
+}

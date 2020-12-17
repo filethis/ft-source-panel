@@ -1,0 +1,18 @@
+{
+  "name": "ft-source-grid",
+  "description": "An element that renders a list of FileThis source items in a grid layout.",
+  "main": "ft-source-grid.html",
+  "dependencies": {
+    "ft-element-demo": "filethis/ft-element-demo#^1.0.15",
+    "ft-source-grid-item": "filethis/ft-source-grid-item#^1.0.24",
+    "iron-list": "PolymerElements/iron-list#2.0.19",
+    "polymer": "Polymer/polymer#^2.7.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#2.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#2.1.2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#2.0.1",
+    "web-component-tester": "Polymer/web-component-tester#^6.5.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.2.7"
+  }
+ }

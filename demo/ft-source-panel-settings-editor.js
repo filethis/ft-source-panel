@@ -27,7 +27,7 @@ This element defines a source grid example that allows experimentation with conf
 */
 import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
 
-import 'juicy-ace-editor/juicy-ace-editor.js';
+// import 'juicy-ace-editor/juicy-ace-editor.js';
 import '@polymer/paper-checkbox/paper-checkbox.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/polymer/polymer-legacy.js';
@@ -83,8 +83,8 @@ Polymer
 
         </div>
 
-        <juicy-ace-editor id="filtersField" class="scroll" style="width: 370px; height: 165px; border:1px solid #DDD; margin-top: 5px; " theme="ace/theme/chrome" mode="ace/mode/json" fontsize="14px" softtabs="" value="[[ftSourcePanelFilters]]" tabsize="4">
-        </juicy-ace-editor>
+        <!-- <juicy-ace-editor id="filtersField" class="scroll" style="width: 370px; height: 165px; border:1px solid #DDD; margin-top: 5px; " theme="ace/theme/chrome" mode="ace/mode/json" fontsize="14px" softtabs="" value="[[ftSourcePanelFilters]]" tabsize="4">
+        </juicy-ace-editor> -->
 
         <div style="height:20px"></div>
 

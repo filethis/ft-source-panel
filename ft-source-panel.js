@@ -26,7 +26,7 @@ This element displays a list of FileThis source resources. Above the list is a h
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-import 'array-filter/array-filter.js';
+// import 'array-filter/array-filter.js';
 
 import 'ft-create-connection-dialog/ft-create-connection-dialog.js';
 import 'ft-source-grid/ft-source-grid.js';
@@ -142,8 +142,8 @@ Polymer({
         </ft-create-connection-dialog>
 
         <!-- Filtered source list -->
-        <array-filter id="arrayFilter" items="{{sources}}" filtered="{{_sourcesFilteredAndSorted}}" filter="_filter" sort="_sorter">
-        </array-filter>
+        <!-- <array-filter id="arrayFilter" items="{{sources}}" filtered="{{_sourcesFilteredAndSorted}}" filter="_filter" sort="_sorter">
+        </array-filter> -->
 `,
 
   is: 'ft-source-panel',
@@ -320,8 +320,8 @@ Polymer({
   {
       this._haveSearchPattern = !!this._searchPattern;
 
-      var arrayFilter = this.$.arrayFilter;
-      arrayFilter.update();
+    //   var arrayFilter = this.$.arrayFilter;
+    //   arrayFilter.update();
   },
 
   _onConnectCommand: function(event, detail)

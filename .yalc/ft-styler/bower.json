@@ -1,0 +1,21 @@
+{
+    "name": "ft-styler",
+    "description": "An element that lets designers apply CSS style to FileThis elements.",
+    "main": "ft-styler.html",
+    "dependencies": {
+        "ft-clipboard-behavior": "filethis/ft-clipboard-behavior#^1.0.10",
+        "ft-confirmation-dialog": "filethis/ft-confirmation-dialog#^1.0.24",
+        "ft-labeled-icon-button": "filethis/ft-labeled-icon-button#^1.0.21",
+        "juicy-ace-editor": "^2.0.4",
+        "polymer": "Polymer/polymer#^2.7.0"
+    },
+    "devDependencies": {
+        "iron-component-page": "PolymerElements/iron-component-page#2.0.0",
+        "iron-demo-helpers": "PolymerElements/iron-demo-helpers#2.1.2",
+        "iron-label": "PolymerElements/iron-label#2.1.0",
+        "iron-test-helpers": "PolymerElements/iron-test-helpers#2.0.1",
+        "paper-input": "PolymerElements/paper-input#2.2.3",
+        "web-component-tester": "Polymer/web-component-tester#^6.5.0",
+        "webcomponentsjs": "webcomponents/webcomponentsjs#^1.2.7"
+    }
+ }

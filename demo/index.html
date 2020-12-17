@@ -1,69 +1,34 @@
-<!--
-Copyright 2018 FileThis, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-        <title>ft-source-panel demo</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-        <script src="../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <title>ft-source-panel Demo</title>
 
-        <script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
-        <script type="module" src="../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
-        <script type="module" src="../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
-        <script type="module" src="./demo-fixture.js"></script>
-
-        <!-- FIXME(polymer-modulizer):
-        These imperative modules that innerHTML your HTML are
-        a hacky way to be sure that any mixins in included style
-        modules are ready before any elements that reference them are
-        instantiated, otherwise the CSS @apply mixin polyfill won't be
-        able to expand the underlying CSS custom properties.
-        See: https://github.com/Polymer/polymer-modulizer/issues/154
-        -->
     <script type="module">
-const $_documentContainer = document.createElement('template');
+        import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
+        import '@polymer/iron-demo-helpers/demo-snippet';
+    </script>
 
-$_documentContainer.innerHTML = `<style is="custom-style" include="demo-pages-shared-styles">
-            body {
-                background-color: #FAFAFA;
-            }
-            html, body {
-                height: 100%;
-                margin:0;
-            }
-        </style>`;
+    <script type="module" src="demo-fixture.js"></script>
 
-document.head.appendChild($_documentContainer.content);
-</script>
-    </head>
+    <custom-style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+        </style>
+    </custom-style>
+</head>
 
-    <body>
-        <script type="module">
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<demo-fixture style="height:100%; ">
-        </demo-fixture>`;
-
-document.body.appendChild($_documentContainer.content);
-</script>
-    </body>
+<body>
+    <div class="vertical-section-container centered">
+        <h3>Basic ft-source-panel demo</h3>
+        <demo-snippet>
+            <template>
+                <demo-fixture></demo-fixture>
+            </template>
+        </demo-snippet>
+    </div>
+</body>
 
 </html>

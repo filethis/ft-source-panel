@@ -49,7 +49,7 @@ project-init-github:  ## Initialize GitHub project
 .PHONY: source-serve-polymer
 source-serve-polymer:  ## Serve application or element demo locally using the Polymer server
 	@echo http:localhost:${LOCAL_PORT}; \
-	polymer serve --compile never --open --port ${LOCAL_PORT}
+	polymer serve --npm --compile never --open --port ${LOCAL_PORT}
 
 .PHONY: source-serve
 source-serve: source-serve-polymer  ## Shortcut for source-serve-polymer
@@ -230,6 +230,18 @@ github-url-repo:  ## Print URL of project GitHub repository page
 npm-install-packages:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
 	@npm install
 
+.PHONY: npm-clean-packages
+npm-clean-packages:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
+	@rm -rf ./node_modules
+
+.PHONY: yalc-publish-package
+yalc-publish-package:  ## Publish this project's package to a local Yalc package repository.
+	@yalc publish
+
+.PHONY: yalc-unpublish-package
+yalc-unpublish-package:  ## Unpublish this project's package from local Yalc package repository.
+	@yalc installations clean ${NAME}
+
 
 #------------------------------------------------------------------------------
 # Bower
@@ -254,6 +266,10 @@ bower-install-packages-prod:  ## Install all Bower packages specified in bower.j
 bower-clean-packages:  ## Clean all installed bower packages.
 	@cd ./bower_components && \
 	find . -mindepth 1 -maxdepth 1 -exec rm -rf {} +;
+
+.PHONY: bower-cache-clean
+bower-cache-clean:
+	@bower cache clean
 
 .PHONY: bower-reinstall-packages
 bower-reinstall-packages: bower-clean-packages bower-install-packages  ## Clean and reinstall all bower packages using symlinks for FileThis projects.

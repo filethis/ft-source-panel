@@ -26,7 +26,6 @@ This element defines a source grid example that allows experimentation with conf
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-import 'ft-element-demo/ft-element-demo.js';
 
 import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
 import '@polymer/polymer/polymer-legacy.js';
@@ -46,6 +45,8 @@ Polymer
             :host {
                 display: block;
                 overflow: hidden;
+                width:500px;
+                height:500px;
             }
         </style>
 

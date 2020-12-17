@@ -1,0 +1,17 @@
+{
+  "description": "An element that renders a list of FileThis source items in a grid layout.",
+  "name": "ft-source-grid",
+  "version": "1.0.25+58280ad2",
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "main": "ft-source-grid.js",
+  "dependencies": {
+    "@polymer/iron-list": "^3.0.0",
+    "@polymer/polymer": "^3.0.0"
+  },
+  "yalcSig": "58280ad2da03c5a6eb281a182af0e82f"
+}

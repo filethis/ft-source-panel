@@ -1,0 +1,18 @@
+{
+  "description": "An element that provides a configurable confirmation dialog.",
+  "name": "ft-confirmation-dialog",
+  "version": "1.0.24+67e8a0df",
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "main": "ft-confirmation-dialog.js",
+  "dependencies": {
+    "@polymer/marked-element": "^3.0.0",
+    "@polymer/paper-dialog": "^3.0.0",
+    "@polymer/polymer": "^3.0.0"
+  },
+  "yalcSig": "67e8a0df66a69ab6b858b258ced2a11c"
+}

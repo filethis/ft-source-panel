@@ -1,0 +1,34 @@
+{
+    "name": "ft-element-demo",
+    "description": "An element that can be used for the demo fixture for FileThis elements. Has a slot for the element to be demoed and a side bar for configuration options.",
+    "main": "ft-element-demo.html",
+    "dependencies": {
+        "app-storage": "^2.0.2",
+        "ft-accordion-item": "filethis/ft-accordion-item#^1.0.12",
+        "ft-clipboard-behavior": "filethis/ft-clipboard-behavior#^1.0.10",
+        "ft-confirmation-dialog": "filethis/ft-confirmation-dialog#^1.0.24",
+        "ft-error-behavior": "filethis/ft-error-behavior#^1.0.22",
+        "ft-form-panel": "filethis/ft-form-panel#^1.0.7",
+        "ft-http-behavior": "filethis/ft-http-behavior#^1.0.22",
+        "ft-labeled-icon-button": "filethis/ft-labeled-icon-button#^1.0.21",
+        "ft-scrolling-behavior": "filethis/ft-scrolling-behavior#^1.0.19",
+        "ft-styler": "filethis/ft-styler#^1.0.12",
+        "ft-url-param-behavior": "filethis/ft-url-param-behavior#^1.0.10",
+        "iron-label": "PolymerElements/iron-label#2.1.0",
+        "iron-pages": "PolymerElements/iron-pages#2.1.1",
+        "juicy-ace-editor": "^2.0.4",
+        "paper-button": "PolymerElements/paper-button#2.1.3",
+        "paper-checkbox": "PolymerElements/paper-checkbox#2.0.4",
+        "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#2.1.0",
+        "paper-item": "PolymerElements/paper-item#2.1.1",
+        "paper-listbox": "PolymerElements/paper-listbox#2.1.1",
+        "polymer": "Polymer/polymer#^2.7.0"
+    },
+    "devDependencies": {
+        "iron-component-page": "PolymerElements/iron-component-page#2.0.0",
+        "iron-demo-helpers": "PolymerElements/iron-demo-helpers#2.1.2",
+        "iron-test-helpers": "PolymerElements/iron-test-helpers#2.0.1",
+        "web-component-tester": "Polymer/web-component-tester#^6.5.0",
+        "webcomponentsjs": "webcomponents/webcomponentsjs#^1.2.7"
+    }
+ }
