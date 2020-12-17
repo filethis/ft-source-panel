@@ -235,11 +235,15 @@ npm-clean-packages:  ## Install all NPM packages specified in package.json file,
 	@rm -rf ./node_modules
 
 .PHONY: yalc-publish
-yalc-publish:  ## Publish this project's package to a local Yalc package repository.
+yalc-publish:  ## yalc publish
 	@yalc publish
 
+.PHONY: yalc-push
+yalc-push:  ## yalc push.
+	@yalc push
+
 .PHONY: yalc-update
-yalc-update:  ## Update this project's copies of dependencies from the local Yalc package repository.
+yalc-update:  ## yalc-update
 	@yalc update
 
 .PHONY: yalc-unpublish
