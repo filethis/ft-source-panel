@@ -234,12 +234,16 @@ npm-install-packages:  ## Install all NPM packages specified in package.json fil
 npm-clean-packages:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
 	@rm -rf ./node_modules
 
-.PHONY: yalc-publish-package
-yalc-publish-package:  ## Publish this project's package to a local Yalc package repository.
+.PHONY: yalc-publish
+yalc-publish:  ## Publish this project's package to a local Yalc package repository.
 	@yalc publish
 
-.PHONY: yalc-unpublish-package
-yalc-unpublish-package:  ## Unpublish this project's package from local Yalc package repository.
+.PHONY: yalc-update
+yalc-update:  ## Update this project's copies of dependencies from the local Yalc package repository.
+	@yalc update
+
+.PHONY: yalc-unpublish
+yalc-unpublish:  ## Unpublish this project's package from local Yalc package repository.
 	@yalc installations clean ${NAME}
 
 
