@@ -21,6 +21,7 @@
     "@polymer/paper-listbox": "^3.0.0",
     "@polymer/paper-menu-button": "^3.0.0",
     "@polymer/polymer": "^3.0.0",
+    "array-filter": "file:.yalc/array-filter",
     "ft-confirmation-dialog": "file:.yalc/ft-confirmation-dialog",
     "ft-create-connection-dialog": "file:.yalc/ft-create-connection-dialog",
     "ft-element-demo": "file:.yalc/ft-element-demo",

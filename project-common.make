@@ -238,12 +238,16 @@ npm-clean-packages:  ## Install all NPM packages specified in package.json file,
 yalc-publish:  ## yalc publish
 	@yalc publish
 
+.PHONY: yalc-publish-push
+yalc-publish-push:  ## yalc publish and push.
+	@yalc publish --push
+
 .PHONY: yalc-push
 yalc-push:  ## yalc push.
 	@yalc push
 
 .PHONY: yalc-update
-yalc-update:  ## yalc-update
+yalc-update:  ## yalc update
 	@yalc update
 
 .PHONY: yalc-unpublish

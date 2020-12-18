@@ -32,6 +32,10 @@
     "ft-confirmation-dialog": {
       "signature": "a713a4bf5bdae8839e76001abe2ac659",
       "file": true
+    },
+    "array-filter": {
+      "signature": "11b8ce3c28a76cd62ec3dd604498a16a",
+      "file": true
     }
   }
 }
