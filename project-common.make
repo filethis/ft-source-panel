@@ -246,6 +246,10 @@ yalc-publish-push:  ## yalc publish and push.
 yalc-push:  ## yalc push.
 	@yalc push
 
+.PHONY: yalc-clean
+yalc-clean:  ## yalc clean.
+	@rm -rf ./.yalc/
+
 .PHONY: yalc-update
 yalc-update:  ## yalc update
 	@yalc update

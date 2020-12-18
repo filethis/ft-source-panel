@@ -9,6 +9,24 @@
     "type-detect": "1.0.0"
   },
   "main": "ft-source-panel.js",
+  "files": [
+    "*.html",
+    "*.js",
+    "*.make",
+    "*.png",
+    "*.svg",
+    ".yalc/",
+    "data/",
+    "demo/",
+    "test/",
+    ".babelrc",
+    ".eslintrc.json",
+    ".gitignore",
+    "LICENSE",
+    "Makefile",
+    "manifest.json",
+    "polymer.json"
+  ],
   "dependencies": {
     "@polymer/iron-a11y-keys": "^3.0.0",
     "@polymer/iron-input": "^3.0.0",
