@@ -226,13 +226,26 @@ github-url-repo:  ## Print URL of project GitHub repository page
 # NPM
 #------------------------------------------------------------------------------
 
-.PHONY: npm-install-packages
-npm-install-packages:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
+.PHONY: npm-install
+npm-install:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
 	@npm install
 
-.PHONY: npm-clean-packages
-npm-clean-packages:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
+.PHONY: npm-link
+npm-link:  ## Publish this project package so that it can be linked by other projects.
+	@npm link
+
+.PHONY: npm-clean
+npm-clean:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
 	@rm -rf ./node_modules
+
+.PHONY: npm-publish
+npm-publish:  ## Publish this project's package
+	@npm publish
+
+
+#------------------------------------------------------------------------------
+# Yalc
+#------------------------------------------------------------------------------
 
 .PHONY: yalc-publish
 yalc-publish:  ## yalc publish
