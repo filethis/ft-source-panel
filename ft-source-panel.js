@@ -26,11 +26,11 @@ This element displays a list of FileThis source resources. Above the list is a h
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-import 'array-filter/array-filter.js';
+import '@filethis/array-filter/array-filter.js';
 
-import 'ft-create-connection-dialog/ft-create-connection-dialog.js';
-import 'ft-source-grid/ft-source-grid.js';
-import 'ft-source-grid-item/ft-source-grid-item-settings-behavior.js';
+import '@filethis/ft-create-connection-dialog/ft-create-connection-dialog.js';
+import '@filethis/ft-source-grid/ft-source-grid.js';
+import '@filethis/ft-source-grid-item/ft-source-grid-item-settings-behavior.js';
 import './ft-source-panel-settings-behavior.js';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
 import '@polymer/iron-icon/iron-icon.js';

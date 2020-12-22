@@ -230,6 +230,10 @@ github-url-repo:  ## Print URL of project GitHub repository page
 npm-install:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
 	@npm install
 
+.PHONY: npm-init
+npm-init:  ## Initialize the NPM package using "filethis" oganization scope
+	@npm init --scope=filethis
+
 .PHONY: npm-link
 npm-link:  ## Publish this project package so that it can be linked by other projects.
 	@npm link
@@ -238,73 +242,13 @@ npm-link:  ## Publish this project package so that it can be linked by other pro
 npm-clean:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
 	@rm -rf ./node_modules
 
+.PHONY: npm-clean-package-lock
+npm-clean-package-lock:
+	@rm -f ./package-lock.json
+
 .PHONY: npm-publish
 npm-publish:  ## Publish this project's package
 	@npm publish
-
-
-#------------------------------------------------------------------------------
-# Yalc
-#------------------------------------------------------------------------------
-
-.PHONY: yalc-publish
-yalc-publish:  ## yalc publish
-	@yalc publish
-
-.PHONY: yalc-publish-push
-yalc-publish-push:  ## yalc publish and push.
-	@yalc publish --push
-
-.PHONY: yalc-push
-yalc-push:  ## yalc push.
-	@yalc push
-
-.PHONY: yalc-clean
-yalc-clean:  ## yalc clean.
-	@rm -rf ./.yalc/
-
-.PHONY: yalc-update
-yalc-update:  ## yalc update
-	@yalc update
-
-.PHONY: yalc-unpublish
-yalc-unpublish:  ## Unpublish this project's package from local Yalc package repository.
-	@yalc installations clean ${NAME}
-
-
-#------------------------------------------------------------------------------
-# Bower
-#------------------------------------------------------------------------------
-
-.PHONY: bower-info
-bower-info:  ## Print information about published Bower package
-	@echo Current: ${VERSION}; \
-	bower info ${NAME};
-
-.PHONY: bower-install-packages
-bower-install-packages:  ## Install all Bower packages specified in bower.json file, using symlinks for FileThis projects.
-	@mkdir -p ./bower_components; \
-	python ../../bin/bower-install.py True ${GITHUB_USER_ABBREV}
-
-.PHONY: bower-install-packages-prod
-bower-install-packages-prod:  ## Install all Bower packages specified in bower.json file
-	@mkdir -p ./bower_components; \
-	python ../../bin/bower-install.py False ${GITHUB_USER_ABBREV}
-
-.PHONY: bower-clean-packages
-bower-clean-packages:  ## Clean all installed bower packages.
-	@cd ./bower_components && \
-	find . -mindepth 1 -maxdepth 1 -exec rm -rf {} +;
-
-.PHONY: bower-cache-clean
-bower-cache-clean:
-	@bower cache clean
-
-.PHONY: bower-reinstall-packages
-bower-reinstall-packages: bower-clean-packages bower-install-packages  ## Clean and reinstall all bower packages using symlinks for FileThis projects.
-
-.PHONY: bower-reinstall-packages-prod
-bower-reinstall-packages-prod: bower-clean-packages bower-install-packages-prod  ## Clean and reinstall all bower packages.
 
 
 #------------------------------------------------------------------------------

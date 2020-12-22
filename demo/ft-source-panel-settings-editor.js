@@ -27,7 +27,7 @@ This element defines a source grid example that allows experimentation with conf
 */
 import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
 
-// import 'juicy-ace-editor/juicy-ace-editor.js';
+// import '@filethis/juicy-ace-editor/juicy-ace-editor-module.js';
 import '@polymer/paper-checkbox/paper-checkbox.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/polymer/polymer-legacy.js';

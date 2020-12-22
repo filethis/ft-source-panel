@@ -1,6 +1,6 @@
 {
   "description": "A panel that displays a list of FileThis sources.",
-  "name": "ft-source-panel",
+  "name": "@filethis/ft-source-panel",
   "version": "1.0.30",
   "resolutions": {
     "inherits": "2.0.3",
@@ -15,7 +15,6 @@
     "*.make",
     "*.png",
     "*.svg",
-    ".yalc/",
     "data/",
     "demo/",
     "test/",
@@ -39,15 +38,15 @@
     "@polymer/paper-listbox": "^3.0.0",
     "@polymer/paper-menu-button": "^3.0.0",
     "@polymer/polymer": "^3.0.0",
-    "array-filter": "file:.yalc/array-filter",
-    "ft-confirmation-dialog": "file:.yalc/ft-confirmation-dialog",
-    "ft-create-connection-dialog": "file:.yalc/ft-create-connection-dialog",
-    "ft-element-demo": "file:.yalc/ft-element-demo",
-    "ft-error-behavior": "file:.yalc/ft-error-behavior",
-    "ft-http-behavior": "file:.yalc/ft-http-behavior",
-    "ft-source-grid": "file:.yalc/ft-source-grid",
-    "ft-source-grid-item": "file:.yalc/ft-source-grid-item",
-    "ft-styler": "file:.yalc/ft-styler"
+    "@filethis/array-filter": "^2.0.1",
+    "@filethis/ft-confirmation-dialog": "^1.0.24",
+    "@filethis/ft-create-connection-dialog": "^1.0.28",
+    "@filethis/ft-element-demo": "^1.0.15",
+    "@filethis/ft-error-behavior": "^1.0.22",
+    "@filethis/ft-http-behavior": "^1.0.22",
+    "@filethis/ft-source-grid": "^1.0.25",
+    "@filethis/ft-source-grid-item": "^1.0.24",
+    "@filethis/ft-styler": "^1.0.12"
   },
   "devDependencies": {
     "@polymer/iron-component-page": "^4.0.0",
