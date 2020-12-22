@@ -1,7 +1,7 @@
 {
   "description": "A panel that displays a list of FileThis sources.",
   "name": "@filethis/ft-source-panel",
-  "version": "1.0.30",
+  "version": "3.0.0",
   "resolutions": {
     "inherits": "2.0.3",
     "samsam": "1.1.3",
@@ -39,14 +39,14 @@
     "@polymer/paper-menu-button": "^3.0.0",
     "@polymer/polymer": "^3.0.0",
     "@filethis/array-filter": "^2.0.1",
-    "@filethis/ft-confirmation-dialog": "^1.0.24",
-    "@filethis/ft-create-connection-dialog": "^1.0.28",
-    "@filethis/ft-element-demo": "^1.0.15",
-    "@filethis/ft-error-behavior": "^1.0.22",
-    "@filethis/ft-http-behavior": "^1.0.22",
-    "@filethis/ft-source-grid": "^1.0.25",
-    "@filethis/ft-source-grid-item": "^1.0.24",
-    "@filethis/ft-styler": "^1.0.12"
+    "@filethis/ft-confirmation-dialog": "^3.0.0",
+    "@filethis/ft-create-connection-dialog": "^3.0.0",
+    "@filethis/ft-element-demo": "^3.0.0",
+    "@filethis/ft-error-behavior": "^3.0.0",
+    "@filethis/ft-http-behavior": "^3.0.0",
+    "@filethis/ft-source-grid": "^3.0.0",
+    "@filethis/ft-source-grid-item": "^3.0.0",
+    "@filethis/ft-styler": "^3.0.0"
   },
   "devDependencies": {
     "@polymer/iron-component-page": "^4.0.0",
