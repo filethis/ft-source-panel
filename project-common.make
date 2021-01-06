@@ -73,10 +73,6 @@ source-test-firefox:  ## Run tests on Firefox only
 source-test-safari:  ## Run tests on Safari only
 	@polymer test -l safari
 
-.PHONY: source-find-version-everywhere
-source-find-version-everywhere:  ## Find and print versions of this project in use by all peer projects
-	@echo Current: ${VERSION}; \
-	find ../.. -name bower.json -print | xargs grep "${GITHUB_USER}/${NAME}#^[0-9]\+.[0-9]\+.[0-9]\+" || echo Not used;
 
 # Other
 
@@ -106,8 +102,6 @@ source-bump-version:  ## Increment the patch version number.
 .PHONY: source-release
 source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push  ## Release source version of project.
 	@echo Released version ${VERSION} of \"${NAME}\" project
-#source-release: source-set-version-everywhere git-add-fast git-commit-fast git-push source-git-tag-version-and-push bower-register publish-github-pages  ## Release source version of project.
-#	@echo Released version ${VERSION} of \"${NAME}\" project
 
 
 #------------------------------------------------------------------------------
@@ -126,37 +120,19 @@ dist-clean:  ## Clean all distribution builds
 dist-build:  ## Build all distributions
 	@NODE_OPTIONS="--max-old-space-size=8192" polymer build;
 
-# Merge
-
-.PHONY: dist-merge
-dist-merge:  ## Merge distribution into parent
-	@python ../../bin/merge.py --project-name=${NAME} --src-dir-path=./dist --dst-dir-path=../../dist/
 
 # Deploy
 
-.PHONY: dist-deploy-dev
-dist-deploy-dev:  ## Deploy versioned dev distribution to CDN
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/dev s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/; \
-	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/dev/index.html;
-
-.PHONY: dist-deploy-prod
-dist-deploy-prod:  ## Deploy versioned prod distribution to CDN
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/prod s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/; \
+.PHONY: dist-deploy
+dist-deploy:  ## Deploy versioned prod distribution to CDN
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/es6-unbundled s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/; \
 	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/index.html;
 
-.PHONY: dist-deploy-debug
-dist-deploy-debug:  ## Deploy versioned debug distribution to CDN
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/debug s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debug/; \
-	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/debug/index.html;
-
-.PHONY: dist-deploy
-dist-deploy: dist-deploy-prod dist-deploy-debug dist-deploy-dev  ## Shortcut for: dist-deploy-prod dist-deploy-debug dist-deploy-dev
-	@echo dist-deploy;
 
 # Invalidate
 
 .PHONY: dist-invalidate
-dist-invalidate-dev:  ## Invalidate all versioned distributions on CDN
+dist-invalidate:  ## Invalidate all versioned distributions on CDN
 	@if [ -z "${CDN_DISTRIBUTION_ID}" ]; then echo "Cannot invalidate distribution. Define CDN_DISTRIBUTION_ID"; else aws-vault exec ${AWS_VAULT_PROFILE} -- aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/${NAME}/${VERSION}/*"; fi
 
 

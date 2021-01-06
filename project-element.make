@@ -111,76 +111,6 @@ dist-serve-custom:  ## Serve demo in local build directory using Python 2.7. Use
 dist-serve: dist-serve-dev  ## Shortcut for dist-serve-dev
 	@echo dist-serve;
 
-# Build
-
-# polymer-bundler: https://github.com/Polymer/tools/tree/master/packages/bundler
-# crisper: https://github.com/PolymerLabs/crisper
-# babel: https://babeljs.io/
-# uglifyjs: https://github.com/mishoo/UglifyJS2
-# WebPack: https://webpack.js.org/
-# NOTE: If use this again, it will need to be fit into the new dist and build folder structure
-.PHONY: dist-build-custom
-dist-build-custom:  ## Build distribution
-	@mkdir ./build/; \
-	mkdir ./dist/; \
-	echo Dependencies...; \
-    mkdir ./build/${NAME}; \
-    rsync -rPq \
-        --exclude=bower_components \
-        --exclude=build \
-        --exclude=dist \
-        --exclude=test \
-        --exclude=.git \
-        ./ ./build/${NAME}; \
-    pushd ./bower_components > /dev/null; \
-    for d in *; do \
-        mkdir ../build/$$d; \
-        rsync -rPq \
-            --exclude=bower_components \
-            --exclude=build \
-            --exclude=dist \
-            --exclude=test \
-            --exclude=.git \
-            $$d/* ../build/$$d/; \
-    done; \
-    popd > /dev/null; \
-	echo Vulcanizing...; \
-	polymer-bundler \
-	    --in-file ./build/${NAME}/${NAME}.html \
-	    --rewrite-urls-in-templates \
-	    --inline-scripts \
-	    --inline-css \
-	    --out-file ./build/${NAME}/${NAME}.vulcanized.html; \
-    pushd ./build/${NAME} > /dev/null; \
-	echo Splitting...; \
-	crisper \
-	    --source ${NAME}.vulcanized.html \
-	    --html ${NAME}.split.html \
-	    --js ${NAME}.js; \
-	echo Transpiling...; \
-	babel \
-	    ${NAME}.js \
-	    --out-file ${NAME}.es5.js; \
-	echo Minifying...; \
-	cp \
-	    ${NAME}.es5.js \
-	    ${NAME}.minified.js; \
-    popd > /dev/null; \
-	echo Distribution...; \
-    cp ./build/${NAME}/${NAME}.split.html ./dist/${NAME}.html; \
-    cp ./build/${NAME}/${NAME}.minified.js ./dist/${NAME}.js;
-
-#	echo Minifying...; \
-#	uglifyjs \
-#	    ${NAME}.es5.js \
-#	    --compress \
-#	    --output ${NAME}.minified.js; \
-
-#	echo Minifying...; \
-#	cp \
-#	    ${NAME}.es5.js \
-#	    ${NAME}.minified.js; \
-
 
 #------------------------------------------------------------------------------
 # Publications
@@ -228,25 +158,17 @@ update-polymerjson:  ## Internal. Used when polymer.json templates have changed.
 
 
 #------------------------------------------------------------------------------
-# Shortcuts
+# Distribution of polyfills needed by FileThis applications
 #------------------------------------------------------------------------------
 
-
-#------------------------------------------------------------------------------
-# Bower
-#------------------------------------------------------------------------------
-
-.PHONY: bower-register
-bower-register:  # Internal target: Register element in public Bower registry. Usually invoked as part of a release via 'release' target.
-	@bower register --config.interactive=false ${NAME} git@github.com:${GITHUB_USER}/${NAME}.git || echo Going on...
-
-
-#------------------------------------------------------------------------------
-# modulize
-#------------------------------------------------------------------------------
-
-.PHONY: modulize
-modulize:  # Upgrade code to Polymer version 3.
-	@bower cache clean && bower install; \
-	modulizer --npm-name ${NAME} --npm-version ${VERSION} --import-style name --out .;
-
+.PHONY: polyfills-deploy
+polyfills-deploy:  # Deploy copies of polyfill libraries to CDN
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync \
+		./node_modules/@webcomponents/webcomponentsjs/ \
+		s3://${PUBLICATION_DOMAIN}/webcomponents/webcomponentsjs/2.5.0/;
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync \
+		./node_modules/@babel/helpers/ \
+		s3://${PUBLICATION_DOMAIN}/babel/helpers/7.12.5/;
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync \
+		./node_modules/babel-helpers/ \
+		s3://${PUBLICATION_DOMAIN}/babel/helpers/6.24.1/;

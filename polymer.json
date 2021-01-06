@@ -19,6 +19,9 @@
   },
   "builds": [
     {
+      "preset": "es6-bundled"
+    },
+    {
       "name": "dev",
       "bundle": false,
       "js": {"minify": false, "compile": false},
