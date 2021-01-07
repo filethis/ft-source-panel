@@ -28,7 +28,7 @@
     "polymer.json"
   ],
   "dependencies": {
-    "npm-force-resolutions": "0.0.3",
+    "@webcomponents/webcomponentsjs": "^2.0.0",
     "@polymer/iron-a11y-keys": "^3.0.0",
     "@polymer/iron-input": "^3.0.0",
     "@polymer/iron-label": "^3.0.0",
@@ -49,15 +49,6 @@
     "@filethis/ft-source-grid": "^3.0.0",
     "@filethis/ft-source-grid-item": "^3.0.0",
     "@filethis/ft-styler": "^3.0.0"
-  },
-  "devDependencies": {
-    "@babel/helpers": "^7.12.5",
-    "@polymer/iron-component-page": "^4.0.0",
-    "@polymer/iron-demo-helpers": "^3.1.0",
-    "@polymer/iron-test-helpers": "^3.0.0",
-    "@webcomponents/webcomponentsjs": "^2.0.0",
-    "growl": "^1.10.5",
-    "wct-browser-legacy": "^1.0.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

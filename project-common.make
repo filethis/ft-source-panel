@@ -206,6 +206,10 @@ github-url-repo:  ## Print URL of project GitHub repository page
 npm-install:  ## Install all NPM packages specified in package.json file.
 	@npm install
 
+.PHONY: npm-install-only-prod
+npm-install-only-prod:  # 
+	@npm install --only=prod
+
 .PHONY: npm-install-package-lock
 npm-install-package-lock:  # Force recreation of package-lock.json file when installing
 	@npm install --package-lock

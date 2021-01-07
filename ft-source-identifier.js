@@ -15,7 +15,6 @@ limitations under the License.
 */
 
 import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
-import '@polymer/marked-element/marked-element.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 import '@polymer/polymer/polymer-legacy.js';
