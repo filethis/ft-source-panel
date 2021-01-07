@@ -203,8 +203,12 @@ github-url-repo:  ## Print URL of project GitHub repository page
 #------------------------------------------------------------------------------
 
 .PHONY: npm-install
-npm-install:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
+npm-install:  ## Install all NPM packages specified in package.json file.
 	@npm install
+
+.PHONY: npm-install-package-lock
+npm-install-package-lock:  # Force recreation of package-lock.json file when installing
+	@npm install --package-lock
 
 .PHONY: npm-init
 npm-init:  ## Initialize the NPM package using "filethis" oganization scope
@@ -229,10 +233,6 @@ npm-registry-login:  ## Log into ByteSafe NPM registry
 .PHONY: npm-publish
 npm-publish:  ## Publish this project's package
 	@npm publish
-
-.PHONY: npm-install-package-lock
-npm-install-package-lock:  # Force recreation of package-lock.json file.
-	@npm install --package-lock
 
 
 #------------------------------------------------------------------------------

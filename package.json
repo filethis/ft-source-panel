@@ -60,7 +60,6 @@
     "wct-browser-legacy": "^1.0.2"
   },
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
