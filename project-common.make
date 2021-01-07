@@ -125,7 +125,7 @@ dist-build:  ## Build all distributions
 
 .PHONY: dist-deploy
 dist-deploy:  ## Deploy versioned prod distribution to CDN
-	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/es6-unbundled s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/; \
+	@aws-vault exec ${AWS_VAULT_PROFILE} -- aws s3 sync ./build/prod s3://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/; \
 	echo https://${PUBLICATION_DOMAIN}/${NAME}/${VERSION}/index.html;
 
 
@@ -222,6 +222,10 @@ npm-clean:  ## Install all NPM packages specified in package.json file, using sy
 npm-clean-package-lock:
 	@rm -f ./package-lock.json
 
+.PHONY: npm-registry-login
+npm-registry-login:  ## Log into ByteSafe NPM registry
+	@npm --registry https://filethis.bytesafe.dev/r/default/ login
+
 .PHONY: npm-publish
 npm-publish:  ## Publish this project's package
 	@npm publish
@@ -262,7 +266,6 @@ deploy: dist-deploy  ## Shortcut for dist-deploy
 .PHONY: invalidate
 invalidate: dist-invalidate  ## Shortcut for dist-invalidate
 	@echo invalidate;
-
 
 
 #------------------------------------------------------------------------------
