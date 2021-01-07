@@ -218,9 +218,9 @@ npm-link:  ## Publish this project package so that it can be linked by other pro
 npm-clean:  ## Install all NPM packages specified in package.json file, using symlinks for FileThis projects.
 	@rm -rf ./node_modules
 
-.PHONY: npm-clean-package-lock
-npm-clean-package-lock:
-	@rm -f ./package-lock.json
+.PHONY: npm-cache-clean
+npm-cache-clean:  ## Clear the local NPM cache.
+	@npm cache clean --force
 
 .PHONY: npm-registry-login
 npm-registry-login:  ## Log into ByteSafe NPM registry
@@ -229,6 +229,10 @@ npm-registry-login:  ## Log into ByteSafe NPM registry
 .PHONY: npm-publish
 npm-publish:  ## Publish this project's package
 	@npm publish
+
+.PHONY: npm-install-package-lock
+npm-install-package-lock:  # Force recreation of package-lock.json file.
+	@npm install --package-lock
 
 
 #------------------------------------------------------------------------------
