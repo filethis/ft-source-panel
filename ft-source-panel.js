@@ -231,6 +231,12 @@ Polymer({
           value: []
       },
 
+      useModalCreateConnectionDialog:
+      {
+          type: Boolean,
+          value: true
+      },
+
   },
 
   _onFiltersChanged: function(to, from)
@@ -326,11 +332,14 @@ Polymer({
 
   _onConnectCommand: function(event, detail)
   {
-      var source = detail;
-      var createConnectionDialog = this.$.createConnectionDialog;
-      createConnectionDialog.source = source;
+      if (this.useModalCreateConnectionDialog)
+      {
+          var source = detail;
+          var createConnectionDialog = this.$.createConnectionDialog;
+          createConnectionDialog.source = source;
 
-      createConnectionDialog.open();
+          createConnectionDialog.open();
+      }
   },
 
   _showButtonChanged: function(to, from)
